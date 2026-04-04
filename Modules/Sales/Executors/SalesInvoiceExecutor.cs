@@ -122,6 +122,7 @@ public class SalesInvoiceExecutor : BaseExecutor<SalesInvoiceDM>
 
         Report.Info("Step 2: Fill Header");
         _headerHandler.Fill(data.Header);
+        Save();
 
         Report.Info("Step 3: Fill Lines");
         _linesHandler.Fill(data.Lines);
@@ -269,12 +270,7 @@ public class SalesInvoiceExecutor : BaseExecutor<SalesInvoiceDM>
     /// </summary>
     protected override void Save()
     {
-        By saveButton = By.XPath(
-            "//button[normalize-space()='Save']       | " +
-            "//button[normalize-space()='Save Draft'] | " +
-            "//input[@value='Save']                   | " +
-            "//button[contains(@id,'btnSave')]"
-        );
+        By saveButton = By.XPath("//span[contains(@class, 'dx-vam') and text()='Save']");
 
         Report.Info("Clicking Save...");
         Wait.UntilClickable(saveButton).Click();

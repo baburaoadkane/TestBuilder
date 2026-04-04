@@ -184,6 +184,7 @@ public class SalesInvoiceTests : BaseTest
             .New()
             .WithCustomer("C0008 | Anabia Reza")
             .WithInvoiceDate(DateTime.Now.ToString("05-05-2024"))
+            .WithReferenceNo("REF-12345")
             //.WithCurrency("KWD")
             .WithLocation("Grand Prime House")
             .AddLine(
@@ -212,7 +213,7 @@ public class SalesInvoiceTests : BaseTest
             .WithCustomer("Test Customer 01")
             .WithInvoiceDate(DateTime.Now.ToString("dd-MM-yyyy"))
             .WithDueDate(DateTime.Now.AddDays(30).ToString("dd-MM-yyyy"))
-            .WithCurrency("USD")
+            .WithCurrency("KWD")
             .WithLocation("Main Warehouse")
             .AddLine(
                 itemCode: "ITEM-001",

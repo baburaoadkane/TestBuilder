@@ -25,31 +25,34 @@ public class HeaderHandler : BaseHandler
 {
     // ── Locators — UPDATE THESE to match your ERP's actual HTML ───────────
 
-    // Customer autocomplete    
-    private static readonly By CustomerDropdown = By.XPath("//td[contains(@id, '.CustomerIdLookup_B-1')]");
-    private static readonly By CustomerInput = By.XPath("//input[contains(@id, '.CustomerIdLookup_I')]");
     private static readonly By LookupText = By.XPath("//div[@class='lookup-text']");
     private static readonly By NextPage = By.XPath("//div[contains(@id, 'NextPage')]");
+
     // Dates
     private static readonly By TxnDateDropdown = By.XPath("//td[contains(@id, '.TxnDate_B-1')]");
     private static readonly By TxnDateInput = By.XPath("//input[contains(@id, '.TxnDate_I')]");
 
+    // Customer autocomplete    
+    private static readonly By CustomerDropdown = By.XPath("//td[contains(@id, '.CustomerIdLookup_B-1')]");
+    private static readonly By CustomerInput = By.XPath("//input[contains(@id, '.CustomerIdLookup_I')]");
+
     // Financial dropdowns
-    private static readonly By CurrencyDropdown = By.Id("Header_CurrencyId");
-    private static readonly By PriceListDropdown = By.Id("Header_PriceListId");
-    private static readonly By PriceListInput = By.Id("Header_PriceListId");
-    private static readonly By PaymentTermsDropdown = By.Id("Header_PaymentTermsId");
+    private static readonly By CurrencyDropdown = By.XPath("//td[contains(@id, '.CurrencyIdLookup_B-1')]");
+    private static readonly By CurrencyInput = By.XPath("//input[contains(@id, '.CurrencyIdLookup_I')]");
 
-    // Location — TODO: verify if autocomplete or <select> in your ERP
-    private static readonly By LocationInput = By.XPath("//input[contains(@id, '.WarehouseIdLookup_I')]");
-    private static readonly By LocationDropdown = By.XPath("//td[contains(@id, '.WarehouseIdLookup_B-1')]");
+    private static readonly By PriceListDropdown = By.XPath("//td[contains(@id, '.PriceListIdLookup_B-1')]");
+    private static readonly By PriceListInput = By.XPath("//input[contains(@id, '.PriceListIdLookup_I')]");
 
-    // Sales Person — TODO: verify if autocomplete or <select> in your ERP
-    private static readonly By SalesPersonInput = By.Id("Header_SalesPersonId_input");
-    private static readonly By SalesPersonDropdown = By.CssSelector(".salesperson-dropdown li");
+    // Location — TODO: verify if autocomplete or <select> in your ERP    
+    private static readonly By WarehouseDropdown = By.XPath("//td[contains(@id, '.WarehouseIdLookup_B-1')]");
+    private static readonly By WarehouseInput = By.XPath("//input[contains(@id, '.WarehouseIdLookup_I')]");
+
+    // Sales Person — TODO: verify if autocomplete or <select> in your ERP    
+    private static readonly By SalesmanDropdown = By.XPath("//td[contains(@id, '.SalesmanIdLookup_B-1')]");
+    private static readonly By SalesmanInput = By.XPath("//input[contains(@id, '.SalesmanIdLookup_I')]");
 
     // Reference No — plain text input
-    private static readonly By ReferenceNoInput = By.Id("Header_ReferenceNo");
+    private static readonly By ReferenceNoInput = By.XPath("//input[contains(@id, '.ReferenceNum_I')]");
 
     // ── Constructor ────────────────────────────────────────────────────────
     public HeaderHandler(IWebDriver driver, WaitHelper wait)
@@ -65,11 +68,11 @@ public class HeaderHandler : BaseHandler
     {
         FillInvoiceDate(header.InvoiceDate);
         FillCustomer(header.Customer);
-        //FillReferenceNo(header.ReferenceNo);
-        //FillCurrency(header.Currency);
+        FillReferenceNo(header.ReferenceNo);
+        FillCurrency(header.Currency);
         //FillPriceList(header.PriceList);
-        FillLocation(header.Location);
-        //FillSalesPerson(header.SalesPerson);
+        FillWarehouse(header.Location);
+        FillSalesman(header.SalesPerson);
         WaitForLoader();
     }
 
@@ -120,15 +123,18 @@ public class HeaderHandler : BaseHandler
     private void FillReferenceNo(string? referenceNo)
     {
         if (string.IsNullOrWhiteSpace(referenceNo)) return;
-        Type(ReferenceNoInput, referenceNo);
-    }    
+        //Type(ReferenceNoInput, referenceNo);
+        ClearAndType(ReferenceNoInput, referenceNo);
+    }
 
     /// <summary>Select currency from native ASP.NET <select> dropdown.</summary>
     private void FillCurrency(string? currency)
     {
         if (string.IsNullOrWhiteSpace(currency)) return;
-        SelectByText(CurrencyDropdown, currency);
-        WaitForLoader(); // Currency change may reload price list
+
+        OpenDropdown(CurrencyDropdown);
+        ClearAndType(CurrencyInput, currency);
+        SelectOption(LookupText, NextPage, currency);
     }
 
     /// <summary>Select price list from native <select> dropdown.</summary>
@@ -147,12 +153,12 @@ public class HeaderHandler : BaseHandler
     /// Fill Location — autocomplete pattern same as Customer.
     /// TODO: If Location is a plain <select>, replace with SelectByText().
     /// </summary>
-    private void FillLocation(string? location)
+    private void FillWarehouse(string? location)
     {
         if (string.IsNullOrWhiteSpace(location)) return;
 
-        OpenDropdown(LocationDropdown);
-        ClearAndType(LocationInput, location);
+        OpenDropdown(WarehouseDropdown);
+        ClearAndType(WarehouseInput, location);
         SelectOption(LookupText, NextPage, location);
 
         //var locationDropdown = Driver.FindElement(LocationDropdown);
@@ -171,12 +177,12 @@ public class HeaderHandler : BaseHandler
     /// Fill Sales Person — autocomplete pattern.
     /// TODO: If SalesPerson is a plain <select>, replace with SelectByText().
     /// </summary>
-    private void FillSalesPerson(string? salesPerson)
+    private void FillSalesman(string? salesPerson)
     {
         if (string.IsNullOrWhiteSpace(salesPerson)) return;
 
-        OpenDropdown(SalesPersonDropdown);
-        ClearAndType(SalesPersonInput, salesPerson);
+        OpenDropdown(SalesmanDropdown);
+        ClearAndType(SalesmanInput, salesPerson);
         SelectOption(LookupText, NextPage, salesPerson);
 
         //IWebElement input = Wait.UntilVisible(SalesPersonInput);
@@ -191,6 +197,4 @@ public class HeaderHandler : BaseHandler
 
         //Click(match ?? options.First());
     }
-
-    
 }
