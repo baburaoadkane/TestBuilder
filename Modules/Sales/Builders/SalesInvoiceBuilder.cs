@@ -1,0 +1,264 @@
+﻿using Enfinity.ERP.Automation.Core.Utilities;
+using Enfinity.ERP.Automation.Modules.Sales.DataModels;
+
+namespace Enfinity.ERP.Automation.Modules.Sales.Builders;
+
+/// <summary>
+/// Fluent builder for constructing SalesInvoiceDM test scenarios.
+///
+/// Provides two usage patterns:
+///
+/// Pattern A — Load from JSON (most common):
+///   var data = SalesInvoiceBuilder
+///       .FromJson("Modules/Sales/Json/SalesInvoice/Create/SI_Create_Basic.json")
+///       .WithApproval()
+///       .Build();
+///
+/// Pattern B — Build programmatically (for dynamic scenarios):
+///   var data = SalesInvoiceBuilder
+///       .New()
+///       .WithCustomer("Test Customer 01")
+///       .WithInvoiceDate("01-06-2025")
+///       .AddLine("ITEM-001", qty: 2, price: 1000, tax: "GST 18%")
+///       .WithApproval()
+///       .Build();
+///
+/// Both patterns return a fully populated SalesInvoiceDM ready for Execute().
+/// </summary>
+public class SalesInvoiceBuilder
+{
+    private SalesInvoiceDM _model;
+
+    // ── Private constructor — use static entry points ──────────────────────
+    private SalesInvoiceBuilder()
+    {
+        _model = new SalesInvoiceDM
+        {
+            Header = new SalesInvoiceHeaderDM(),
+            Lines = new List<SalesInvoiceLineDM>(),
+            Charges = new SalesInvoiceChargesDM(),
+            Payments = new SalesInvoicePaymentsDM(),
+            Others = new SalesInvoiceOthersDM()
+        };
+    }
+
+    // ── Static entry points ────────────────────────────────────────────────
+
+    /// <summary>
+    /// Load a SalesInvoiceDM from a JSON file.
+    /// This is the PRIMARY pattern for data-driven tests.
+    /// </summary>
+    public static SalesInvoiceBuilder FromJson(string jsonPath)
+    {
+        var builder = new SalesInvoiceBuilder();
+        builder._model = JsonLoader.Load<SalesInvoiceDM>(jsonPath);
+        return builder;
+    }
+
+    /// <summary>
+    /// Start a blank model and build programmatically.
+    /// Use for edge cases that don't warrant a separate JSON file.
+    /// </summary>
+    public static SalesInvoiceBuilder New()
+        => new SalesInvoiceBuilder();
+
+    // ── Header overrides ───────────────────────────────────────────────────
+
+    /// <summary>Override the customer — useful for running same JSON with different customers.</summary>
+    public SalesInvoiceBuilder WithCustomer(string customer)
+    {
+        _model.Header.Customer = customer;
+        return this;
+    }
+
+    /// <summary>Override the invoice date.</summary>
+    public SalesInvoiceBuilder WithInvoiceDate(string date)
+    {
+        _model.Header.InvoiceDate = date;
+        return this;
+    }
+
+    /// <summary>Override the due date.</summary>
+    public SalesInvoiceBuilder WithDueDate(string date)
+    {
+        _model.Header.DueDate = date;
+        return this;
+    }
+
+    /// <summary>Override the currency.</summary>
+    public SalesInvoiceBuilder WithCurrency(string currency)
+    {
+        _model.Header.Currency = currency;
+        return this;
+    }
+
+    /// <summary>Override the location/warehouse.</summary>
+    public SalesInvoiceBuilder WithLocation(string location)
+    {
+        _model.Header.Location = location;
+        return this;
+    }
+
+    /// <summary>Override the reference number.</summary>
+    public SalesInvoiceBuilder WithReferenceNo(string referenceNo)
+    {
+        _model.Header.ReferenceNo = referenceNo;
+        return this;
+    }
+
+    // ── Line item fluent methods ───────────────────────────────────────────
+
+    /// <summary>
+    /// Add a line item programmatically.
+    /// Calculates ExpectedLineTotal automatically.
+    /// </summary>
+    public SalesInvoiceBuilder AddLine(
+        string itemCode,
+        decimal qty,
+        decimal price,
+        string taxType = "Tax Exempt",
+        decimal taxPercent = 0,
+        decimal discount = 0,
+        string uom = "Nos",
+        string? itemName = null)
+    {
+        decimal lineTotal = qty * price * (1 - discount / 100);
+
+        _model.Lines.Add(new SalesInvoiceLineDM
+        {
+            ItemCode = itemCode,
+            ItemName = itemName ?? itemCode,
+            Quantity = qty,
+            UOM = uom,
+            UnitPrice = price,
+            DiscountPercent = discount,
+            TaxType = taxType,
+            TaxPercent = taxPercent,
+            ExpectedLineTotal = Math.Round(lineTotal, 2)
+        });
+
+        return this;
+    }
+
+    /// <summary>Clear all existing lines — useful when overriding JSON lines.</summary>
+    public SalesInvoiceBuilder ClearLines()
+    {
+        _model.Lines.Clear();
+        return this;
+    }
+
+    // ── Charges fluent methods ─────────────────────────────────────────────
+
+    /// <summary>Add a charge entry programmatically.</summary>
+    public SalesInvoiceBuilder AddCharge(
+        string chargeType,
+        decimal amount,
+        string? taxType = null,
+        bool isTaxable = false)
+    {
+        _model.Charges.Items.Add(new ChargeDM
+        {
+            ChargeType = chargeType,
+            Amount = amount,
+            TaxType = taxType,
+            IsTaxable = isTaxable
+        });
+
+        return this;
+    }
+
+    // ── Payment fluent methods ─────────────────────────────────────────────
+
+    /// <summary>Add a payment entry programmatically.</summary>
+    public SalesInvoiceBuilder AddPayment(
+        string paymentMode,
+        decimal amount,
+        string? referenceNo = null,
+        string? paymentDate = null,
+        string? account = null)
+    {
+        _model.Payments.Entries.Add(new PaymentEntryDM
+        {
+            PaymentMode = paymentMode,
+            Amount = amount,
+            ReferenceNo = referenceNo,
+            PaymentDate = paymentDate,
+            Account = account
+        });
+
+        return this;
+    }
+
+    // ── Remarks fluent methods ─────────────────────────────────────────────
+
+    /// <summary>Set the remarks field.</summary>
+    public SalesInvoiceBuilder WithRemarks(string remarks)
+    {
+        _model.Others.Remarks = remarks;
+        return this;
+    }
+
+    // ── Workflow fluent methods ────────────────────────────────────────────
+
+    /// <summary>
+    /// Mark this invoice for the Save → Submit → Approve flow.
+    /// Sets RequiresApproval = true and ScenarioType = "Approval".
+    /// </summary>
+    public SalesInvoiceBuilder WithApproval()
+    {
+        _model.RequiresApproval = true;
+        _model.ScenarioType = "Approval";
+        return this;
+    }
+
+    /// <summary>Override the scenario type directly.</summary>
+    public SalesInvoiceBuilder AsScenario(string scenarioType)
+    {
+        _model.ScenarioType = scenarioType;
+        return this;
+    }
+
+    /// <summary>Set the document number — required for Edit and Validation scenarios.</summary>
+    public SalesInvoiceBuilder ForDocument(string documentNo)
+    {
+        _model.DocumentNo = documentNo;
+        return this;
+    }
+
+    // ── Build ──────────────────────────────────────────────────────────────
+
+    /// <summary>
+    /// Finalize and return the fully constructed SalesInvoiceDM.
+    /// Validates that required fields are present before returning.
+    /// </summary>
+    public SalesInvoiceDM Build()
+    {
+        ValidateModel();
+        return _model;
+    }
+
+    // ── Private helpers ────────────────────────────────────────────────────
+
+    private void ValidateModel()
+    {
+        string scenario = _model.ScenarioType?.ToUpperInvariant() ?? "CREATE";
+
+        // Edit and Validation scenarios require a DocumentNo
+        if ((scenario == "EDIT" || scenario == "VALIDATION")
+            && string.IsNullOrWhiteSpace(_model.DocumentNo))
+        {
+            throw new InvalidOperationException(
+                $"[SalesInvoiceBuilder] ScenarioType '{scenario}' requires DocumentNo. " +
+                $"Call .ForDocument(\"SI-2025-0001\") before .Build().");
+        }
+
+        // Non-negative scenarios require at least a customer
+        if (scenario != "NEGATIVE"
+            && string.IsNullOrWhiteSpace(_model.Header?.Customer))
+        {
+            throw new InvalidOperationException(
+                "[SalesInvoiceBuilder] Header.Customer is required for non-negative scenarios. " +
+                "Set it in the JSON file or call .WithCustomer(\"...\").");
+        }
+    }
+}

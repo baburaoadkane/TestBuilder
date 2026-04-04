@@ -1,0 +1,144 @@
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
+using SeleniumExtras.WaitHelpers;
+
+namespace Enfinity.ERP.Automation.Core.Utilities;
+
+/// <summary>
+/// Centralized explicit wait helper.
+/// 
+/// All Handlers and Validators use this — never raw Thread.Sleep.
+/// Every wait method has a configurable timeout with a sensible default.
+/// 
+/// Usage:
+///   var wait = new WaitHelper(driver, 30);
+///   IWebElement el = wait.UntilVisible(By.Id("customer"));
+///   wait.UntilInvisible(By.CssSelector(".spinner"));
+/// </summary>
+public class WaitHelper
+{
+    private readonly IWebDriver _driver;
+    private readonly int _defaultTimeout;
+
+    public WaitHelper(IWebDriver driver, int defaultTimeoutSeconds)
+    {
+        _driver = driver;
+        _defaultTimeout = defaultTimeoutSeconds;
+    }
+
+    // ── Element presence ───────────────────────────────────────────────────
+
+    /// <summary>Wait until element is visible in the DOM and on screen.</summary>
+    public IWebElement UntilVisible(By locator, int? timeoutSeconds = null)
+    {
+        return GetWait(timeoutSeconds)
+            .Until(ExpectedConditions.ElementIsVisible(locator));
+    }
+
+    /// <summary>Wait until element exists in DOM (may not be visible).</summary>
+    public IWebElement UntilPresent(By locator, int? timeoutSeconds = null)
+    {
+        return GetWait(timeoutSeconds)
+            .Until(ExpectedConditions.ElementExists(locator));
+    }
+
+    /// <summary>Wait until element is invisible or removed from DOM.</summary>
+    public void UntilInvisible(By locator, int? timeoutSeconds = null)
+    {
+        GetWait(timeoutSeconds)
+            .Until(ExpectedConditions.InvisibilityOfElementLocated(locator));
+    }
+
+    // ── Clickability ───────────────────────────────────────────────────────
+
+    /// <summary>Wait until element is visible AND enabled (ready to click).</summary>
+    public IWebElement UntilClickable(By locator, int? timeoutSeconds = null)
+    {
+        return GetWait(timeoutSeconds)
+            .Until(ExpectedConditions.ElementToBeClickable(locator));
+    }
+
+    /// <summary>Wait until a located element is clickable.</summary>
+    public IWebElement UntilElementClickable(IWebElement element, int? timeoutSeconds = null)
+    {
+        return GetWait(timeoutSeconds)
+            .Until(ExpectedConditions.ElementToBeClickable(element));
+    }
+
+    // ── Text conditions ────────────────────────────────────────────────────
+
+    /// <summary>Wait until element contains specific text.</summary>
+    public void UntilTextPresent(By locator, string text, int? timeoutSeconds = null)
+    {
+        GetWait(timeoutSeconds)
+            .Until(ExpectedConditions.TextToBePresentInElementLocated(locator, text));
+    }
+
+    /// <summary>Wait until an input field has a non-empty value.</summary>
+    public void UntilValuePresent(By locator, string value, int? timeoutSeconds = null)
+    {
+        GetWait(timeoutSeconds)
+            .Until(ExpectedConditions.TextToBePresentInElementValue(locator, value));
+    }
+
+    // ── URL conditions ─────────────────────────────────────────────────────
+
+    /// <summary>Wait until URL contains a specific substring.</summary>
+    public void UntilUrlContains(string urlFragment, int? timeoutSeconds = null)
+    {
+        GetWait(timeoutSeconds)
+            .Until(ExpectedConditions.UrlContains(urlFragment));
+    }
+
+    /// <summary>Wait until URL matches exactly.</summary>
+    public void UntilUrlIs(string url, int? timeoutSeconds = null)
+    {
+        GetWait(timeoutSeconds)
+            .Until(ExpectedConditions.UrlToBe(url));
+    }
+
+    // ── Page load ──────────────────────────────────────────────────────────
+
+    /// <summary>Wait until document.readyState === 'complete'.</summary>
+    public void UntilPageLoaded(int? timeoutSeconds = null)
+    {
+        GetWait(timeoutSeconds).Until(driver =>
+            ((IJavaScriptExecutor)driver)
+                .ExecuteScript("return document.readyState")
+                ?.ToString() == "complete"
+        );
+    }
+
+    // ── Multiple elements ──────────────────────────────────────────────────
+
+    /// <summary>Wait until at least one element matching locator is present.</summary>
+    public IReadOnlyList<IWebElement> UntilAllVisible(By locator, int? timeoutSeconds = null)
+    {
+        return GetWait(timeoutSeconds)
+            .Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(locator));
+    }
+
+    // ── Custom condition ───────────────────────────────────────────────────
+
+    /// <summary>
+    /// Wait for any custom condition expressed as a Func.
+    /// Example: wait.Until(driver => driver.FindElements(locator).Count > 3)
+    /// </summary>
+    public TResult Until<TResult>(Func<IWebDriver, TResult> condition, int? timeoutSeconds = null)
+    {
+        return GetWait(timeoutSeconds).Until(condition);
+    }
+
+    // ── Private helpers ────────────────────────────────────────────────────
+
+    private WebDriverWait GetWait(int? timeoutSeconds)
+    {
+        int timeout = timeoutSeconds ?? _defaultTimeout;
+
+        return new WebDriverWait(_driver, TimeSpan.FromSeconds(timeout))
+        {
+            PollingInterval = TimeSpan.FromMilliseconds(300),
+            Message = $"Element not found within {timeout} seconds."
+        };
+    }
+}

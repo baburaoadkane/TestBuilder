@@ -1,0 +1,65 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<LangVersion>latest</LangVersion>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<IsPackable>false</IsPackable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="coverlet.collector" Version="8.0.1">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="ExtentReports" Version="5.0.5-beta1" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.3.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.5-beta1" />
+		<PackageReference Include="NUnit" Version="4.5.1" />
+		<PackageReference Include="NUnit.Analyzers" Version="4.12.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="NUnit3TestAdapter" Version="6.2.0" />
+		<PackageReference Include="Selenium.Support" Version="4.41.0" />
+		<PackageReference Include="Selenium.WebDriver" Version="4.41.0" />
+		<PackageReference Include="System.Drawing.Common" Version="11.0.0-preview.2.26159.112" />
+		<PackageReference Include="System.Text.Json" Version="11.0.0-preview.2.26159.112" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="NUnit.Framework" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Include="Config\appsettings.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Config\appsettings.test.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Config\appsettings.staging.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
+	<!-- Copy all test data JSON files to output -->
+	<ItemGroup>
+		<Content Include="Modules\**\Data\**\*.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="Modules\Accounting\" />
+		<Folder Include="Modules\Inventory\" />
+		<Folder Include="Modules\Purchase\" />
+		<Folder Include="Modules\Sales\Data\SalesInvoice\Edit\" />
+		<Folder Include="Modules\Sales\Data\SalesInvoice\Approve\" />
+		<Folder Include="Modules\Sales\Data\SalesReturn\" />
+		<Folder Include="Modules\Sales\Data\SalesOrder\" />
+		<Folder Include="Reports\" />
+	</ItemGroup>
+
+</Project>

@@ -1,0 +1,59 @@
+{
+  "TestDescription": "Create a basic Sales Invoice with single line item and GST tax",
+  "ScenarioType": "Create",
+  "RequiresApproval": false,
+
+  "Header": {
+    "Customer": "Test Customer 01",
+    "InvoiceDate": "01-06-2025",
+    "DueDate": "30-06-2025",
+    "Currency": "USD",
+    "PriceList": "Standard Selling",
+    "PaymentTerms": "Net 30",
+    "Location": "Main Warehouse",
+    "SalesPerson": "John Smith",
+    "ReferenceNo": "REF-001"
+  },
+
+  "Lines": [
+    {
+      "ItemCode": "ITEM-001",
+      "ItemName": "Laptop 15 inch",
+      "Quantity": 2,
+      "UOM": "Nos",
+      "UnitPrice": 1000.00,
+      "DiscountPercent": 0,
+      "TaxType": "GST 18%",
+      "TaxPercent": 18,
+      "ExpectedLineTotal": 2000.00
+    }
+  ],
+
+  "Charges": {
+    "Items": []
+  },
+
+  "Payments": {
+    "Entries": []
+  },
+
+  "Others": {
+    "Remarks": "Test invoice - basic scenario",
+    "InternalNotes": "Automation test",
+    "TermsAndConditions": ""
+  },
+
+  "Expected": {
+    "Status": "Draft",
+    "SuccessMessage": "Saved Successfully",
+    "Totals": {
+      "SubTotal": 2000.00,
+      "TotalDiscount": 0.00,
+      "TotalTax": 360.00,
+      "TotalCharges": 0.00,
+      "GrandTotal": 2360.00,
+      "AmountPaid": 0.00,
+      "BalanceDue": 2360.00
+    }
+  }
+}

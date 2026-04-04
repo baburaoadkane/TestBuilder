@@ -1,0 +1,29 @@
+﻿namespace Enfinity.ERP.Automation.Modules.Sales.DataModels;
+
+/// <summary>
+/// Payments section — advance payments or receipts linked to this invoice.
+/// Each entry represents one payment applied against the invoice amount.
+/// </summary>
+public class SalesInvoicePaymentsDM
+{
+    /// <summary>List of payment entries to apply.</summary>
+    public List<PaymentEntryDM> Entries { get; set; } = new();
+}
+
+public class PaymentEntryDM
+{
+    /// <summary>Payment mode. Example: "Cash", "Bank Transfer", "Cheque"</summary>
+    public string? PaymentMode { get; set; }
+
+    /// <summary>Payment amount to apply against this invoice.</summary>
+    public decimal Amount { get; set; }
+
+    /// <summary>Payment reference number or transaction ID.</summary>
+    public string? ReferenceNo { get; set; }
+
+    /// <summary>Payment date. Format: dd-MM-yyyy</summary>
+    public string? PaymentDate { get; set; }
+
+    /// <summary>Bank account or cash account used for payment.</summary>
+    public string? Account { get; set; }
+}

@@ -1,0 +1,138 @@
+﻿using Auto.ERP.Core.Utilities;
+using Enfinity.ERP.Automation.Core.Utilities;
+using NUnit.Framework;
+using NUnit.Framework.Interfaces;
+using OpenQA.Selenium;
+
+namespace Enfinity.ERP.Automation.Core.Base;
+
+/// <summary>
+/// Base class for ALL test classes across every ERP module.
+/// 
+/// Responsibilities:
+///   - Initialize and quit WebDriver via DriverFactory
+///   - Login to ERP application before each test
+///   - Capture screenshot on failure
+///   - Initialize ExtentReports test node
+///   - Provide Driver property to all child test classes
+/// 
+/// Usage:
+///   public class SalesInvoiceTests : BaseTest { ... }
+/// </summary>
+[TestFixture]
+public abstract class BaseTest
+{
+    // ── Protected driver — accessible by all test classes ──────────────────
+    protected IWebDriver Driver { get; private set; } = null!;
+
+    // ── Shared helpers — available to every test class ─────────────────────
+    protected ConfigReader Config => ConfigReader.Instance;
+    protected WaitHelper Wait { get; private set; } = null!;
+    protected ReportHelper Report { get; private set; } = null!;
+    protected LoginHelper LoginHelper { get; private set; } = null!;
+
+    // ── One-time setup: runs once before ALL tests in the suite ────────────
+    [OneTimeSetUp]
+    public virtual void OneTimeSetUp()
+    {
+        ReportHelper.InitializeReport(
+            outputPath: Config.ReportsOutput,
+            reportTitle: Config.Get("Application:Name"),
+            environment: Config.Get("Application:Environment"),
+            browser: Config.BrowserType.ToString()
+        );
+    }
+
+    // ── Per-test setup: runs before EACH test ──────────────────────────────
+    [SetUp]
+    public virtual void SetUp()
+    {
+        // 1. Create driver
+        Driver = DriverFactory.GetDriver();
+
+        // 2. Initialize helpers with this driver
+        Wait = new WaitHelper(Driver, Config.ExplicitWait);
+        Report = new ReportHelper(TestContext.CurrentContext.Test.Name);
+        LoginHelper = new LoginHelper(Driver, Wait);
+
+        // 3. Navigate to application
+        Driver.Navigate().GoToUrl(Config.BaseUrl);
+
+        // 4. Log test start
+        Report.Info($"Test Started: {TestContext.CurrentContext.Test.Name}");
+        Report.Info($"URL: {Config.BaseUrl}");
+        Report.Info($"Browser: {Config.BrowserType}");
+
+        // 5. Login to ERP
+        LoginHelper.Login(Config.AdminUsername, Config.AdminPassword);
+
+        Report.Info($"Logged in as: {Config.AdminUsername}");
+    }
+
+    // ── Per-test teardown: runs after EACH test ────────────────────────────
+    [TearDown]
+    public virtual void TearDown()
+    {
+        var outcome = TestContext.CurrentContext.Result.Outcome.Status;
+
+        // Capture screenshot on failure
+        if (outcome == TestStatus.Failed)
+        {
+            string screenshotPath = CaptureScreenshot();
+            Report.Fail(
+                $"Test Failed: {TestContext.CurrentContext.Result.Message}",
+                screenshotPath
+            );
+        }
+        else if (outcome == TestStatus.Passed)
+        {
+            Report.Pass("Test Passed Successfully");
+
+            if (Config.AttachScreenshotOnPass)
+            {
+                string screenshotPath = CaptureScreenshot();
+                Report.AttachScreenshot(screenshotPath);
+            }
+        }
+        else
+        {
+            Report.Skip($"Test Skipped: {TestContext.CurrentContext.Result.Message}");
+        }
+
+        // Quit driver — always
+        DriverFactory.QuitDriver();
+    }
+
+    // ── One-time teardown: runs once after ALL tests in suite ──────────────
+    [OneTimeTearDown]
+    public virtual void OneTimeTearDown()
+    {
+        ReportHelper.FlushReport();
+    }
+
+    // ── Protected helpers available to child test classes ──────────────────
+
+    /// <summary>
+    /// Capture a screenshot and save it to the configured screenshots folder.
+    /// Returns the full file path of the saved screenshot.
+    /// </summary>
+    protected string CaptureScreenshot()
+    {
+        return ScreenshotHelper.Capture(
+            driver: Driver,
+            testName: TestContext.CurrentContext.Test.Name,
+            outputPath: Config.ScreenshotsOutput
+        );
+    }
+
+    /// <summary>
+    /// Navigate to a specific module route.
+    /// Example: NavigateTo("sales") → baseUrl/sales
+    /// </summary>
+    protected void NavigateTo(string route)
+    {
+        string url = $"{Config.BaseUrl.TrimEnd('/')}/{route.TrimStart('/')}";
+        Driver.Navigate().GoToUrl(url);
+        Report.Info($"Navigated to: {url}");
+    }
+}
