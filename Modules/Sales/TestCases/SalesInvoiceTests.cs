@@ -31,11 +31,11 @@ public class SalesInvoiceTests : BaseTest
     private SalesInvoiceExecutor _executor = null!;
 
     // ── JSON folder paths ──────────────────────────────────────────────────
-    private const string CreateFolder = "Modules/Sales/Json/SalesInvoice/Create";
-    private const string ApprovalFolder = "Modules/Sales/Json/SalesInvoice/Approval";
-    private const string NegativeFolder = "Modules/Sales/Json/SalesInvoice/Negative";
-    private const string EditFolder = "Modules/Sales/Json/SalesInvoice/Edit";
-    private const string ValidationFolder = "Modules/Sales/Json/SalesInvoice/Validation";
+    private const string CreateFolder = "Modules/Sales/Data/SalesInvoice/Create";
+    private const string ApprovalFolder = "Modules/Sales/Data/SalesInvoice/Approval";
+    private const string NegativeFolder = "Modules/Sales/Data/SalesInvoice/Negative";
+    private const string EditFolder = "Modules/Sales/Data/SalesInvoice/Edit";
+    private const string ValidationFolder = "Modules/Sales/Data/SalesInvoice/Validation";
 
     // ── Per-test SetUp ─────────────────────────────────────────────────────
 
@@ -182,11 +182,11 @@ public class SalesInvoiceTests : BaseTest
     {
         var data = SalesInvoiceBuilder
             .New()
-            .WithCustomer("C0008 | Anabia Reza")
+            .WithCustomer("2001 | Alghanim Industries")
             .WithInvoiceDate(DateTime.Now.ToString("05-05-2024"))
             .WithReferenceNo("REF-12345")
             //.WithCurrency("KWD")
-            .WithLocation("Grand Prime House")
+            .WithWarehouse("Grand Prime House")
             .AddLine(
                 itemCode: "I0001 | Screen Protectors",
                 qty: 1,
@@ -212,9 +212,8 @@ public class SalesInvoiceTests : BaseTest
             .New()
             .WithCustomer("Test Customer 01")
             .WithInvoiceDate(DateTime.Now.ToString("dd-MM-yyyy"))
-            .WithDueDate(DateTime.Now.AddDays(30).ToString("dd-MM-yyyy"))
             .WithCurrency("KWD")
-            .WithLocation("Main Warehouse")
+            .WithWarehouse("Main Warehouse")
             .AddLine(
                 itemCode: "ITEM-001",
                 qty: 2,

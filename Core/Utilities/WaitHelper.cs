@@ -28,6 +28,11 @@ public class WaitHelper
         _defaultTimeout = defaultTimeoutSeconds;
     }
 
+    public async Task WaitForSeconds(int seconds)
+    {
+        await Task.Delay(seconds * 1000);
+    }
+
     // ── Element presence ───────────────────────────────────────────────────
 
     /// <summary>Wait until element is visible in the DOM and on screen.</summary>

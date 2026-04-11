@@ -85,7 +85,7 @@ public abstract class BaseTest
         }
         else if (outcome == TestStatus.Passed)
         {
-            Report.Pass("Test Passed Successfully");
+            Report.Pass("Test Passed Successfully.");
 
             if (Config.AttachScreenshotOnPass)
             {

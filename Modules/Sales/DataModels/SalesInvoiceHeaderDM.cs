@@ -34,12 +34,12 @@ public class SalesInvoiceHeaderDM
     // ── Location ──────────────────────────────────────────────────────────
 
     /// <summary>Warehouse or location the invoice is raised from.</summary>
-    public string? Location { get; set; }
+    public string? Warehouse { get; set; }
 
     // ── Sales Info ────────────────────────────────────────────────────────
 
     /// <summary>Sales person assigned to this invoice.</summary>
-    public string? SalesPerson { get; set; }
+    public string? Salesman { get; set; }
 
     /// <summary>External reference number (e.g. customer PO number).</summary>
     public string? ReferenceNo { get; set; }

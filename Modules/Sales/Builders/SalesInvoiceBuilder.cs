@@ -93,9 +93,9 @@ public class SalesInvoiceBuilder
     }
 
     /// <summary>Override the location/warehouse.</summary>
-    public SalesInvoiceBuilder WithLocation(string location)
+    public SalesInvoiceBuilder WithWarehouse(string location)
     {
-        _model.Header.Location = location;
+        _model.Header.Warehouse = location;
         return this;
     }
 

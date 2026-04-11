@@ -68,6 +68,8 @@ public abstract class BaseExecutor<TDataModel> where TDataModel : class
         WaitForLoader();
 
         Wait.UntilClickable(moduleLocator, 5).Click();
+        //await WaitHelper.WaitForSeconds(2);
+        Thread.Sleep(2000); // Brief pause for menu animation
         WaitForLoader();
 
         Wait.UntilClickable(entityLocator, 5).Click();

@@ -95,9 +95,12 @@ public static class DriverFactory
         options.AddArgument("--disable-extensions");
         options.AddArgument("--disable-infobars");
         options.AddArgument("--ignore-certificate-errors");
+        options.AddUserProfilePreference("profile.password_manager_enabled", false);
 
         // Suppress "Chrome is being controlled by automated software" bar
         options.AddExcludedArgument("enable-automation");
+        options.AddAdditionalOption("useAutomationExtension", false);
+        options.AddUserProfilePreference("credentials_enable_service", false);
         options.AddAdditionalOption("useAutomationExtension", false);
 
         return new ChromeDriver(options);

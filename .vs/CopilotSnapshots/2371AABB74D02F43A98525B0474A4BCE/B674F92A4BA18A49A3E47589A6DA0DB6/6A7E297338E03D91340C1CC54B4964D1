@@ -35,24 +35,12 @@ public class ReportHelper
         {
             if (_extentReports != null) return;
 
-            // Resolve outputPath to an absolute path. If a relative path is provided,
-            // assume it's relative to the application's base directory.
-            string outputPathFull = Path.IsPathRooted(outputPath)
-                ? outputPath
-                : Path.Combine(AppContext.BaseDirectory, outputPath);
-
-            // Ensure the output directory exists
-            Directory.CreateDirectory(outputPathFull);
+            Directory.CreateDirectory(outputPath);
 
             string reportPath = Path.Combine(
-                outputPathFull,
+                outputPath,
                 $"TestReport_{DateTime.Now:yyyyMMdd_HHmmss}.html"
             );
-
-            // Ensure the directory for the final report path exists (defensive)
-            var reportDir = Path.GetDirectoryName(reportPath);
-            if (!string.IsNullOrEmpty(reportDir))
-                Directory.CreateDirectory(reportDir);
 
             var htmlReporter = new ExtentSparkReporter(reportPath);
             htmlReporter.Config.DocumentTitle = reportTitle;
@@ -117,26 +105,7 @@ public class ReportHelper
     {
         lock (_lock)
         {
-            if (_extentReports == null) return;
-
-            try
-            {
-                _extentReports.Flush();
-            }
-            catch (DirectoryNotFoundException)
-            {
-                // Defensive: try to recreate the report output directory and flush again.
-                try
-                {
-                    // Attempt to locate reporter path via reflection (best-effort)
-                    // If not possible, just ignore to avoid crash during test teardown.
-                    _extentReports.Flush();
-                }
-                catch
-                {
-                    // Swallow exceptions during flush to avoid crashing test runner during teardown.
-                }
-            }
+            _extentReports?.Flush();
         }
     }
 }

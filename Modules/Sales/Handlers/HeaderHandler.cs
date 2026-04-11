@@ -71,8 +71,8 @@ public class HeaderHandler : BaseHandler
         FillReferenceNo(header.ReferenceNo);
         FillCurrency(header.Currency);
         //FillPriceList(header.PriceList);
-        FillWarehouse(header.Location);
-        FillSalesman(header.SalesPerson);
+        FillWarehouse(header.Warehouse);
+        FillSalesman(header.Salesman);
         WaitForLoader();
     }
 

@@ -211,8 +211,8 @@ D:\Automation\Auto.ERP\obj\Debug\net10.0\refint\Enfinity.ERP.Automation.dll
 D:\Automation\Auto.ERP\obj\Debug\net10.0\Enfinity.ERP.Automation.pdb
 D:\Automation\Auto.ERP\obj\Debug\net10.0\Enfinity.ERP.Automation.genruntimeconfig.cache
 D:\Automation\Auto.ERP\obj\Debug\net10.0\ref\Enfinity.ERP.Automation.dll
-D:\Platform\Auto.ERP\bin\Debug\net10.0\testhost.exe
 D:\Platform\Auto.ERP\bin\Debug\net10.0\testhost.dll
+D:\Platform\Auto.ERP\bin\Debug\net10.0\testhost.exe
 D:\Platform\Auto.ERP\bin\Debug\net10.0\NUnit3.TestAdapter.pdb
 D:\Platform\Auto.ERP\bin\Debug\net10.0\nunit.engine.dll
 D:\Platform\Auto.ERP\bin\Debug\net10.0\nunit.engine.api.dll

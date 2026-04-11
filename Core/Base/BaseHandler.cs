@@ -45,7 +45,7 @@ public abstract class BaseHandler
     /// <summary>Wait for element to be clickable, then click.</summary>
     protected void Click(By locator)
     {
-        IWebElement element = Wait.UntilClickable(locator);
+        IWebElement element = Wait.UntilClickable(locator, 3);
         ScrollIntoView(element);
         element.Click();
     }
@@ -91,6 +91,7 @@ public abstract class BaseHandler
         ScrollIntoView(element);
         element.Clear();
         element.SendKeys(value);
+        Thread.Sleep(600);
     }
 
     /// <summary>Type into an already-located element.</summary>
@@ -101,8 +102,18 @@ public abstract class BaseHandler
         ScrollIntoView(element);
         element.Clear();
         element.SendKeys(value);
+        Thread.Sleep(600);
     }
+    protected void ClearAndType(By locator, string? value)
+    {
+        if (string.IsNullOrWhiteSpace(value)) return;
 
+        IWebElement element = Driver.FindElement(locator);
+        element.SendKeys(Keys.Control + "a");
+        element.SendKeys(Keys.Delete);
+        element.SendKeys(value);
+        Thread.Sleep(1000);
+    }
     /// <summary>
     /// Type and press Enter — used for search/autocomplete fields.
     /// Types the value then waits briefly for the dropdown to appear.
@@ -131,41 +142,6 @@ public abstract class BaseHandler
         element.Clear();
     }
 
-    // ── Dropdown Actions ───────────────────────────────────────────────────
-
-    /// <summary>Select from a standard HTML &lt;select&gt; by visible text.</summary>
-    protected void SelectByText(By locator, string text)
-    {
-        IWebElement element = Wait.UntilVisible(locator);
-        new SelectElement(element).SelectByText(text);
-    }
-
-    /// <summary>Select from a standard HTML &lt;select&gt; by value attribute.</summary>
-    protected void SelectByValue(By locator, string value)
-    {
-        IWebElement element = Wait.UntilVisible(locator);
-        new SelectElement(element).SelectByValue(value);
-    }
-
-    /// <summary>
-    /// Select from a custom ERP dropdown (non-native select).
-    /// Clicks the dropdown trigger, waits for options, then clicks the matching option.
-    /// </summary>
-    protected void SelectFromCustomDropdown(By triggerLocator, By optionLocator, string optionText)
-    {
-        Click(triggerLocator);
-        Wait.UntilVisible(optionLocator);
-
-        var options = Driver.FindElements(optionLocator);
-        var match = options.FirstOrDefault(o =>
-            o.Text.Trim().Equals(optionText, StringComparison.OrdinalIgnoreCase));
-
-        if (match == null)
-            throw new NoSuchElementException(
-                $"[Dropdown] Option '{optionText}' not found in dropdown.");
-
-        Click(match);
-    }
     // ── Date Actions ───────────────────────────────────────────────────────
 
     /// <summary>
@@ -311,6 +287,16 @@ public abstract class BaseHandler
             // Loader may not appear at all — that's fine
         }
     }
+
+
+
+    // ── Dropdown Actions ───────────────────────────────────────────────────
+
+    protected void OpenDropdown(By locator)
+    {
+        IWebElement element = Driver.FindElement(locator);
+        Click(element);
+    }
     protected void SelectOption(By lookupText, By nextPage, string? optionText)
     {
         while (true)
@@ -334,19 +320,37 @@ public abstract class BaseHandler
             Thread.Sleep(2000);
         }
     }
-    protected void ClearAndType(By locator, string? value)
+    /// <summary>Select from a standard HTML &lt;select&gt; by visible text.</summary>
+    protected void SelectByText(By locator, string text)
     {
-        if (string.IsNullOrWhiteSpace(value)) return;
-
-        IWebElement element = Driver.FindElement(locator);
-        element.SendKeys(Keys.Control + "a");
-        element.SendKeys(Keys.Delete);
-        element.SendKeys(value);
-        Thread.Sleep(500);
+        IWebElement element = Wait.UntilVisible(locator);
+        new SelectElement(element).SelectByText(text);
     }
-    protected void OpenDropdown(By locator)
+
+    /// <summary>Select from a standard HTML &lt;select&gt; by value attribute.</summary>
+    protected void SelectByValue(By locator, string value)
     {
-        IWebElement element = Driver.FindElement(locator);
-        Click(element);
+        IWebElement element = Wait.UntilVisible(locator);
+        new SelectElement(element).SelectByValue(value);
+    }
+
+    /// <summary>
+    /// Select from a custom ERP dropdown (non-native select).
+    /// Clicks the dropdown trigger, waits for options, then clicks the matching option.
+    /// </summary>
+    protected void SelectFromCustomDropdown(By triggerLocator, By optionLocator, string optionText)
+    {
+        Click(triggerLocator);
+        Wait.UntilVisible(optionLocator);
+
+        var options = Driver.FindElements(optionLocator);
+        var match = options.FirstOrDefault(o =>
+            o.Text.Trim().Equals(optionText, StringComparison.OrdinalIgnoreCase));
+
+        if (match == null)
+            throw new NoSuchElementException(
+                $"[Dropdown] Option '{optionText}' not found in dropdown.");
+
+        Click(match);
     }
 }
