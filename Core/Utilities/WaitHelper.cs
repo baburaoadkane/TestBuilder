@@ -1,8 +1,5 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Enfinity.ERP.Automation.Core.Utilities;
 
@@ -28,9 +25,9 @@ public class WaitHelper
         _defaultTimeout = defaultTimeoutSeconds;
     }
 
-    public async Task WaitForSeconds(int seconds)
+    public Task WaitForSeconds(int seconds)
     {
-        await Task.Delay(seconds * 1000);
+        return Task.Delay(seconds * 1000);
     }
 
     // ── Element presence ───────────────────────────────────────────────────
@@ -49,6 +46,10 @@ public class WaitHelper
             {
                 return null;
             }
+            catch (StaleElementReferenceException)
+            {
+                return null;
+            }
         });
     }
 
@@ -62,6 +63,10 @@ public class WaitHelper
                 return driver.FindElement(locator);
             }
             catch (NoSuchElementException)
+            {
+                return null;
+            }
+            catch (StaleElementReferenceException)
             {
                 return null;
             }
@@ -100,9 +105,13 @@ public class WaitHelper
             try
             {
                 var el = driver.FindElement(locator);
-                return (el.Displayed && el.Enabled) ? el : null;
+                return (el.Displayed && el.Enabled && el.GetCssValue("pointer-events") != "none") ? el : null;
             }
             catch (NoSuchElementException)
+            {
+                return null;
+            }
+            catch (StaleElementReferenceException)
             {
                 return null;
             }
@@ -116,7 +125,11 @@ public class WaitHelper
         {
             try
             {
-                return (element.Displayed && element.Enabled) ? element : null;
+                return (element.Displayed &&
+                    element.Enabled &&
+                    element.GetCssValue("pointer-events") != "none")
+                ? element
+                : null;
             }
             catch (StaleElementReferenceException)
             {
@@ -135,9 +148,13 @@ public class WaitHelper
             try
             {
                 var el = driver.FindElement(locator);
-                return !string.IsNullOrEmpty(el.Text) && el.Text.Contains(text);
+                return !string.IsNullOrEmpty(el.Text) && el.Text.Contains(text, StringComparison.OrdinalIgnoreCase);
             }
             catch (NoSuchElementException)
+            {
+                return false;
+            }
+            catch (StaleElementReferenceException)
             {
                 return false;
             }
@@ -153,13 +170,24 @@ public class WaitHelper
             {
                 var el = driver.FindElement(locator);
                 var val = el.GetAttribute("value");
-                return !string.IsNullOrEmpty(val) && val.Contains(value);
+                return !string.IsNullOrEmpty(val) && val.Contains(value, StringComparison.OrdinalIgnoreCase);
             }
             catch (NoSuchElementException)
             {
                 return false;
             }
+            catch (StaleElementReferenceException)
+            {
+                return false;
+            }
         });
+    }
+
+    public void UntilNotPresent(By locator, int? timeoutSeconds = null)
+    {
+        GetWait(timeoutSeconds).Until(driver =>
+            driver.FindElements(locator).Count == 0
+        );
     }
 
     // ── URL conditions ─────────────────────────────────────────────────────
@@ -167,19 +195,21 @@ public class WaitHelper
     /// <summary>Wait until URL contains a specific substring.</summary>
     public void UntilUrlContains(string urlFragment, int? timeoutSeconds = null)
     {
-        GetWait(timeoutSeconds).Until(driver => driver.Url != null && driver.Url.Contains(urlFragment));
+        GetWait(timeoutSeconds).Until(driver => driver.Url != null &&
+                                                driver.Url.Contains(urlFragment, StringComparison.OrdinalIgnoreCase));
     }
 
     /// <summary>Wait until URL matches exactly.</summary>
     public void UntilUrlIs(string url, int? timeoutSeconds = null)
     {
-        GetWait(timeoutSeconds).Until(driver => driver.Url == url);
+        GetWait(timeoutSeconds).Until(driver => driver.Url != null &&
+                                                driver.Url.TrimEnd('/').Equals(url.TrimEnd('/'), StringComparison.OrdinalIgnoreCase));
     }
 
     // ── Page load ──────────────────────────────────────────────────────────
 
     /// <summary>Wait until document.readyState === 'complete'.</summary>
-    public void UntilPageLoaded(int? timeoutSeconds = null)
+    public void UntilPageLoadedOld(int? timeoutSeconds = null)
     {
         GetWait(timeoutSeconds).Until(driver =>
             ((IJavaScriptExecutor)driver)
@@ -187,17 +217,27 @@ public class WaitHelper
                 ?.ToString() == "complete"
         );
     }
+    public void UntilPageLoaded(int? timeoutSeconds = null)
+    {
+        GetWait(timeoutSeconds).Until(driver =>
+        {
+            var readyState = ((IJavaScriptExecutor)driver)
+                .ExecuteScript("return document.readyState")
+                ?.ToString();
 
+            return readyState == "complete";
+        });
+    }
     // ── Multiple elements ──────────────────────────────────────────────────
 
     /// <summary>Wait until at least one element matching locator is present.</summary>
-    public IReadOnlyList<IWebElement> UntilAllVisible(By locator, int? timeoutSeconds = null)
+    public IReadOnlyList<IWebElement> UntilAllVisible(By locator, int minCount = 1, int? timeoutSeconds = null)
     {
         return GetWait(timeoutSeconds).Until(driver =>
         {
             var elements = driver.FindElements(locator);
             var visible = elements.Where(e => e.Displayed).ToList();
-            return visible.Count > 0 ? (IReadOnlyList<IWebElement>)visible : null;
+            return visible.Count >= minCount ? visible : null;
         });
     }
 
@@ -214,7 +254,7 @@ public class WaitHelper
 
     // ── Private helpers ────────────────────────────────────────────────────
 
-    private WebDriverWait GetWait(int? timeoutSeconds)
+    private WebDriverWait GetWaitOld(int? timeoutSeconds)
     {
         int timeout = timeoutSeconds ?? _defaultTimeout;
 
@@ -223,5 +263,22 @@ public class WaitHelper
             PollingInterval = TimeSpan.FromMilliseconds(300),
             Message = $"Element not found within {timeout} seconds."
         };
+    }
+    private WebDriverWait GetWait(int? timeoutSeconds)
+    {
+        int timeout = timeoutSeconds ?? _defaultTimeout;
+
+        var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(timeout))
+        {
+            PollingInterval = TimeSpan.FromMilliseconds(300),
+            Message = $"Element not found within {timeout} seconds."
+        };
+
+        wait.IgnoreExceptionTypes(
+            typeof(NoSuchElementException),
+            typeof(StaleElementReferenceException)
+        );
+
+        return wait;
     }
 }
