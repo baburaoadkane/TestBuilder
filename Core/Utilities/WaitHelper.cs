@@ -25,9 +25,9 @@ public class WaitHelper
         _defaultTimeout = defaultTimeoutSeconds;
     }
 
-    public Task WaitForSeconds(int seconds)
+    public void WaitForSeconds(int seconds)
     {
-        return Task.Delay(seconds * 1000);
+        Thread.Sleep(seconds * 1000);
     }
 
     // ── Element presence ───────────────────────────────────────────────────
@@ -125,9 +125,7 @@ public class WaitHelper
         {
             try
             {
-                return (element.Displayed &&
-                    element.Enabled &&
-                    element.GetCssValue("pointer-events") != "none")
+                return (element.Displayed && element.Enabled && element.GetCssValue("pointer-events") != "none")
                 ? element
                 : null;
             }
@@ -203,20 +201,12 @@ public class WaitHelper
     public void UntilUrlIs(string url, int? timeoutSeconds = null)
     {
         GetWait(timeoutSeconds).Until(driver => driver.Url != null &&
-                                                driver.Url.TrimEnd('/').Equals(url.TrimEnd('/'), StringComparison.OrdinalIgnoreCase));
+                                                driver.Url.StartsWith(url, StringComparison.OrdinalIgnoreCase));
     }
 
     // ── Page load ──────────────────────────────────────────────────────────
 
     /// <summary>Wait until document.readyState === 'complete'.</summary>
-    public void UntilPageLoadedOld(int? timeoutSeconds = null)
-    {
-        GetWait(timeoutSeconds).Until(driver =>
-            ((IJavaScriptExecutor)driver)
-                .ExecuteScript("return document.readyState")
-                ?.ToString() == "complete"
-        );
-    }
     public void UntilPageLoaded(int? timeoutSeconds = null)
     {
         GetWait(timeoutSeconds).Until(driver =>
@@ -235,9 +225,18 @@ public class WaitHelper
     {
         return GetWait(timeoutSeconds).Until(driver =>
         {
-            var elements = driver.FindElements(locator);
-            var visible = elements.Where(e => e.Displayed).ToList();
-            return visible.Count >= minCount ? visible : null;
+            try
+            {
+                var elements = driver.FindElements(locator);                 
+                var visible = elements.Where(e => e.Displayed).ToList();
+                WaitForSeconds(2);
+
+                return visible.Count >= minCount ? visible.AsReadOnly() : null;
+            }
+            catch (StaleElementReferenceException)
+            {
+                return null;
+            }
         });
     }
 
@@ -253,17 +252,6 @@ public class WaitHelper
     }
 
     // ── Private helpers ────────────────────────────────────────────────────
-
-    private WebDriverWait GetWaitOld(int? timeoutSeconds)
-    {
-        int timeout = timeoutSeconds ?? _defaultTimeout;
-
-        return new WebDriverWait(_driver, TimeSpan.FromSeconds(timeout))
-        {
-            PollingInterval = TimeSpan.FromMilliseconds(300),
-            Message = $"Element not found within {timeout} seconds."
-        };
-    }
     private WebDriverWait GetWait(int? timeoutSeconds)
     {
         int timeout = timeoutSeconds ?? _defaultTimeout;
@@ -280,5 +268,29 @@ public class WaitHelper
         );
 
         return wait;
+    }
+    public void UntilTextNotPresent(By locator, string text, int? timeoutSeconds = null)
+    {
+        GetWait(timeoutSeconds).Until(driver =>
+        {
+            try
+            {
+                var el = driver.FindElement(locator);
+                return string.IsNullOrEmpty(el.Text) ||
+                       !el.Text.Contains(text, StringComparison.OrdinalIgnoreCase);
+            }
+            catch
+            {
+                return true;
+            }
+        });
+    }
+    public void UntilLoaderInvisible(By loaderLocator, int? timeoutSeconds = null)
+    {
+        GetWait(timeoutSeconds).Until(driver =>
+        {
+            var loaders = driver.FindElements(loaderLocator);
+            return loaders.All(l => !l.Displayed);
+        });
     }
 }

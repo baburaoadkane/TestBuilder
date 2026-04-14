@@ -2,7 +2,6 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Enfinity.ERP.Automation.Core.Base;
 
@@ -45,7 +44,7 @@ public abstract class BaseHandler
     /// <summary>Wait for element to be clickable, then click.</summary>
     protected void Click(By locator)
     {
-        IWebElement element = Wait.UntilClickable(locator, 3);
+        var element = Wait.UntilClickable(locator);
         ScrollIntoView(element);
         element.Click();
     }
@@ -64,16 +63,19 @@ public abstract class BaseHandler
     /// </summary>
     protected void JSClick(By locator)
     {
-        IWebElement element = Wait.UntilVisible(locator);
+        var element = Wait.UntilVisible(locator);
         ScrollIntoView(element);
-        ((IJavaScriptExecutor)Driver).ExecuteScript("arguments[0].click();", element);
+
+        ((IJavaScriptExecutor)Driver)
+            .ExecuteScript("arguments[0].click();", element);
     }
 
     /// <summary>Double-click an element (e.g. to open inline edit in grids).</summary>
     protected void DoubleClick(By locator)
     {
-        IWebElement element = Wait.UntilClickable(locator);
+        var element = Wait.UntilClickable(locator);
         ScrollIntoView(element);
+
         _actions.DoubleClick(element).Perform();
     }
 
@@ -87,32 +89,26 @@ public abstract class BaseHandler
     {
         if (string.IsNullOrWhiteSpace(value)) return;
 
-        IWebElement element = Wait.UntilVisible(locator);
+        var element = Wait.UntilVisible(locator);
         ScrollIntoView(element);
+
         element.Clear();
         element.SendKeys(value);
-        Thread.Sleep(600);
-    }
 
-    /// <summary>Type into an already-located element.</summary>
-    protected void Type(IWebElement element, string? value)
-    {
-        if (string.IsNullOrWhiteSpace(value)) return;
-
-        ScrollIntoView(element);
-        element.Clear();
-        element.SendKeys(value);
-        Thread.Sleep(600);
-    }
+        Wait.UntilValuePresent(locator, value);
+    }    
     protected void ClearAndType(By locator, string? value)
     {
         if (string.IsNullOrWhiteSpace(value)) return;
 
-        IWebElement element = Driver.FindElement(locator);
+        var element = Wait.UntilVisible(locator);
+        ScrollIntoView(element);
+
         element.SendKeys(Keys.Control + "a");
         element.SendKeys(Keys.Delete);
         element.SendKeys(value);
-        Thread.Sleep(1000);
+
+        Wait.UntilValuePresent(locator, value);
     }
     /// <summary>
     /// Type and press Enter — used for search/autocomplete fields.
@@ -123,7 +119,22 @@ public abstract class BaseHandler
         if (string.IsNullOrWhiteSpace(value)) return;
 
         Type(locator, value);
-        Thread.Sleep(600); // Brief wait for autocomplete dropdown
+        Thread.Sleep(600);
+        SendKey(locator, Keys.ArrowDown);
+        SendKey(locator, Keys.Enter);
+    }
+
+    protected void TypeAndSelectChange(By locator, string? value)
+    {
+        if (string.IsNullOrWhiteSpace(value)) return;
+
+        Type(locator, value);
+
+        // Wait for lookup dropdown to appear
+        Wait.Until(driver =>
+            driver.FindElements(By.XPath("//div[contains(@class,'lookup')]")).Count > 0
+        );
+
         SendKey(locator, Keys.ArrowDown);
         SendKey(locator, Keys.Enter);
     }
@@ -131,15 +142,14 @@ public abstract class BaseHandler
     /// <summary>Send a specific key to an element (Enter, Tab, Escape, etc.)</summary>
     protected void SendKey(By locator, string key)
     {
-        IWebElement element = Wait.UntilVisible(locator);
+        var element = Wait.UntilVisible(locator);
         element.SendKeys(key);
     }
 
     /// <summary>Clear an input field completely.</summary>
     protected void Clear(By locator)
     {
-        IWebElement element = Wait.UntilVisible(locator);
-        element.Clear();
+        Wait.UntilVisible(locator).Clear();
     }
 
     // ── Date Actions ───────────────────────────────────────────────────────
@@ -152,8 +162,9 @@ public abstract class BaseHandler
     {
         if (string.IsNullOrWhiteSpace(date)) return;
 
-        IWebElement element = Wait.UntilVisible(locator);
+        var element = Wait.UntilVisible(locator);
         ScrollIntoView(element);
+
         ((IJavaScriptExecutor)Driver)
             .ExecuteScript("arguments[0].value = arguments[1];", element, date);
 
@@ -167,14 +178,14 @@ public abstract class BaseHandler
     /// <summary>Check a checkbox if it is not already checked.</summary>
     protected void Check(By locator)
     {
-        IWebElement element = Wait.UntilVisible(locator);
+        var element = Wait.UntilVisible(locator);
         if (!element.Selected) element.Click();
     }
 
     /// <summary>Uncheck a checkbox if it is currently checked.</summary>
     protected void Uncheck(By locator)
     {
-        IWebElement element = Wait.UntilVisible(locator);
+        var element = Wait.UntilVisible(locator);
         if (element.Selected) element.Click();
     }
 
@@ -183,22 +194,20 @@ public abstract class BaseHandler
     /// <summary>Get the visible text of an element.</summary>
     protected string GetText(By locator)
     {
-        IWebElement element = Wait.UntilVisible(locator);
-        return element.Text.Trim();
+        return Wait.UntilVisible(locator).Text.Trim();
     }
 
     /// <summary>Get the value attribute of an input field.</summary>
     protected string GetValue(By locator)
     {
-        IWebElement element = Wait.UntilVisible(locator);
-        return element.GetAttribute("value")?.Trim() ?? string.Empty;
+        return Wait.UntilVisible(locator).GetAttribute("value")?.Trim() ?? string.Empty;
     }
 
     /// <summary>Get any HTML attribute of an element.</summary>
     protected string GetAttribute(By locator, string attribute)
     {
-        IWebElement element = Wait.UntilVisible(locator);
-        return element.GetAttribute(attribute)?.Trim() ?? string.Empty;
+        return Wait.UntilVisible(locator)
+                  .GetAttribute(attribute)?.Trim() ?? string.Empty;
     }
 
     /// <summary>Check if an element is currently visible on the page.</summary>
@@ -206,10 +215,12 @@ public abstract class BaseHandler
     {
         try
         {
-            return Driver.FindElement(locator).Displayed;
+            return Wait.UntilVisible(locator, 2) != null;
         }
-        catch (NoSuchElementException) { return false; }
-        catch (StaleElementReferenceException) { return false; }
+        catch
+        {
+            return false;
+        }
     }
 
     /// <summary>Check if an element is enabled (not disabled/readonly).</summary>
@@ -217,9 +228,12 @@ public abstract class BaseHandler
     {
         try
         {
-            return Driver.FindElement(locator).Enabled;
+            return Wait.UntilClickable(locator, 2) != null;
         }
-        catch { return false; }
+        catch
+        {
+            return false;
+        }
     }
 
     // ── Scroll Actions ─────────────────────────────────────────────────────
@@ -265,11 +279,12 @@ public abstract class BaseHandler
             }
             catch when (i < attempts)
             {
-                Thread.Sleep(delay);
+                Wait.WaitForSeconds(delay / 1000);
             }
         }
     }
 
+    // ── Loader ────────────────────────────────────────────────────────────
     /// <summary>
     /// Wait for a loading spinner / overlay to disappear.
     /// Override the locator in derived classes for your ERP's specific spinner.
@@ -277,25 +292,15 @@ public abstract class BaseHandler
     protected virtual void WaitForLoader(By? loaderLocator = null)
     {
         loaderLocator ??= By.CssSelector(".loading-overlay, .spinner, [data-loading='true']");
-
-        try
-        {
-            Wait.UntilInvisible(loaderLocator);
-        }
-        catch
-        {
-            // Loader may not appear at all — that's fine
-        }
+        Wait.UntilInvisible(loaderLocator, 10);
     }
 
-
-
-    // ── Dropdown Actions ───────────────────────────────────────────────────
+    // ── Dropdown/Lookup Actions ───────────────────────────────────────────────────
 
     protected void OpenDropdown(By locator)
     {
-        IWebElement element = Driver.FindElement(locator);
-        Click(element);
+        //IWebElement element = Driver.FindElement(locator);
+        Click(locator);
     }
     protected void SelectOption(By lookupText, By nextPage, string? optionText)
     {
@@ -320,17 +325,49 @@ public abstract class BaseHandler
             Thread.Sleep(2000);
         }
     }
+    protected void SelectOptionChange(By lookupText, By nextPage, string? optionText)
+    {
+        if (string.IsNullOrWhiteSpace(optionText)) return;
+
+        int maxPages = 10;
+
+        for (int page = 0; page < maxPages; page++)
+        {
+            var options = Wait.UntilAllVisible(lookupText, 1, 5);
+            Thread.Sleep(1000);
+
+            foreach (var option in options)
+            {
+                if (option.Text.Trim()
+                    .Contains(optionText, StringComparison.OrdinalIgnoreCase))
+                {
+                    Click(option);
+                    Thread.Sleep(1000);
+                    return;
+                }
+            }            
+            var nextButton = Wait.UntilVisible(nextPage, 2);
+            
+            if (IsDisabled(nextButton))
+                break;
+
+            Click(nextButton);
+            WaitForLoader();
+        }
+
+        throw new Exception($"[Lookup] Option '{optionText}' not found.");
+    }
     /// <summary>Select from a standard HTML &lt;select&gt; by visible text.</summary>
     protected void SelectByText(By locator, string text)
     {
-        IWebElement element = Wait.UntilVisible(locator);
+        var element = Wait.UntilVisible(locator);
         new SelectElement(element).SelectByText(text);
     }
 
     /// <summary>Select from a standard HTML &lt;select&gt; by value attribute.</summary>
     protected void SelectByValue(By locator, string value)
     {
-        IWebElement element = Wait.UntilVisible(locator);
+        var element = Wait.UntilVisible(locator);
         new SelectElement(element).SelectByValue(value);
     }
 
@@ -341,9 +378,8 @@ public abstract class BaseHandler
     protected void SelectFromCustomDropdown(By triggerLocator, By optionLocator, string optionText)
     {
         Click(triggerLocator);
-        Wait.UntilVisible(optionLocator);
 
-        var options = Driver.FindElements(optionLocator);
+        var options = Wait.UntilAllVisible(optionLocator);
         var match = options.FirstOrDefault(o =>
             o.Text.Trim().Equals(optionText, StringComparison.OrdinalIgnoreCase));
 
@@ -352,5 +388,16 @@ public abstract class BaseHandler
                 $"[Dropdown] Option '{optionText}' not found in dropdown.");
 
         Click(match);
+    }
+
+    // ── Utility ───────────────────────────────────────────────────────────
+    protected IReadOnlyList<IWebElement> GetElements(By locator)
+    {
+        return Driver.FindElements(locator);
+    }
+    protected bool IsDisabled(IWebElement element)
+    {
+        return element.GetAttribute("class")
+            .Contains("dx-state-disabled", StringComparison.OrdinalIgnoreCase);
     }
 }

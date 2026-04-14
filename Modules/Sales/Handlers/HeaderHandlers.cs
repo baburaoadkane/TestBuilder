@@ -68,7 +68,41 @@ namespace Enfinity.ERP.Automation.Modules.Sales.Handlers
             OpenDropdown(dropdown);
             //ClearAndType(input, value);
             Type(input, value);
-            SelectOption(LookupText, NextPage, value);
+            //SelectOption(LookupText, NextPage, value);
+            var nextPage = GetNextPageLocator(input);
+
+            SelectOption(LookupText, nextPage, value);
+        }
+
+        private By GetNextPageLocator(By inputLocator)
+        {
+            var element = Wait.UntilVisible(inputLocator);
+            string id = element.GetAttribute("id");
+
+            // Example:
+            // SalesInvoice.CustomerIdLookup_I
+
+            // Step 1: Split by '.'
+            var parts = id.Split('.');
+
+            if (parts.Length < 2)
+                throw new Exception($"Invalid id format: {id}");
+
+            string modulePrefix = parts[0]; // SalesInvoice
+            string fieldPart = parts[1];    // CustomerIdLookup_I
+
+            // Step 2: Remove suffix "_I"
+            fieldPart = fieldPart.Replace("_I", "");
+
+            // Step 3: Remove "Lookup"
+            string fieldName = fieldPart.Replace("Lookup", ""); // CustomerId
+
+            // Final:
+            // SalesInvoice.CustomerId_NextPage
+
+            string nextPageId = $"{modulePrefix}.{fieldName}_NextPage";
+
+            return By.Id(nextPageId);
         }
 
         // ── Field Methods ───────────────────────────────────────────────────

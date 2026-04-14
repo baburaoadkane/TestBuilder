@@ -21,7 +21,7 @@ namespace Enfinity.ERP.Automation.Modules.Sales.Handlers;
 ///   Inspect each field and replace the By.Id / By.Name values below
 ///   with the actual id="" or name="" attribute from your ERP's HTML.
 /// </summary>
-public class HeaderHandler : BaseHandler
+public class HeaderHandlerOld : BaseHandler
 {
     // ── Locators — UPDATE THESE to match your ERP's actual HTML ───────────
 
@@ -55,7 +55,7 @@ public class HeaderHandler : BaseHandler
     private static readonly By ReferenceNoInput = By.XPath("//input[contains(@id, '.ReferenceNum_I')]");
 
     // ── Constructor ────────────────────────────────────────────────────────
-    public HeaderHandler(IWebDriver driver, WaitHelper wait)
+    public HeaderHandlerOld(IWebDriver driver, WaitHelper wait)
         : base(driver, wait) { }
 
     // ── Public entry point ─────────────────────────────────────────────────
