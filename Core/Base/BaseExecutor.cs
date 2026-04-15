@@ -1,5 +1,6 @@
 ﻿using Enfinity.ERP.Automation.Core.Utilities;
 using OpenQA.Selenium;
+using OpenQA.Selenium.BiDi.BrowsingContext;
 
 namespace Enfinity.ERP.Automation.Core.Base;
 
@@ -56,31 +57,30 @@ public abstract class BaseExecutor<TDataModel> where TDataModel : class
         Report.Info($"Navigated to: {url}");
     }
 
-    protected void NavigateToEntity(string moduleName, string entityName)
+    protected void NavigateToModule(string moduleName)
     {
-        By moduleButton = By.Id("AppModuleButton");
+        By appModule = By.Id("AppModuleButton");
+        By moduleText = By.XPath($"//a[contains(@class,'AppModuleButtonPopoverItem')][.//span[normalize-space()='{moduleName}']]");
 
-        By moduleLocator = By.XPath($"//span[normalize-space()='{moduleName}']");
-
-        By entityLocator = By.XPath($"//a[@title='{entityName}']");
-
-        Wait.UntilClickable(moduleButton, 5).Click();
+        Wait.UntilClickable(appModule, 5).Click();
         WaitForLoader();
 
-        Wait.UntilClickable(moduleLocator, 5).Click();
-        //await WaitHelper.WaitForSeconds(2);
-        Thread.Sleep(2000); // Brief pause for menu animation
-        WaitForLoader();
-
-        Wait.UntilClickable(entityLocator, 5).Click();
+        Wait.UntilClickable(moduleText, 5).Click();
         WaitForLoader();
     }
 
-    protected void OpenFormInCreateMode()
+    protected void NavigateToListing(string entityName)
     {
-        By formMode = By.XPath($"//li[@title='New']");
+        By entityTitle = By.XPath($"//a[@title='{entityName}']");
+        Wait.UntilClickable(entityTitle, 5).Click();
+        WaitForLoader();
+    }
 
-        Wait.UntilClickable(formMode, 5).Click();
+    protected void OpenFormMode(string formMode)
+    {
+        By formState = By.XPath($"//li[@title='{formMode}']");
+
+        Wait.UntilClickable(formState, 5).Click();
         WaitForLoader();
     }
 
@@ -107,15 +107,11 @@ public abstract class BaseExecutor<TDataModel> where TDataModel : class
     /// Click the Save button and wait for the success confirmation.
     /// Override if your ERP uses a different save button locator.
     /// </summary>
-    protected virtual void Save()
+    protected virtual void FormSave()
     {
         Report.Info("Saving document...");
 
-        By saveButton = By.XPath(
-            "//button[normalize-space()='Save'] | " +
-            "//button[normalize-space()='Save & Close'] | " +
-            "//input[@value='Save']"
-        );
+        By saveButton = By.XPath($"//span[contains(@class, 'dx-vam') and text()='Save']");
 
         Wait.UntilClickable(saveButton).Click();
         WaitForLoader();

@@ -94,8 +94,7 @@ public abstract class BaseHandler
 
         element.Clear();
         element.SendKeys(value);
-
-        Wait.UntilValuePresent(locator, value);
+        Wait.WaitForSeconds(1);
     }    
     protected void ClearAndType(By locator, string? value)
     {
@@ -298,64 +297,39 @@ public abstract class BaseHandler
     // ── Dropdown/Lookup Actions ───────────────────────────────────────────────────
 
     protected void OpenDropdown(By locator)
-    {
-        //IWebElement element = Driver.FindElement(locator);
+    { 
         Click(locator);
+        Wait.WaitForSeconds(1);
     }
     protected void SelectOption(By lookupText, By nextPage, string? optionText)
     {
+        if (string.IsNullOrWhiteSpace(optionText)) return;
+
         while (true)
         {
-            var options = Driver.FindElements(lookupText);
-            Thread.Sleep(1000);
+            var options = Wait.UntilAllVisible(lookupText);
+            Wait.WaitForSeconds(1);
 
             foreach (var option in options)
             {
                 string actualValue = option.Text.Trim();
-                if (!string.IsNullOrEmpty(optionText) && actualValue.Contains(optionText, StringComparison.OrdinalIgnoreCase))
+                if (actualValue.Contains(optionText, StringComparison.OrdinalIgnoreCase))
                 {
                     option.Click();
-                    Thread.Sleep(2000);
+                    Wait.WaitForSeconds(1);
                     return;
                 }
             }
-            Thread.Sleep(1000);
-            var nextButton = Driver.FindElement(nextPage);
-            Click(nextButton);
-            Thread.Sleep(2000);
-        }
-    }
-    protected void SelectOptionChange(By lookupText, By nextPage, string? optionText)
-    {
-        if (string.IsNullOrWhiteSpace(optionText)) return;
-
-        int maxPages = 10;
-
-        for (int page = 0; page < maxPages; page++)
-        {
-            var options = Wait.UntilAllVisible(lookupText, 1, 5);
-            Thread.Sleep(1000);
-
-            foreach (var option in options)
-            {
-                if (option.Text.Trim()
-                    .Contains(optionText, StringComparison.OrdinalIgnoreCase))
-                {
-                    Click(option);
-                    Thread.Sleep(1000);
-                    return;
-                }
-            }            
-            var nextButton = Wait.UntilVisible(nextPage, 2);
-            
+            //var nextButton = Driver.FindElement(nextPage);
+            var nextButton = Wait.UntilVisible(nextPage);
             if (IsDisabled(nextButton))
-                break;
-
+            {
+                throw new NoSuchElementException(
+                    $"[Lookup] Option '{optionText}' not found.");
+            }     
             Click(nextButton);
-            WaitForLoader();
+            Wait.WaitForSeconds(1);
         }
-
-        throw new Exception($"[Lookup] Option '{optionText}' not found.");
     }
     /// <summary>Select from a standard HTML &lt;select&gt; by visible text.</summary>
     protected void SelectByText(By locator, string text)
@@ -375,9 +349,9 @@ public abstract class BaseHandler
     /// Select from a custom ERP dropdown (non-native select).
     /// Clicks the dropdown trigger, waits for options, then clicks the matching option.
     /// </summary>
-    protected void SelectFromCustomDropdown(By triggerLocator, By optionLocator, string optionText)
+    protected void SelectFromCustomDropdown(By triggerLocator, By optionLocator, string? optionText)
     {
-        Click(triggerLocator);
+        //Click(triggerLocator);
 
         var options = Wait.UntilAllVisible(optionLocator);
         var match = options.FirstOrDefault(o =>

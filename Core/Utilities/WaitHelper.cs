@@ -105,7 +105,7 @@ public class WaitHelper
             try
             {
                 var el = driver.FindElement(locator);
-                return (el.Displayed && el.Enabled && el.GetCssValue("pointer-events") != "none") ? el : null;
+                return (el.Displayed && el.Enabled) ? el : null;
             }
             catch (NoSuchElementException)
             {

@@ -66,11 +66,8 @@ namespace Enfinity.ERP.Automation.Modules.Sales.Handlers
             if (string.IsNullOrWhiteSpace(value)) return;
                 
             OpenDropdown(dropdown);
-            //ClearAndType(input, value);
             Type(input, value);
-            //SelectOption(LookupText, NextPage, value);
             var nextPage = GetNextPageLocator(input);
-
             SelectOption(LookupText, nextPage, value);
         }
 

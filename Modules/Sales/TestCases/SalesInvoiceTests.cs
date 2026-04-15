@@ -182,10 +182,8 @@ public class SalesInvoiceTests : BaseTest
     {
         var data = SalesInvoiceBuilder
             .New()
-            .WithCustomer("2001 | Alghanim Industries")
-            .WithInvoiceDate(DateTime.Now.ToString("05-05-2024"))
-            .WithReferenceNo("REF-12345")
-            //.WithCurrency("KWD")
+            .WithCustomer("C0008 | Anabia Reza")
+            .WithReferenceNo("Smoke Test")
             .WithWarehouse("Grand Prime House")
             .AddLine(
                 itemCode: "I0001 | Screen Protectors",
@@ -211,8 +209,6 @@ public class SalesInvoiceTests : BaseTest
         var data = SalesInvoiceBuilder
             .New()
             .WithCustomer("Test Customer 01")
-            .WithInvoiceDate(DateTime.Now.ToString("dd-MM-yyyy"))
-            .WithCurrency("KWD")
             .WithWarehouse("Main Warehouse")
             .AddLine(
                 itemCode: "ITEM-001",

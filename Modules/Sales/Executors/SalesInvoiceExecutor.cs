@@ -82,6 +82,8 @@ public class SalesInvoiceExecutor : BaseExecutor<SalesInvoiceDM>
         switch (scenarioType)
         {
             case "CREATE":
+                //NavigateToModule("Sales");
+                //NavigateToListing("Invoice ");
                 ExecuteCreate(data);
                 break;
 
@@ -116,13 +118,13 @@ public class SalesInvoiceExecutor : BaseExecutor<SalesInvoiceDM>
     private void ExecuteCreate(SalesInvoiceDM data)
     {
         Report.Info("Step 1: Navigate to New Sales Invoice");
-        //Navigate(NewInvoiceRoute);
-        NavigateToEntity("Sales", "Invoice");
-        OpenFormInCreateMode();
+        NavigateToModule("Sales");
+        NavigateToListing("Invoice");
+        OpenFormMode("New");
 
         Report.Info("Step 2: Fill Header");
         _headerHandler.Fill(data.Header);
-        Save();
+        FormSave();
 
         Report.Info("Step 3: Fill Lines");
         _linesHandler.Fill(data.Lines);
@@ -137,7 +139,7 @@ public class SalesInvoiceExecutor : BaseExecutor<SalesInvoiceDM>
         _othersHandler.Fill(data.Others);
 
         Report.Info("Step 7: Save document");
-        Save();
+        FormSave();
 
         Report.Info("Step 8: Validate");
         ValidateAfterSave(data);
@@ -219,7 +221,7 @@ public class SalesInvoiceExecutor : BaseExecutor<SalesInvoiceDM>
         _othersHandler.Fill(data.Others);
 
         Report.Info("Step 7: Save updated document");
-        Save();
+        FormSave();
 
         Report.Info("Step 8: Validate updated values");
         ValidateAfterSave(data);
@@ -268,15 +270,15 @@ public class SalesInvoiceExecutor : BaseExecutor<SalesInvoiceDM>
     /// Click Save and wait for the success confirmation.
     /// TODO: Update the save button locator to match your ERP.
     /// </summary>
-    protected override void Save()
-    {
-        By saveButton = By.XPath("//span[contains(@class, 'dx-vam') and text()='Save']");
+    //protected override void Save()
+    //{
+    //    By saveButton = By.XPath("//span[contains(@class, 'dx-vam') and text()='Save']");
 
-        Report.Info("Clicking Save...");
-        Wait.UntilClickable(saveButton).Click();
-        WaitForLoader();
-        WaitForPageLoad();
-    }
+    //    Report.Info("Clicking Save...");
+    //    Wait.UntilClickable(saveButton).Click();
+    //    WaitForLoader();
+    //    WaitForPageLoad();
+    //}
 
     /// <summary>
     /// Click Save without waiting for success — used in Negative scenarios.
