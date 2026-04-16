@@ -9,11 +9,10 @@ namespace Enfinity.ERP.Automation.Modules.Sales.Handlers
     /// Handles all UI interactions for the Sales Invoice HEADER section.
     /// Optimized with reusable lookup handling.
     /// </summary>
-    public class HeaderHandlers : BaseHandler
+    public class HeaderHandler : BaseHandler
     {
         // ── Common Lookup Locators ──────────────────────────────────────────
         private static readonly By LookupText = By.XPath("//div[@class='lookup-text']");
-        private static readonly By NextPage = By.XPath("//div[contains(@id, 'NextPage')]");
 
         // ── Date ────────────────────────────────────────────────────────────
         private static readonly By TxnDateDropdown = By.XPath("//td[contains(@id, '.TxnDate_B-1')]");
@@ -39,11 +38,22 @@ namespace Enfinity.ERP.Automation.Modules.Sales.Handlers
         private static readonly By SalesmanDropdown = By.XPath("//td[contains(@id, '.SalesmanIdLookup_B-1')]");
         private static readonly By SalesmanInput = By.XPath("//input[contains(@id, '.SalesmanIdLookup_I')]");
 
+        // ── Payment Method ────────────────────────────────────────────────────────
+        private static readonly By PaymentMethodDropdown = By.XPath("//td[contains(@id, '.PaymentMethodIdLookup_B-1')]");
+        private static readonly By PaymentMethodInput = By.XPath("//input[contains(@id, '.PaymentMethodIdLookup_I')]");
+
+        // ── Payment Term ────────────────────────────────────────────────────────
+        private static readonly By PaymentTermDropdown = By.XPath("//td[contains(@id, '.PaymentTermIdLookup_B-1')]");
+        private static readonly By PaymentTermInput = By.XPath("//input[contains(@id, '.PaymentTermIdLookup_I')]");
+
         // ── Reference No ────────────────────────────────────────────────────
-        private static readonly By ReferenceNoInput = By.XPath("//input[contains(@id, '.ReferenceNum_I')]");
+        private static readonly By ReferenceNumInput = By.XPath("//input[contains(@id, '.ReferenceNum_I')]");
+        private static readonly By CustomerPONumInput = By.XPath("//input[contains(@id, '.CustomerPONum_I')]");
+        private static readonly By DisplayNameInput = By.XPath("//input[contains(@id, '.DisplayCustomerName_I')]");
+        private static readonly By MobileNumInput = By.XPath("//input[contains(@id, '.MobileNum_I')]");
 
         // ── Constructor ─────────────────────────────────────────────────────
-        public HeaderHandlers(IWebDriver driver, WaitHelper wait)
+        public HeaderHandler(IWebDriver driver, WaitHelper wait)
             : base(driver, wait) { }
 
         // ── Public Entry Point ──────────────────────────────────────────────
@@ -51,12 +61,16 @@ namespace Enfinity.ERP.Automation.Modules.Sales.Handlers
         {
             FillInvoiceDate(header.InvoiceDate);
             FillCustomer(header.Customer);
-            FillReferenceNo(header.ReferenceNo);
             FillCurrency(header.Currency);
-            //FillPriceList(header.PriceList);
+            FillPriceList(header.PriceList);
             FillWarehouse(header.Warehouse);
             FillSalesman(header.Salesman);
-
+            FillReferenceNum(header.ReferenceNum);
+            FillCustomerPONum(header.CustomerPONum);
+            FillDisplayName(header.DisplayName);
+            FillMobileNum(header.MobileNum);
+            FillPaymentMethod(header.PaymentMethod);
+            FillPaymentTerm(header.PaymentTerm);
             WaitForLoader();
         }
 
@@ -64,10 +78,14 @@ namespace Enfinity.ERP.Automation.Modules.Sales.Handlers
         private void SelectFromLookup(By dropdown, By input, string? value)
         {
             if (string.IsNullOrWhiteSpace(value)) return;
-                
+
             OpenDropdown(dropdown);
+
             Type(input, value);
+            WaitForLoader();
+
             var nextPage = GetNextPageLocator(input);
+
             SelectOption(LookupText, nextPage, value);
         }
 
@@ -109,7 +127,6 @@ namespace Enfinity.ERP.Automation.Modules.Sales.Handlers
             if (string.IsNullOrWhiteSpace(date)) return;
 
             OpenDropdown(TxnDateDropdown);
-            //Type(TxnDateInput, date);
             ClearAndType(TxnDateInput, date);
         }
 
@@ -118,12 +135,32 @@ namespace Enfinity.ERP.Automation.Modules.Sales.Handlers
             SelectFromLookup(CustomerDropdown, CustomerInput, customer);
         }
 
-        private void FillReferenceNo(string? referenceNo)
+        private void FillReferenceNum(string? referenceNo)
         {
             if (string.IsNullOrWhiteSpace(referenceNo)) return;
 
-            //ClearAndType(ReferenceNoInput, referenceNo);
-            Type(ReferenceNoInput, referenceNo);
+            Type(ReferenceNumInput, referenceNo);
+        }
+
+        private void FillCustomerPONum(string? customerPONo)
+        {
+            if (string.IsNullOrWhiteSpace(customerPONo)) return;
+
+            Type(CustomerPONumInput, customerPONo);
+        }
+
+        private void FillDisplayName(string? displayName)
+        {
+            if (string.IsNullOrWhiteSpace(displayName)) return;
+
+            Type(DisplayNameInput, displayName);
+        }
+
+        private void FillMobileNum(string? mobileNumber)
+        {
+            if (string.IsNullOrWhiteSpace(mobileNumber)) return;
+
+            Type(MobileNumInput, mobileNumber);
         }
 
         private void FillCurrency(string? currency)
@@ -136,14 +173,24 @@ namespace Enfinity.ERP.Automation.Modules.Sales.Handlers
             SelectFromLookup(PriceListDropdown, PriceListInput, priceList);
         }
 
-        private void FillWarehouse(string? location)
+        private void FillWarehouse(string? warehouse)
         {
-             SelectFromLookup(WarehouseDropdown, WarehouseInput, location);
+            SelectFromLookup(WarehouseDropdown, WarehouseInput, warehouse);
         }
 
         private void FillSalesman(string? salesPerson)
         {
             SelectFromLookup(SalesmanDropdown, SalesmanInput, salesPerson);
+        }
+
+        private void FillPaymentMethod(string? paymentMethod)
+        {
+            SelectFromLookup(PaymentMethodDropdown, PaymentMethodInput, paymentMethod);
+        }
+
+        private void FillPaymentTerm(string? paymentTerm)
+        {
+            SelectFromLookup(PaymentTermDropdown, PaymentTermInput, paymentTerm);
         }
     }
 }

@@ -183,7 +183,7 @@ public class SalesInvoiceTests : BaseTest
         var data = SalesInvoiceBuilder
             .New()
             .WithCustomer("C0008 | Anabia Reza")
-            .WithReferenceNo("Smoke Test")
+            .WithReferenceNum("Smoke Test")
             .WithWarehouse("Grand Prime House")
             .AddLine(
                 itemCode: "I0001 | Screen Protectors",
@@ -208,8 +208,8 @@ public class SalesInvoiceTests : BaseTest
     {
         var data = SalesInvoiceBuilder
             .New()
-            .WithCustomer("Test Customer 01")
-            .WithWarehouse("Main Warehouse")
+            .WithCustomer("C0008 | Anabia Reza")
+            .WithWarehouse("Grand Prime House")
             .AddLine(
                 itemCode: "ITEM-001",
                 qty: 2,

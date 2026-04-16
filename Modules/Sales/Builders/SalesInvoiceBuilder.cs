@@ -78,13 +78,6 @@ public class SalesInvoiceBuilder
         return this;
     }
 
-    /// <summary>Override the due date.</summary>
-    public SalesInvoiceBuilder WithDueDate(string date)
-    {
-        _model.Header.DueDate = date;
-        return this;
-    }
-
     /// <summary>Override the currency.</summary>
     public SalesInvoiceBuilder WithCurrency(string currency)
     {
@@ -100,9 +93,16 @@ public class SalesInvoiceBuilder
     }
 
     /// <summary>Override the reference number.</summary>
-    public SalesInvoiceBuilder WithReferenceNo(string referenceNo)
+    public SalesInvoiceBuilder WithReferenceNum(string referenceNo)
     {
-        _model.Header.ReferenceNo = referenceNo;
+        _model.Header.ReferenceNum = referenceNo;
+        return this;
+    }
+
+    /// <summary>Override the customer PO number.</summary>
+    public SalesInvoiceBuilder WithCustomerPONum(string customerPONum)
+    {
+        _model.Header.CustomerPONum = customerPONum;
         return this;
     }
 

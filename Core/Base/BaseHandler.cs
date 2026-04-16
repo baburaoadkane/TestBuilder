@@ -94,7 +94,8 @@ public abstract class BaseHandler
 
         element.Clear();
         element.SendKeys(value);
-        Wait.WaitForSeconds(1);
+        //Wait.WaitForSeconds(1);
+        Wait.UntilValuePresent(locator, value);
     }    
     protected void ClearAndType(By locator, string? value)
     {

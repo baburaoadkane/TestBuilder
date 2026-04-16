@@ -107,7 +107,7 @@ public abstract class BaseExecutor<TDataModel> where TDataModel : class
     /// Click the Save button and wait for the success confirmation.
     /// Override if your ERP uses a different save button locator.
     /// </summary>
-    protected virtual void FormSave()
+    protected virtual void SaveForm()
     {
         Report.Info("Saving document...");
 

@@ -29,7 +29,7 @@ namespace Enfinity.ERP.Automation.Modules.Sales.Executors;
 public class SalesInvoiceExecutor : BaseExecutor<SalesInvoiceDM>
 {
     // ── Handlers ───────────────────────────────────────────────────────────
-    private readonly HeaderHandlers _headerHandler;
+    private readonly HeaderHandler _headerHandler;
     private readonly LinesHandler _linesHandler;
     private readonly ChargesHandler _chargesHandler;
     private readonly PaymentsHandler _paymentsHandler;
@@ -52,7 +52,7 @@ public class SalesInvoiceExecutor : BaseExecutor<SalesInvoiceDM>
         : base(driver, wait, report)
     {
         // Initialize all handlers
-        _headerHandler = new HeaderHandlers(driver, wait);
+        _headerHandler = new HeaderHandler(driver, wait);
         _linesHandler = new LinesHandler(driver, wait);
         _chargesHandler = new ChargesHandler(driver, wait);
         _paymentsHandler = new PaymentsHandler(driver, wait);
@@ -82,8 +82,8 @@ public class SalesInvoiceExecutor : BaseExecutor<SalesInvoiceDM>
         switch (scenarioType)
         {
             case "CREATE":
-                //NavigateToModule("Sales");
-                //NavigateToListing("Invoice ");
+                NavigateToModule("Sales");
+                NavigateToListing("Invoice");
                 ExecuteCreate(data);
                 break;
 
@@ -118,13 +118,13 @@ public class SalesInvoiceExecutor : BaseExecutor<SalesInvoiceDM>
     private void ExecuteCreate(SalesInvoiceDM data)
     {
         Report.Info("Step 1: Navigate to New Sales Invoice");
-        NavigateToModule("Sales");
-        NavigateToListing("Invoice");
+        //NavigateToModule("Sales");
+        //NavigateToListing("Invoice");
         OpenFormMode("New");
 
         Report.Info("Step 2: Fill Header");
         _headerHandler.Fill(data.Header);
-        FormSave();
+        SaveForm();
 
         Report.Info("Step 3: Fill Lines");
         _linesHandler.Fill(data.Lines);
@@ -139,7 +139,7 @@ public class SalesInvoiceExecutor : BaseExecutor<SalesInvoiceDM>
         _othersHandler.Fill(data.Others);
 
         Report.Info("Step 7: Save document");
-        FormSave();
+        SaveForm();
 
         Report.Info("Step 8: Validate");
         ValidateAfterSave(data);
@@ -221,7 +221,7 @@ public class SalesInvoiceExecutor : BaseExecutor<SalesInvoiceDM>
         _othersHandler.Fill(data.Others);
 
         Report.Info("Step 7: Save updated document");
-        FormSave();
+        SaveForm();
 
         Report.Info("Step 8: Validate updated values");
         ValidateAfterSave(data);

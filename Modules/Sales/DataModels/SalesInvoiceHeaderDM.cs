@@ -7,18 +7,21 @@
 /// </summary>
 public class SalesInvoiceHeaderDM
 {
-    // ── Customer ───────────────────────────────────────────────────────────
-
-    /// <summary>Customer name or code — typed into autocomplete field.</summary>
-    public string? Customer { get; set; }
-
-    // ── Dates ──────────────────────────────────────────────────────────────
+    // ── Date ──────────────────────────────────────────────────────────────
 
     /// <summary>Invoice date. Format: dd-MM-yyyy</summary>
     public string? InvoiceDate { get; set; }
 
-    /// <summary>Payment due date. Format: dd-MM-yyyy</summary>
-    public string? DueDate { get; set; }
+    // ── CustomerInfo ───────────────────────────────────────────────────────────
+
+    /// <summary>Customer name or code — typed into autocomplete field.</summary>
+    public string? Customer { get; set; }
+
+    /// <summary>Customer display name — typed into field.</summary>
+    public string? DisplayName { get; set; }
+
+    /// <summary>Customer Mobile number — typed into field.</summary>
+    public string? MobileNum { get; set; }
 
     // ── Financial ─────────────────────────────────────────────────────────
 
@@ -29,9 +32,15 @@ public class SalesInvoiceHeaderDM
     public string? PriceList { get; set; }
 
     /// <summary>Payment terms. Example: "Net 30", "Immediate"</summary>
-    public string? PaymentTerms { get; set; }
+    public string? PaymentTerm { get; set; }
 
-    // ── Location ──────────────────────────────────────────────────────────
+    /// <summary>Payment method. Example: "Credit", "Cash", "Bank"</summary>
+    public string? PaymentMethod { get; set; }
+
+    /// <summary>Financial dimension. Example: "Cost Center", "Department"</summary>
+    public string? FinancialDimension { get; set; }
+
+    // ── Warehouse ──────────────────────────────────────────────────────────
 
     /// <summary>Warehouse or location the invoice is raised from.</summary>
     public string? Warehouse { get; set; }
@@ -41,6 +50,9 @@ public class SalesInvoiceHeaderDM
     /// <summary>Sales person assigned to this invoice.</summary>
     public string? Salesman { get; set; }
 
-    /// <summary>External reference number (e.g. customer PO number).</summary>
-    public string? ReferenceNo { get; set; }
+    /// <summary>External reference number.</summary>
+    public string? ReferenceNum { get; set; }
+
+    /// <summary>Customer purchase order number.</summary>
+    public string? CustomerPONum { get; set; }
 }
