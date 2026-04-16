@@ -31,14 +31,10 @@ public class LinesHandler : BaseHandler
 {
     // ── Section-level locators ─────────────────────────────────────────────
 
+    private static readonly By DeleteLineButton = By.XPath("//div[@class='dx-button-content' and .//span[text()='Delete Line']]");
+
     /// <summary>Button to add a new line row. TODO: verify exact button text/id.</summary>
-    private static readonly By AddLineButton = By.XPath(
-        "//button[normalize-space()='Add Line'] | " +
-        "//button[normalize-space()='Add Item'] | " +
-        "//a[normalize-space()='Add Line']     | " +
-        "//button[contains(@id,'addLine')]     | " +
-        "//button[contains(@class,'add-line')]"
-    );
+    private static readonly By AddLineButton = By.XPath("//div[@class='dx-button-content' and .//span[text()='New Line']]");
 
     // ── Constructor ────────────────────────────────────────────────────────
     public LinesHandler(IWebDriver driver, WaitHelper wait)
@@ -56,6 +52,7 @@ public class LinesHandler : BaseHandler
 
         for (int i = 0; i < lines.Count; i++)
         {
+            DeleteLine();
             AddNewLine(i);
             FillLine(i, lines[i]);
             WaitForLoader(); // Wait for line total to recalculate after each row
@@ -63,6 +60,11 @@ public class LinesHandler : BaseHandler
     }
 
     // ── Private methods ────────────────────────────────────────────────────
+    private void DeleteLine()
+    {
+        Click(DeleteLineButton);
+        Wait.WaitForSeconds(1);
+    }
 
     /// <summary>
     /// Click "Add Line" to create a new empty row.
@@ -72,20 +74,20 @@ public class LinesHandler : BaseHandler
     {
         // First line row often pre-exists in ASP.NET forms
         // Only click Add Line for subsequent rows
-        if (lineIndex == 0)
-        {
-            bool firstRowExists = IsVisible(GetLineLocator(0, "ItemCode"));
-            if (firstRowExists) return;
-        }
+        //if (lineIndex == 0)
+        //{
+        //    bool firstRowExists = IsVisible(GetLineLocator(0, "ItemCode"));
+        //    if (firstRowExists) return;
+        //}
 
         Click(AddLineButton);
-
+        Wait.WaitForSeconds(1);
         // Wait for the new row's item field to be visible
-        Wait.Until(driver =>
-        {
-            var elements = driver.FindElements(GetLineLocator(lineIndex, "ItemCode"));
-            return elements.Count > 0 && elements[0].Displayed;
-        }, timeoutSeconds: 10);
+        //Wait.Until(driver =>
+        //{
+        //    var elements = driver.FindElements(GetLineLocator(lineIndex, "ItemCode"));
+        //    return elements.Count > 0 && elements[0].Displayed;
+        //}, timeoutSeconds: 10);
     }
 
     /// <summary>Fill all fields for a single line row at the given index.</summary>

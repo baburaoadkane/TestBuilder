@@ -29,7 +29,8 @@ namespace Enfinity.ERP.Automation.Modules.Sales.Executors;
 public class SalesInvoiceExecutor : BaseExecutor<SalesInvoiceDM>
 {
     // ── Handlers ───────────────────────────────────────────────────────────
-    private readonly HeaderHandler _headerHandler;
+    //private readonly HeaderHandler _headerHandler;
+    private readonly HeaderHandlers _headerHandler;
     private readonly LinesHandler _linesHandler;
     private readonly ChargesHandler _chargesHandler;
     private readonly PaymentsHandler _paymentsHandler;
@@ -52,7 +53,8 @@ public class SalesInvoiceExecutor : BaseExecutor<SalesInvoiceDM>
         : base(driver, wait, report)
     {
         // Initialize all handlers
-        _headerHandler = new HeaderHandler(driver, wait);
+        //_headerHandler = new HeaderHandler(driver, wait);
+        _headerHandler = new HeaderHandlers(driver, wait);
         _linesHandler = new LinesHandler(driver, wait);
         _chargesHandler = new ChargesHandler(driver, wait);
         _paymentsHandler = new PaymentsHandler(driver, wait);
@@ -117,9 +119,7 @@ public class SalesInvoiceExecutor : BaseExecutor<SalesInvoiceDM>
     /// </summary>
     private void ExecuteCreate(SalesInvoiceDM data)
     {
-        Report.Info("Step 1: Navigate to New Sales Invoice");
-        //NavigateToModule("Sales");
-        //NavigateToListing("Invoice");
+        Report.Info("Step 1: Navigate to New Sales Invoice");        
         OpenFormMode("New");
 
         Report.Info("Step 2: Fill Header");

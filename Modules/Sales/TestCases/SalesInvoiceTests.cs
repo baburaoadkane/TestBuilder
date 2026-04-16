@@ -183,8 +183,8 @@ public class SalesInvoiceTests : BaseTest
         var data = SalesInvoiceBuilder
             .New()
             .WithCustomer("C0008 | Anabia Reza")
-            .WithReferenceNum("Smoke Test")
             .WithWarehouse("Grand Prime House")
+            .WithReferenceNum("Smoke Test")
             .AddLine(
                 itemCode: "I0001 | Screen Protectors",
                 qty: 1,

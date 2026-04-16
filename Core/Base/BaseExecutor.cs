@@ -82,6 +82,7 @@ public abstract class BaseExecutor<TDataModel> where TDataModel : class
 
         Wait.UntilClickable(formState, 5).Click();
         WaitForLoader();
+        Wait.WaitForSeconds(2);
     }
 
     /// <summary>

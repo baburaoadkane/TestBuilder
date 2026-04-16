@@ -64,17 +64,17 @@ public class SalesInvoiceBuilder
 
     // ── Header overrides ───────────────────────────────────────────────────
 
-    /// <summary>Override the customer — useful for running same JSON with different customers.</summary>
-    public SalesInvoiceBuilder WithCustomer(string customer)
-    {
-        _model.Header.Customer = customer;
-        return this;
-    }
-
     /// <summary>Override the invoice date.</summary>
     public SalesInvoiceBuilder WithInvoiceDate(string date)
     {
         _model.Header.InvoiceDate = date;
+        return this;
+    }
+
+    /// <summary>Override the customer.</summary>
+    public SalesInvoiceBuilder WithCustomer(string customer)
+    {
+        _model.Header.Customer = customer;
         return this;
     }
 
@@ -85,12 +85,33 @@ public class SalesInvoiceBuilder
         return this;
     }
 
-    /// <summary>Override the location/warehouse.</summary>
-    public SalesInvoiceBuilder WithWarehouse(string location)
+    /// <summary>Override the payment term.</summary>
+    public SalesInvoiceBuilder WithPriceList(string priceList)
     {
-        _model.Header.Warehouse = location;
+        _model.Header.PriceList = priceList;
         return this;
     }
+
+    /// <summary>Override the location/warehouse.</summary>
+    public SalesInvoiceBuilder WithWarehouse(string warehouse)
+    {
+        _model.Header.Warehouse = warehouse;
+        return this;
+    }
+
+    /// <summary>Override the salesman.</summary>
+    public SalesInvoiceBuilder WithSalesman(string salesman)
+    {
+        _model.Header.Salesman = salesman;
+        return this;
+    }
+
+    /// <summary>Override the payment method.</summary>
+    public SalesInvoiceBuilder WithPaymentMethod(string paymentMethod)
+    {
+        _model.Header.PaymentMethod = paymentMethod;
+        return this;
+    }    
 
     /// <summary>Override the reference number.</summary>
     public SalesInvoiceBuilder WithReferenceNum(string referenceNo)
@@ -103,6 +124,13 @@ public class SalesInvoiceBuilder
     public SalesInvoiceBuilder WithCustomerPONum(string customerPONum)
     {
         _model.Header.CustomerPONum = customerPONum;
+        return this;
+    }
+
+    /// <summary>Override the customer mobile number.</summary>
+    public SalesInvoiceBuilder WithCustomerMobileNum(string customerMobileNum)
+    {
+        _model.Header.MobileNum = customerMobileNum;
         return this;
     }
 
