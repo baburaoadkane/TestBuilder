@@ -14,9 +14,12 @@ public class PaymentEntryDM
 {
     /// <summary>Payment mode. Example: "Cash", "Bank Transfer", "Cheque"</summary>
     public string? PaymentMode { get; set; }
+    public string? Currency { get; set; }
+    public string? CardNum { get; set; }
 
     /// <summary>Payment amount to apply against this invoice.</summary>
-    public decimal Amount { get; set; }
+    public decimal AmountFC { get; set; }
+    public decimal AmountLC { get; set; }
 
     /// <summary>Payment reference number or transaction ID.</summary>
     public string? ReferenceNo { get; set; }

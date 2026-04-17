@@ -102,7 +102,7 @@ public class ChargesHandler : BaseHandler
     private void FillCharge(int index, ChargeDM charge)
     {
         FillChargeType(index, charge.ChargeType);
-        FillChargeAmount(index, charge.Amount);
+        FillChargeAmount(index, charge.AmountFC);
         FillChargeTaxType(index, charge.TaxType);
         FillChargeTaxable(index, charge.IsTaxable);
     }

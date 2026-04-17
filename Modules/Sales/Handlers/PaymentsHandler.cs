@@ -101,7 +101,7 @@ public class PaymentsHandler : BaseHandler
     private void FillPayment(int index, PaymentEntryDM payment)
     {
         FillPaymentMode(index, payment.PaymentMode);
-        FillPaymentAmount(index, payment.Amount);
+        FillPaymentAmount(index, payment.AmountFC);
         FillPaymentReference(index, payment.ReferenceNo);
         FillPaymentDate(index, payment.PaymentDate);
         FillPaymentAccount(index, payment.Account);

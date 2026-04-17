@@ -8,19 +8,26 @@ public class SalesInvoiceLineDM
 {
     // ── Item ──────────────────────────────────────────────────────────────
 
+    /// <summary>Item Barcode — scanned or typed into barcode field./// </summary>
+    public string? Barcode { get; set; }
     /// <summary>Item code — typed into item search field.</summary>
-    public string? ItemCode { get; set; }
+    public string? Item { get; set; }
 
     /// <summary>Item name — used for verification / fallback search.</summary>
     public string? ItemName { get; set; }
 
-    // ── Quantity ──────────────────────────────────────────────────────────
+    public string? Description { get; set; }
+    public string? Warehouse { get; set; }
+    public string? Color { get; set; }
+    public string? Size { get; set; }
 
-    /// <summary>Quantity to invoice.</summary>
-    public decimal Quantity { get; set; }
+    // ── Quantity ──────────────────────────────────────────────────────────
 
     /// <summary>Unit of measure. Example: Nos, Kg, Box, Ltr</summary>
     public string? UOM { get; set; }
+
+    /// <summary>Quantity to invoice.</summary>
+    public decimal Quantity { get; set; }
 
     // ── Pricing ───────────────────────────────────────────────────────────
 
@@ -28,7 +35,9 @@ public class SalesInvoiceLineDM
     public decimal UnitPrice { get; set; }
 
     /// <summary>Discount percentage on this line. Example: 10 for 10%</summary>
-    public decimal DiscountPercent { get; set; }
+    public decimal DiscountInPercent { get; set; }
+
+    public string? DiscountValue { get; set; }
 
     // ── Tax ───────────────────────────────────────────────────────────────
 
@@ -42,6 +51,9 @@ public class SalesInvoiceLineDM
     /// <summary>Tax rate percentage. Example: 18 for 18%</summary>
     public decimal TaxPercent { get; set; }
 
+    // ── Additional Fields ─────────────────────────────────────────────────
+    public string? BonusQty { get; set; }
+    public string? Remarks { get; set; }
     // ── Computed (Expected) ───────────────────────────────────────────────
 
     /// <summary>

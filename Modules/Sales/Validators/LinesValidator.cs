@@ -60,7 +60,7 @@ public class LinesValidator : BaseValidator
             AssertAmountEqual(
                 expected: line.ExpectedLineTotal,
                 actual: actualTotal,
-                fieldName: $"Line {i + 1} Total ({line.ItemCode})"
+                fieldName: $"Line {i + 1} Total ({line.Item})"
             );
         }
     }

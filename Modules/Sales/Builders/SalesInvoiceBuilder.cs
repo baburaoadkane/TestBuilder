@@ -141,25 +141,25 @@ public class SalesInvoiceBuilder
     /// Calculates ExpectedLineTotal automatically.
     /// </summary>
     public SalesInvoiceBuilder AddLine(
-        string itemCode,
+        string barcode,
+        string item,
         decimal qty,
         decimal price,
         string taxType = "Tax Exempt",
         decimal taxPercent = 0,
         decimal discount = 0,
-        string uom = "Nos",
-        string? itemName = null)
+        string uom = "Nos")
     {
         decimal lineTotal = qty * price * (1 - discount / 100);
 
         _model.Lines.Add(new SalesInvoiceLineDM
         {
-            ItemCode = itemCode,
-            ItemName = itemName ?? itemCode,
+            Barcode = barcode,
+            Item = item,
             Quantity = qty,
             UOM = uom,
             UnitPrice = price,
-            DiscountPercent = discount,
+            DiscountInPercent = discount,
             TaxType = taxType,
             TaxPercent = taxPercent,
             ExpectedLineTotal = Math.Round(lineTotal, 2)
@@ -187,7 +187,7 @@ public class SalesInvoiceBuilder
         _model.Charges.Items.Add(new ChargeDM
         {
             ChargeType = chargeType,
-            Amount = amount,
+            AmountFC = amount,
             TaxType = taxType,
             IsTaxable = isTaxable
         });
@@ -208,7 +208,7 @@ public class SalesInvoiceBuilder
         _model.Payments.Entries.Add(new PaymentEntryDM
         {
             PaymentMode = paymentMode,
-            Amount = amount,
+            AmountFC = amount,
             ReferenceNo = referenceNo,
             PaymentDate = paymentDate,
             Account = account

@@ -55,4 +55,14 @@ public class SalesInvoiceHeaderDM
 
     /// <summary>Customer purchase order number.</summary>
     public string? CustomerPONum { get; set; }
+
+    /// <summary>Discount applied in percent.</summary>
+    public decimal DiscountInPercent { get; set; }
+
+    /// <summary>Discount applied in absolute value.</summary>
+    public decimal DiscountValue { get; set; }
+    /// <summary>Gets or sets the gross total amount before any deductions or taxes are applied.</summary>
+    public decimal GrossTotal { get; set; }
+    /// <summary>Gets or sets the net total amount after all deductions and additions are applied.</summary>
+    public decimal NetTotal { get; set; }
 }

@@ -8,6 +8,14 @@ public class SalesInvoiceOthersDM
 {
     /// <summary>Customer-facing remarks printed on the invoice.</summary>
     public string? Remarks { get; set; }
+    public string? Description { get; set; }
+    public string? ChequeNum { get; set; }
+    public string? PaymentTerm { get; set; }
+    public string? BillingAddress { get; set; }
+    public string? ShippingAddress { get; set; }
+    public string? ContactPersonName { get; set; }
+    public string? ContactPersonMobile { get; set; }
+    public string? ContactPersonEmail { get; set; }
 
     /// <summary>Internal notes visible only to staff.</summary>
     public string? InternalNotes { get; set; }

@@ -186,7 +186,8 @@ public class SalesInvoiceTests : BaseTest
             .WithWarehouse("Grand Prime House")
             .WithReferenceNum("Smoke Test")
             .AddLine(
-                itemCode: "I0001 | Screen Protectors",
+                barcode: "",
+                item: "I0001 | Screen Protectors",
                 qty: 1,
                 price: 1000
             )
@@ -211,7 +212,8 @@ public class SalesInvoiceTests : BaseTest
             .WithCustomer("C0008 | Anabia Reza")
             .WithWarehouse("Grand Prime House")
             .AddLine(
-                itemCode: "ITEM-001",
+                barcode: "I0001",
+                item: "ITEM-001",
                 qty: 2,
                 price: 500,
                 taxType: "GST 18%",
@@ -234,7 +236,7 @@ public class SalesInvoiceTests : BaseTest
         var data = SalesInvoiceBuilder
             .New()
             .AsScenario("Negative")
-            .AddLine("ITEM-001", qty: 1, price: 100)
+            .AddLine("","ITEM-001", qty: 1, price: 100)
             .Build();
 
         // Manually set expected error for programmatic test

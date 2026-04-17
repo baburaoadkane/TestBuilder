@@ -63,9 +63,11 @@ public abstract class BaseExecutor<TDataModel> where TDataModel : class
         By moduleText = By.XPath($"//a[contains(@class,'AppModuleButtonPopoverItem')][.//span[normalize-space()='{moduleName}']]");
 
         Wait.UntilClickable(appModule, 5).Click();
+        Wait.WaitForSeconds(1);
         WaitForLoader();
 
         Wait.UntilClickable(moduleText, 5).Click();
+        Wait.WaitForSeconds(1);
         WaitForLoader();
     }
 

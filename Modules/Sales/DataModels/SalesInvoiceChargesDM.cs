@@ -15,9 +15,14 @@ public class ChargeDM
 {
     /// <summary>Charge type / description. Example: "Freight", "Packing Charges"</summary>
     public string? ChargeType { get; set; }
+    public string? AccountType { get; set; }
+    public string? Account { get; set; }
+    public string? Currency { get; set; }
 
     /// <summary>Charge amount.</summary>
-    public decimal Amount { get; set; }
+    public decimal AmountFC { get; set; }
+    public decimal AmountLC { get; set; }
+    public string? Remarks { get; set; }
 
     /// <summary>Tax type applied on this charge. Example: "GST 18%"</summary>
     public string? TaxType { get; set; }

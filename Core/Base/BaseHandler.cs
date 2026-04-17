@@ -79,6 +79,11 @@ public abstract class BaseHandler
         _actions.DoubleClick(element).Perform();
     }
 
+    protected void PressEnter()
+    {
+        Driver.SwitchTo().ActiveElement().SendKeys(Keys.Enter);
+    }
+
     // ── Input Actions ──────────────────────────────────────────────────────
 
     /// <summary>
