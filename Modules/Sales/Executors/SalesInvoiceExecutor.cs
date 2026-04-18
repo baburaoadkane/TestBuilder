@@ -124,10 +124,11 @@ public class SalesInvoiceExecutor : BaseExecutor<SalesInvoiceDM>
 
         Report.Info("Step 2: Fill Header");
         _headerHandler.Fill(data.Header);
-        SaveForm();
+        ClickOnForm("Save");
 
         Report.Info("Step 3: Fill Lines");
         _linesHandler.Fill(data.Lines);
+        ClickOnForm("Save");
 
         Report.Info("Step 4: Fill Charges");
         _chargesHandler.Fill(data.Charges);
@@ -139,7 +140,7 @@ public class SalesInvoiceExecutor : BaseExecutor<SalesInvoiceDM>
         _othersHandler.Fill(data.Others);
 
         Report.Info("Step 7: Save document");
-        SaveForm();
+        ClickOnForm("Save");
 
         Report.Info("Step 8: Validate");
         ValidateAfterSave(data);
@@ -221,7 +222,7 @@ public class SalesInvoiceExecutor : BaseExecutor<SalesInvoiceDM>
         _othersHandler.Fill(data.Others);
 
         Report.Info("Step 7: Save updated document");
-        SaveForm();
+        ClickOnForm("Save");
 
         Report.Info("Step 8: Validate updated values");
         ValidateAfterSave(data);

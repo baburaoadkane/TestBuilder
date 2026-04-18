@@ -2,6 +2,7 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
+using TextCopy;
 
 namespace Enfinity.ERP.Automation.Core.Base;
 
@@ -101,7 +102,7 @@ public abstract class BaseHandler
         element.SendKeys(value);
         //Wait.WaitForSeconds(1);
         Wait.UntilValuePresent(locator, value);
-    }    
+    }
     protected void ClearAndType(By locator, string? value)
     {
         if (string.IsNullOrWhiteSpace(value)) return;
@@ -143,7 +144,29 @@ public abstract class BaseHandler
         SendKey(locator, Keys.ArrowDown);
         SendKey(locator, Keys.Enter);
     }
+    protected void SetClipboardValue(By locator, string value)
+    {
+        var element = Wait.UntilVisible(locator);
+        element.Click();
+        Wait.WaitForSeconds(1);
 
+        // Clear existing value
+        _actions.KeyDown(Keys.Control)
+               .SendKeys("a")
+               .KeyUp(Keys.Control)
+               .SendKeys(Keys.Delete)
+               .Perform();
+
+        // Set clipboard text 
+        ClipboardService.SetText(value);
+        string pasted = ClipboardService.GetText();
+
+        // Paste the value using Ctrl+V
+        _actions.KeyDown(Keys.Control)
+                .SendKeys("v")
+                .KeyUp(Keys.Control)
+                .Perform();
+    }
     /// <summary>Send a specific key to an element (Enter, Tab, Escape, etc.)</summary>
     protected void SendKey(By locator, string key)
     {
@@ -303,7 +326,7 @@ public abstract class BaseHandler
     // ── Dropdown/Lookup Actions ───────────────────────────────────────────────────
 
     protected void OpenDropdown(By locator)
-    { 
+    {
         Click(locator);
         Wait.WaitForSeconds(1);
     }
@@ -332,7 +355,7 @@ public abstract class BaseHandler
             {
                 throw new NoSuchElementException(
                     $"[Lookup] Option '{optionText}' not found.");
-            }     
+            }
             Click(nextButton);
             Wait.WaitForSeconds(1);
         }

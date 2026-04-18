@@ -110,17 +110,17 @@ public abstract class BaseExecutor<TDataModel> where TDataModel : class
     /// Click the Save button and wait for the success confirmation.
     /// Override if your ERP uses a different save button locator.
     /// </summary>
-    protected virtual void SaveForm()
+    protected virtual void ClickOnForm(string? buttonText = "Save")
     {
-        Report.Info("Saving document...");
+        Report.Info($"{buttonText} document...");
 
-        By saveButton = By.XPath($"//span[contains(@class, 'dx-vam') and text()='Save']");
+        By button = By.XPath($"//span[contains(@class, 'dx-vam') and text()='{buttonText}']");
 
-        Wait.UntilClickable(saveButton).Click();
+        Wait.UntilClickable(button).Click();
         WaitForLoader();
         WaitForSuccessToast();
 
-        Report.Info("Document saved successfully.");
+        Report.Info($"Document {buttonText} Successfully.");
     }
 
     /// <summary>

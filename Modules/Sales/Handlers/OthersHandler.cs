@@ -82,12 +82,7 @@ public class OthersHandler : BaseHandler
     /// </summary>
     private void FillRemarks(string? remarks)
     {
-        if (string.IsNullOrWhiteSpace(remarks)) return;
-
-        IWebElement el = Wait.UntilVisible(RemarksTextarea);
-        ScrollIntoView(el);
-        el.Clear();
-        el.SendKeys(remarks);
+        if (string.IsNullOrWhiteSpace(remarks)) return;        
     }
 
     /// <summary>

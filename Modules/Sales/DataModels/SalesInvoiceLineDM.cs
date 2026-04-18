@@ -14,30 +14,31 @@ public class SalesInvoiceLineDM
     public string? Item { get; set; }
 
     /// <summary>Item name — used for verification / fallback search.</summary>
-    public string? ItemName { get; set; }
-
     public string? Description { get; set; }
-    public string? Warehouse { get; set; }
+    
     public string? Color { get; set; }
     public string? Size { get; set; }
+    public string? Warehouse { get; set; }
 
     // ── Quantity ──────────────────────────────────────────────────────────
 
-    /// <summary>Unit of measure. Example: Nos, Kg, Box, Ltr</summary>
-    public string? UOM { get; set; }
-
     /// <summary>Quantity to invoice.</summary>
     public decimal Quantity { get; set; }
-
-    // ── Pricing ───────────────────────────────────────────────────────────
-
     /// <summary>Unit price per UOM.</summary>
     public decimal UnitPrice { get; set; }
+    public decimal GrossAmount { get; set; }
+    public decimal BonusQty { get; set; }
+
+    /// <summary>Unit of measure. Example: Nos, Kg, Box, Ltr</summary>
+    public string? UOM { get; set; }    
+
+    // ── Pricing ───────────────────────────────────────────────────────────
 
     /// <summary>Discount percentage on this line. Example: 10 for 10%</summary>
     public decimal DiscountInPercent { get; set; }
 
-    public string? DiscountValue { get; set; }
+    public decimal DiscountValue { get; set; }
+    public string? Remarks { get; set; }
 
     // ── Tax ───────────────────────────────────────────────────────────────
 
@@ -52,8 +53,8 @@ public class SalesInvoiceLineDM
     public decimal TaxPercent { get; set; }
 
     // ── Additional Fields ─────────────────────────────────────────────────
-    public string? BonusQty { get; set; }
-    public string? Remarks { get; set; }
+    
+    
     // ── Computed (Expected) ───────────────────────────────────────────────
 
     /// <summary>
