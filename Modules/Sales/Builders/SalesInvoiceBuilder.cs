@@ -145,11 +145,11 @@ public class SalesInvoiceBuilder
         string item,
         decimal qty = 1,
         decimal price = 0,
-        string warehouse = "Grand Prime House",
+        string warehouse = "",
         string taxType = "Tax Exempt",
         decimal taxPercent = 0,
         decimal discount = 0,
-        string uom = "Nos")
+        string uom = "")
     {
         decimal lineTotal = qty * price * (1 - discount / 100);
 

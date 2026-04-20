@@ -186,7 +186,7 @@ public class SalesInvoiceTests : BaseTest
             .WithWarehouse("Grand Prime House")
             .WithReferenceNum("Smoke Test")
             .AddLine(
-                barcode: "",
+                barcode: "I0001",
                 item: "I0001 | Screen Protectors",
                 warehouse: "Grand Second House"
             )
