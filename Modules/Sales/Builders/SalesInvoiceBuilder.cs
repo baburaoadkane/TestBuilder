@@ -148,10 +148,12 @@ public class SalesInvoiceBuilder
         string warehouse = "",
         string taxType = "Tax Exempt",
         decimal taxPercent = 0,
-        decimal discount = 0,
+        decimal discountInPercent = 0,
+        decimal discountValue = 0,
+        string remarks = "",
         string uom = "")
     {
-        decimal lineTotal = qty * price * (1 - discount / 100);
+        decimal lineTotal = (qty * price) - discountValue;
 
         _model.Lines.Add(new SalesInvoiceLineDM
         {
@@ -161,9 +163,11 @@ public class SalesInvoiceBuilder
             UOM = uom,
             UnitPrice = price,
             Warehouse = warehouse,
-            DiscountInPercent = discount,
+            DiscountInPercent = discountInPercent,
+            DiscountValue = discountValue,
             TaxType = taxType,
             TaxPercent = taxPercent,
+            Remarks = remarks,
             ExpectedLineTotal = Math.Round(lineTotal, 2)
         });
 

@@ -36,8 +36,14 @@ public class LinesHandlers : BaseHandler
     // ── Core Line Fill ────────────────────────────────────────────────────
     private void FillLine(SalesInvoiceLineDM line)
     {
-        Lookup("Barcode", line.Barcode);
-        LookupCell("Item", line.Item);
+        if (!string.IsNullOrWhiteSpace(line.Barcode))
+        {
+            Lookup("Barcode", line.Barcode);
+        }
+        else
+        {
+            LookupCell("Item", line.Item);
+        }
 
         SetCell("Description", line.Description);
         LookupCell("Color", line.Color);
@@ -49,7 +55,14 @@ public class LinesHandlers : BaseHandler
         SetCell("GrossAmount", line.GrossAmount);
         SetCell("BonusQty", line.BonusQty);
 
-        ClickExtraFields();
+        if (!string.IsNullOrWhiteSpace(line.UOM) ||
+            !string.IsNullOrWhiteSpace(line.Remarks) ||
+            line.DiscountInPercent > 0 ||
+            line.DiscountValue > 0
+            )
+        {
+            ClickToShowExtraFields();
+        }
 
         LookupCell("UOM", line.UOM);
         SetCell("DiscountPercent", line.DiscountInPercent);
@@ -62,12 +75,8 @@ public class LinesHandlers : BaseHandler
     {
         if (string.IsNullOrWhiteSpace(value)) return;
 
-        if (field == "Item")
-        {
-            PressEnter();
-        }
-
         var dropdown = GetDropdown(field);
+
         OpenDropdown(dropdown);
 
         var nextPage = NextPageLocator();
@@ -122,29 +131,13 @@ public class LinesHandlers : BaseHandler
         _ => throw new Exception($"Cell mapping not found for {field}")
     };
 
-    // ── 🔥 Dynamic Next Page Locator ──────────────────────────────────────
-    private By GetNextPageLocator(By dropdownLocator)
-    {
-        var element = Wait.UntilVisible(dropdownLocator);
-        string id = element.GetAttribute("id");
-
-        var parts = id.Split('_')[0]; // Example: SalesInvoice_ItemId
-
-        return By.XPath($"//div[contains(@id,'{parts}') and contains(@id,'NextPage')]");
-    }
-
+    // ── 🔥 Next Page Locator ──────────────────────────────────────    
     private By NextPageLocator()
     {
         return NextPageButton;
     }
 
     // ── Line Actions ──────────────────────────────────────────────────────
-    private void AddNewLine()
-    {
-        Click(AddLineButton);
-        Wait.WaitForSeconds(1);
-    }
-
     private void DeleteExistingLine()
     {
         if (IsVisible(DeleteLineButton))
@@ -153,13 +146,18 @@ public class LinesHandlers : BaseHandler
             Wait.WaitForSeconds(1);
         }
     }
+    private void AddNewLine()
+    {
+        Click(AddLineButton);
+        Wait.WaitForSeconds(1);
+    }
 
-    private void ClickExtraFields()
+    private void ClickToShowExtraFields()
     {
         Click(ExtraFieldButton);
         Wait.WaitForSeconds(1);
     }
-
+    // ── Reusable Validation ──────────────────────────────────────────────────────
     private bool IsValidValue(object value)
     {
         return value switch

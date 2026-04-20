@@ -188,7 +188,8 @@ public class SalesInvoiceTests : BaseTest
             .AddLine(
                 barcode: "I0001",
                 item: "I0001 | Screen Protectors",
-                warehouse: "Grand Second House"
+                warehouse: "Grand Second House",
+                discountInPercent: 10
             )
             .WithRemarks("Smoke test invoice")
             .AsScenario("Create")

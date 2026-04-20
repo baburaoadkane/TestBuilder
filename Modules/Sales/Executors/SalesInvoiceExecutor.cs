@@ -129,6 +129,7 @@ public class SalesInvoiceExecutor : BaseExecutor<SalesInvoiceDM>
         Report.Info("Step 3: Fill Lines");
         _linesHandler.Fill(data.Lines);
         ClickOnForm("Save");
+        ClickOnForm("View");
 
         Report.Info("Step 4: Fill Charges");
         _chargesHandler.Fill(data.Charges);
