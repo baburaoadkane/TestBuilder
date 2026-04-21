@@ -48,6 +48,7 @@ public abstract class BaseHandler
         var element = Wait.UntilClickable(locator);
         //ScrollIntoView(element);
         element.Click();
+        Wait.WaitForSeconds(1);
     }
 
     /// <summary>Click directly on a located element.</summary>

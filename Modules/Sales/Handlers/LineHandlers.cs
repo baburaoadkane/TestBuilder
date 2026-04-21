@@ -8,17 +8,14 @@ namespace Enfinity.ERP.Automation.Modules.Sales.Handlers;
 public class LineHandlers : BaseHandler
 {
     // ── Common ────────────────────────────────────────────────────────────
-    //private static readonly By LookupText = By.XPath("//div[@class='lookup-text']");
     private static readonly By LookupText = By.XPath("//div[contains(@class,'lookup-text')]");
     private static readonly By DeleteLineButton = By.XPath("//div[@class='dx-button-content' and .//span[text()='Delete Line']]");
     private static readonly By AddLineButton = By.Id("SalesInvoiceLineNewButton");
-    //private static readonly By NextPageButton = By.XPath("//img[@alt='Next']");
-    private static readonly By NextPageButton = By.XPath("//a[contains(@class,'dxp-button')]//img[@alt='Next']");
+    private static readonly By NextButton = By.XPath("//a[contains(@class,'dxp-button')]//img[@alt='Next']");
     private static readonly By ExtraFieldButton = By.XPath("//img[contains(@id, '_DXCBtn-1Img')]");
 
     // ── Constructor ───────────────────────────────────────────────────────
-    public LineHandlers(IWebDriver driver, WaitHelper wait)
-        : base(driver, wait) { }
+    public LineHandlers(IWebDriver driver, WaitHelper wait) : base(driver, wait) { }
 
     // ── Public Entry ──────────────────────────────────────────────────────
     public void Fill(List<SalesInvoiceLineDM> lines)
@@ -79,7 +76,9 @@ public class LineHandlers : BaseHandler
         var dropdown = GetDropdown(field);
         OpenDropdown(dropdown);
 
-        SelectOption(LookupText, NextPageButton, value);
+        WaitForLoader();
+
+        SelectOption(LookupText, NextButton, value);
     }
 
     // ── 🔥 Lookup inside Grid Cell ────────────────────────────────────────
@@ -93,7 +92,9 @@ public class LineHandlers : BaseHandler
         var dropdown = GetDropdown(field);
         OpenDropdown(dropdown);
 
-        SelectOption(LookupText, NextPageButton, value);
+        WaitForLoader();
+
+        SelectOption(LookupText, NextButton, value);
     }
 
     // ── 🔥 Dropdown Mapping ───────────────────────────────────────────────
@@ -128,14 +129,10 @@ public class LineHandlers : BaseHandler
         _ => throw new Exception($"Column mapping not found for {field}")
     };
 
-    // ── 🔥 Cell Locator (First Row Only) ──────────────────────────────────
+    // ── 🔥 Cell Locator ───────────────────────────────────────────────────
     private By GetCell(string field)
     {
         int colIndex = GetColIndex(field);
-
-        //return By.XPath(
-        //    $"(//div[@role='gridcell' and @aria-colindex='{colIndex}']"
-        //);
 
         return By.XPath($"(//div[@class='dxgBCTC dx-ellipsis'])[{colIndex}]");
     }
@@ -146,36 +143,20 @@ public class LineHandlers : BaseHandler
         if (IsVisible(DeleteLineButton))
         {
             Click(DeleteLineButton);
-            Wait.WaitForSeconds(1);
             WaitForLoader();
         }
     }
     private void AddNewLine()
     {
         Click(AddLineButton);
-        Wait.WaitForSeconds(1);
         WaitForLoader();
     }
 
     private void ClickToShowExtraFields()
     {
         Click(ExtraFieldButton);
-        Wait.WaitForSeconds(1);
         WaitForLoader();
-    }
-
-    // ── Validation ────────────────────────────────────────────────────────
-    private bool IsValidValue(object value)
-    {
-        return value switch
-        {
-            string s => !string.IsNullOrWhiteSpace(s),
-            decimal d => d > 0,
-            int i => i > 0,
-            double d => d > 0,
-            _ => true
-        };
-    }
+    }    
 
     // ── Set Cell Value ────────────────────────────────────────────────────
     private void SetCell(string field, object? value)
@@ -192,5 +173,18 @@ public class LineHandlers : BaseHandler
         var cell = GetCell(field);
 
         SetClipboardValue(cell, finalValue);
+    }
+
+    // ── Validation ────────────────────────────────────────────────────────
+    private bool IsValidValue(object value)
+    {
+        return value switch
+        {
+            string s => !string.IsNullOrWhiteSpace(s),
+            decimal d => d > 0,
+            int i => i > 0,
+            double d => d > 0,
+            _ => true
+        };
     }
 }
