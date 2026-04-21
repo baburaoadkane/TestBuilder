@@ -46,7 +46,7 @@ public abstract class BaseHandler
     protected void Click(By locator)
     {
         var element = Wait.UntilClickable(locator);
-        ScrollIntoView(element);
+        //ScrollIntoView(element);
         element.Click();
     }
 
@@ -100,7 +100,6 @@ public abstract class BaseHandler
 
         element.Clear();
         element.SendKeys(value);
-        //Wait.WaitForSeconds(1);
         Wait.UntilValuePresent(locator, value);
     }
     protected void ClearAndType(By locator, string? value)

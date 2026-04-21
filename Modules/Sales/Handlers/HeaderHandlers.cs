@@ -63,10 +63,7 @@ namespace Enfinity.ERP.Automation.Modules.Sales.Handlers
 
             var (dropdown, input, nextPage) = BuildLookupLocators(fieldKey);
 
-            OpenDropdown(dropdown);
-
-            //Type(input, value);
-            //WaitForLoader();
+            OpenDropdown(dropdown);            
 
             SelectOption(LookupText, nextPage, value);
         }

@@ -31,7 +31,7 @@ public class SalesInvoiceExecutor : BaseExecutor<SalesInvoiceDM>
     // ── Handlers ───────────────────────────────────────────────────────────
     //private readonly HeaderHandler _headerHandler;
     private readonly HeaderHandlers _headerHandler;
-    private readonly LinesHandlers _linesHandler;
+    private readonly LineHandlers _linesHandler;
     private readonly ChargesHandler _chargesHandler;
     private readonly PaymentsHandler _paymentsHandler;
     private readonly OthersHandler _othersHandler;
@@ -55,7 +55,7 @@ public class SalesInvoiceExecutor : BaseExecutor<SalesInvoiceDM>
         // Initialize all handlers
         //_headerHandler = new HeaderHandler(driver, wait);
         _headerHandler = new HeaderHandlers(driver, wait);
-        _linesHandler = new LinesHandlers(driver, wait);
+        _linesHandler = new LineHandlers(driver, wait);
         _chargesHandler = new ChargesHandler(driver, wait);
         _paymentsHandler = new PaymentsHandler(driver, wait);
         _othersHandler = new OthersHandler(driver, wait);
@@ -128,8 +128,6 @@ public class SalesInvoiceExecutor : BaseExecutor<SalesInvoiceDM>
 
         Report.Info("Step 3: Fill Lines");
         _linesHandler.Fill(data.Lines);
-        ClickOnForm("Save");
-        ClickOnForm("View");
 
         Report.Info("Step 4: Fill Charges");
         _chargesHandler.Fill(data.Charges);
@@ -141,7 +139,8 @@ public class SalesInvoiceExecutor : BaseExecutor<SalesInvoiceDM>
         _othersHandler.Fill(data.Others);
 
         Report.Info("Step 7: Save document");
-        ClickOnForm("Save");
+        //ClickOnForm("Save");
+        ClickOnForm("View");
 
         Report.Info("Step 8: Validate");
         ValidateAfterSave(data);

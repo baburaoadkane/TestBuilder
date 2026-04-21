@@ -8,10 +8,12 @@ namespace Enfinity.ERP.Automation.Modules.Sales.Handlers;
 public class LinesHandlers : BaseHandler
 {
     // ── Common ────────────────────────────────────────────────────────────
-    private static readonly By LookupText = By.XPath("//div[@class='lookup-text']");
+    //private static readonly By LookupText = By.XPath("//div[@class='lookup-text']");
+    private static readonly By LookupText = By.XPath("//div[contains(@class,'lookup-text')]");
     private static readonly By DeleteLineButton = By.XPath("//div[@class='dx-button-content' and .//span[text()='Delete Line']]");
     private static readonly By AddLineButton = By.XPath("//div[@class='dx-button-content' and .//span[text()='New Line']]");
-    private static readonly By NextPageButton = By.XPath("//img[@alt='Next']");
+    //private static readonly By NextPageButton = By.XPath("//img[@alt='Next']");
+    private static readonly By NextPageButton = By.XPath("//a[contains(@class,'dxp-button')]//img[@alt='Next']");
     private static readonly By ExtraFieldButton = By.XPath("//img[contains(@id, '_DXCBtn-1Img')]");
 
     // ── Constructor ───────────────────────────────────────────────────────
@@ -114,7 +116,6 @@ public class LinesHandlers : BaseHandler
 
     private By GetCell(string field) => field switch
     {
-        "Barcode" => By.XPath("(//div[@class='dxgBCTC dx-ellipsis'])[1]"),
         "Item" => By.XPath("(//div[@class='dxgBCTC dx-ellipsis'])[2]"),
         "Description" => By.XPath("(//div[@class='dxgBCTC dx-ellipsis'])[3]"),
         "Size" => By.XPath("(//div[@class='dxgBCTC dx-ellipsis'])[4]"),
@@ -143,19 +144,22 @@ public class LinesHandlers : BaseHandler
         if (IsVisible(DeleteLineButton))
         {
             Click(DeleteLineButton);
-            Wait.WaitForSeconds(1);
+            //Wait.WaitForSeconds(1);
+            WaitForLoader();
         }
     }
     private void AddNewLine()
     {
         Click(AddLineButton);
-        Wait.WaitForSeconds(1);
+        //Wait.WaitForSeconds(1);
+        WaitForLoader();
     }
 
     private void ClickToShowExtraFields()
     {
         Click(ExtraFieldButton);
-        Wait.WaitForSeconds(1);
+        //Wait.WaitForSeconds(1);
+        WaitForLoader();
     }
     // ── Reusable Validation ──────────────────────────────────────────────────────
     private bool IsValidValue(object value)
@@ -182,5 +186,6 @@ public class LinesHandlers : BaseHandler
         };
 
         SetClipboardValue(GetCell(field), finalValue);
+        WaitForLoader();
     }
 }

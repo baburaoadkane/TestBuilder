@@ -191,7 +191,7 @@ public class SalesInvoiceTests : BaseTest
                 warehouse: "Grand Second House",
                 discountInPercent: 10
             )
-            .WithRemarks("Smoke test invoice")
+            //.WithRemarks("Smoke test invoice")
             .AsScenario("Create")
             .Build();
 
