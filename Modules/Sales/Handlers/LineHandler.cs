@@ -5,7 +5,7 @@ using Enfinity.ERP.Automation.Modules.Sales.DataModels;
 
 namespace Enfinity.ERP.Automation.Modules.Sales.Handlers;
 
-public class LineHandlers : BaseHandler
+public class LineHandler : BaseHandler
 {
     // ── Common ────────────────────────────────────────────────────────────
     private static readonly By LookupText = By.XPath("//div[contains(@class,'lookup-text')]");
@@ -15,7 +15,81 @@ public class LineHandlers : BaseHandler
     private static readonly By ExtraFieldButton = By.XPath("//img[contains(@id, '_DXCBtn-1Img')]");
 
     // ── Constructor ───────────────────────────────────────────────────────
-    public LineHandlers(IWebDriver driver, WaitHelper wait) : base(driver, wait) { }
+    public LineHandler(IWebDriver driver, WaitHelper wait) : base(driver, wait) { }
+
+    // ── 🔥 Field Configuration Model ──────────────────────────────────────
+    private class FieldConfig
+    {
+        public By? Dropdown { get; set; }
+        public int? ColumnIndex { get; set; }
+    }
+
+    // ── 🔥 Central Field Mapping (Single Source of Truth) ──────────────────
+    private static readonly Dictionary<string, FieldConfig> FieldMap = new()
+    {
+        ["Barcode"] = new() 
+        { 
+            Dropdown = By.XPath("//td[contains(@id, '_ItemBarcodeId_B-1')]"), 
+            ColumnIndex = 1 
+        },
+        ["Item"] = new() 
+        { 
+            Dropdown = By.XPath("//td[contains(@id, '_ItemId_B-1')]"), 
+            ColumnIndex = 2 
+        },
+        ["Description"] = new() 
+        { 
+            ColumnIndex = 3
+        },
+        ["Size"] = new() 
+        { 
+            Dropdown = By.XPath("//td[contains(@id, '_ItemSizeId_B-1')]"), 
+            ColumnIndex = 4 
+        },
+        ["Color"] = new() 
+        { 
+            Dropdown = By.XPath("//td[contains(@id, '_ItemColorId_B-1')]"), 
+            ColumnIndex = 5 
+        },
+        ["Warehouse"] = new() 
+        { 
+            Dropdown = By.XPath("//td[contains(@id, '_WarehouseId_B-1')]"),
+            ColumnIndex = 6 
+        },
+        ["Quantity"] = new() 
+        { 
+            ColumnIndex = 8 
+        },
+        ["UnitPrice"] = new() 
+        { 
+            ColumnIndex = 9 
+        },
+        ["GrossAmount"] = new() 
+        { 
+            ColumnIndex = 12 
+        },
+        ["BonusQty"] = new() 
+        {
+            ColumnIndex = 13
+        },
+        ["UOM"] = new() 
+        { 
+            Dropdown = By.XPath("//td[contains(@id, '_UnitOfMeasureId_B-1')]"),
+            ColumnIndex = 29 
+        },
+        ["DiscountPercent"] = new() 
+        { 
+            ColumnIndex = 30 
+        },
+        ["DiscountValue"] = new() 
+        { 
+            ColumnIndex = 31
+        },
+        ["Remarks"] = new() 
+        { 
+            ColumnIndex = 32 
+        }
+    };
 
     // ── Public Entry ──────────────────────────────────────────────────────
     public void Fill(List<SalesInvoiceLineDM> lines)
@@ -36,13 +110,9 @@ public class LineHandlers : BaseHandler
     private void FillLine(SalesInvoiceLineDM line)
     {
         if (!string.IsNullOrWhiteSpace(line.Barcode))
-        {
             Lookup("Barcode", line.Barcode);
-        }
         else
-        {
             LookupCell("Item", line.Item);
-        }
 
         SetCell("Description", line.Description);
         LookupCell("Color", line.Color);
@@ -74,8 +144,8 @@ public class LineHandlers : BaseHandler
         if (string.IsNullOrWhiteSpace(value)) return;
 
         var dropdown = GetDropdown(field);
-        OpenDropdown(dropdown);
 
+        OpenDropdown(dropdown);
         WaitForLoader();
 
         SelectOption(LookupText, NextButton, value);
@@ -90,50 +160,34 @@ public class LineHandlers : BaseHandler
         Click(cell);
 
         var dropdown = GetDropdown(field);
-        OpenDropdown(dropdown);
 
+        OpenDropdown(dropdown);
         WaitForLoader();
 
         SelectOption(LookupText, NextButton, value);
     }
 
-    // ── 🔥 Dropdown Mapping ───────────────────────────────────────────────
-    private By GetDropdown(string field) => field switch
+    // ── 🔥 Mapping Accessors ──────────────────────────────────────────────
+    private By GetDropdown(string field)
     {
-        "Barcode" => By.XPath("//td[contains(@id, '_ItemBarcodeId_B-1')]"),
-        "Item" => By.XPath("//td[contains(@id, '_ItemId_B-1')]"),
-        "Color" => By.XPath("//td[contains(@id, '_ItemColorId_B-1')]"),
-        "Size" => By.XPath("//td[contains(@id, '_ItemSizeId_B-1')]"),
-        "Warehouse" => By.XPath("//td[contains(@id, '_WarehouseId_B-1')]"),
-        "UOM" => By.XPath("//td[contains(@id, '_UnitOfMeasureId_B-1')]"),
-        _ => throw new Exception($"Dropdown mapping not found for {field}")
-    };
+        if (!FieldMap.ContainsKey(field) || FieldMap[field].Dropdown == null)
+            throw new Exception($"Dropdown not defined for field: {field}");
 
-    // ── 🔥 Column Mapping (aria-colindex) ─────────────────────────────────
-    private int GetColIndex(string field) => field switch
+        return FieldMap[field].Dropdown!;
+    }
+
+    private int GetColIndex(string field)
     {
-        "Barcode" => 1,
-        "Item" => 2,
-        "Description" => 3,
-        "Size" => 4,
-        "Color" => 5,
-        "Warehouse" => 6,
-        "Quantity" => 8,
-        "UnitPrice" => 9,
-        "GrossAmount" => 12,
-        "BonusQty" => 13,
-        "UOM" => 29,
-        "DiscountPercent" => 30,
-        "DiscountValue" => 31,
-        "Remarks" => 32,
-        _ => throw new Exception($"Column mapping not found for {field}")
-    };
+        if (!FieldMap.ContainsKey(field) || FieldMap[field].ColumnIndex == null)
+            throw new Exception($"Column index not defined for field: {field}");
+
+        return FieldMap[field].ColumnIndex!.Value;
+    }
 
     // ── 🔥 Cell Locator ───────────────────────────────────────────────────
     private By GetCell(string field)
     {
         int colIndex = GetColIndex(field);
-
         return By.XPath($"(//div[@class='dxgBCTC dx-ellipsis'])[{colIndex}]");
     }
 
@@ -146,6 +200,7 @@ public class LineHandlers : BaseHandler
             WaitForLoader();
         }
     }
+
     private void AddNewLine()
     {
         Click(AddLineButton);
@@ -156,7 +211,7 @@ public class LineHandlers : BaseHandler
     {
         Click(ExtraFieldButton);
         WaitForLoader();
-    }    
+    }
 
     // ── Set Cell Value ────────────────────────────────────────────────────
     private void SetCell(string field, object? value)
@@ -171,7 +226,6 @@ public class LineHandlers : BaseHandler
         };
 
         var cell = GetCell(field);
-
         SetClipboardValue(cell, finalValue);
     }
 

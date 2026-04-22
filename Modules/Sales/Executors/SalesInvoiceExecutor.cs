@@ -31,7 +31,7 @@ public class SalesInvoiceExecutor : BaseExecutor<SalesInvoiceDM>
     // ── Handlers ───────────────────────────────────────────────────────────
     //private readonly HeaderHandler _headerHandler;
     private readonly HeaderHandlers _headerHandler;
-    private readonly LineHandlers _linesHandler;
+    private readonly LineHandler _linesHandler;
     private readonly ChargesHandler _chargesHandler;
     private readonly PaymentsHandler _paymentsHandler;
     private readonly OthersHandler _othersHandler;
@@ -55,7 +55,7 @@ public class SalesInvoiceExecutor : BaseExecutor<SalesInvoiceDM>
         // Initialize all handlers
         //_headerHandler = new HeaderHandler(driver, wait);
         _headerHandler = new HeaderHandlers(driver, wait);
-        _linesHandler = new LineHandlers(driver, wait);
+        _linesHandler = new LineHandler(driver, wait);
         _chargesHandler = new ChargesHandler(driver, wait);
         _paymentsHandler = new PaymentsHandler(driver, wait);
         _othersHandler = new OthersHandler(driver, wait);

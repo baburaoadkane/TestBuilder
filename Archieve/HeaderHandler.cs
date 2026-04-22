@@ -3,7 +3,7 @@ using Enfinity.ERP.Automation.Core.Utilities;
 using Enfinity.ERP.Automation.Modules.Sales.DataModels;
 using OpenQA.Selenium;
 
-namespace Enfinity.ERP.Automation.Modules.Sales.Handlers
+namespace Enfinity.ERP.Automation.Archieve
 {
     /// <summary>
     /// Handles all UI interactions for the Sales Invoice HEADER section.

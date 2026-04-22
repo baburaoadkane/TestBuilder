@@ -5,35 +5,52 @@ using Enfinity.ERP.Automation.Modules.Sales.DataModels;
 
 namespace Enfinity.ERP.Automation.Modules.Sales.Handlers;
 
-/// <summary>
-/// Handles all UI interactions for the Sales Invoice CHARGES section.
-///
-/// Charges are additional costs applied at document level:
-/// Freight, Packing, Insurance, Handling charges etc.
-///
-/// ASP.NET Razor pattern:
-///   Each charge is a separate form row — same indexed pattern as Lines.
-///   Charges[0].ChargeType, Charges[0].Amount, Charges[0].TaxTypeId
-///
-/// HOW TO UPDATE:
-///   Inspect the Charges section in your ERP.
-///   Update GetChargeLocator() with the actual id/name pattern.
-///   Update the AddChargeButton locator with the actual button.
-/// </summary>
 public class ChargesHandler : BaseHandler
 {
     // ── Section-level locators ─────────────────────────────────────────────
-
-    private static readonly By AddChargeButton = By.XPath(
-        "//button[normalize-space()='Add Charge'] | " +
-        "//button[normalize-space()='Add']        | " +
-        "//a[normalize-space()='Add Charge']      | " +
-        "//button[contains(@id,'addCharge')]"
-    );
-
+    private static readonly By LookupText = By.XPath("//div[contains(@class,'lookup-text')]");
+    private static readonly By AddChargeButton = By.Id("SalesInvoiceChargeNewButton");
+    private static readonly By NextButton = By.XPath("//a[contains(@class,'dxp-button')]//img[@alt='Next']");
     // ── Constructor ────────────────────────────────────────────────────────
-    public ChargesHandler(IWebDriver driver, WaitHelper wait)
-        : base(driver, wait) { }
+    public ChargesHandler(IWebDriver driver, WaitHelper wait) : base(driver, wait) { }
+
+    private class FieldConfig
+    {
+        public By? Dropdown { get; set; }
+        public int? ColumnIndex { get; set; }
+    }
+
+    private static readonly Dictionary<string, FieldConfig> FieldMap = new()
+    {
+        ["Charge"] = new()
+        {
+            Dropdown = By.XPath("//td[contains(@id, '_ChargeId_B-1')]"),
+            ColumnIndex = 1
+        },
+        ["AccountType"] = new()
+        {
+            Dropdown = By.XPath("//td[contains(@id, '_AccountTypeId_B-1')]"),
+            ColumnIndex = 2
+        },
+        ["Account"] = new()
+        {
+            Dropdown = By.XPath("//td[contains(@id, '_AccountId_B-1')]"),
+            ColumnIndex = 3
+        },
+        ["Currency"] = new()
+        {
+            Dropdown = By.XPath("//td[contains(@id, '_CurrencyId_B-1')]"),
+            ColumnIndex = 4
+        },
+        ["AmountFC"] = new()
+        {
+            ColumnIndex = 5
+        },
+        ["Remarks"] = new()
+        {
+            ColumnIndex = 7
+        }
+    };
 
     // ── Public entry point ─────────────────────────────────────────────────
 
@@ -45,15 +62,75 @@ public class ChargesHandler : BaseHandler
     {
         if (charges?.Items == null || charges.Items.Count == 0) return;
 
-        // Navigate to Charges tab/section if it's a separate tab
         NavigateToChargesSection();
 
-        for (int i = 0; i < charges.Items.Count; i++)
+        foreach (var charge in charges.Items)
         {
-            AddNewCharge(i);
-            FillCharge(i, charges.Items[i]);
+            AddNewCharge();
+            FillCharge(charge);
             WaitForLoader();
         }
+    }
+
+    /// <summary>Fill all fields for a single charge row.</summary>
+    private void FillCharge(ChargeDM charge)
+    {
+        Lookup("Charge", charge.ChargeType);
+        LookupCell("Account", charge.Account);
+        SetCell("AmountFC", charge.AmountFC);
+        SetCell("Remarks", charge.Remarks);
+    }
+
+    // ── 🔥 Lookup inside Grid Cell ────────────────────────────────────────
+    private void Lookup(string field, string? value)
+    {
+        if (string.IsNullOrWhiteSpace(value)) return;
+
+        var dropdown = GetDropdown(field);
+
+        OpenDropdown(dropdown);
+        WaitForLoader();
+
+        SelectOption(LookupText, NextButton, value);
+    }
+
+    // ── 🔥 Lookup inside Grid Cell ────────────────────────────────────────
+    private void LookupCell(string field, string? value)
+    {
+        if (string.IsNullOrWhiteSpace(value)) return;
+
+        var cell = GetCell(field);
+        Click(cell);
+
+        var dropdown = GetDropdown(field);
+
+        OpenDropdown(dropdown);
+        WaitForLoader();
+
+        SelectOption(LookupText, NextButton, value);
+    }
+
+    private By GetDropdown(string field)
+    {
+        if (!FieldMap.ContainsKey(field) || FieldMap[field].Dropdown == null)
+            throw new Exception($"Dropdown not defined for field: {field}");
+
+        return FieldMap[field].Dropdown!;
+    }
+
+    private int GetColIndex(string field)
+    {
+        if (!FieldMap.ContainsKey(field) || FieldMap[field].ColumnIndex == null)
+            throw new Exception($"Column index not defined for field: {field}");
+
+        return FieldMap[field].ColumnIndex!.Value;
+    }
+
+    // ── 🔥 Cell Locator ───────────────────────────────────────────────────
+    private By GetCell(string field)
+    {
+        int colIndex = GetColIndex(field);
+        return By.XPath($"(//div[@class='dxgBCTC dx-ellipsis'])[{colIndex}]");
     }
 
     // ── Private methods ────────────────────────────────────────────────────
@@ -64,11 +141,7 @@ public class ChargesHandler : BaseHandler
     /// </summary>
     private void NavigateToChargesSection()
     {
-        By chargesTab = By.XPath(
-            "//a[normalize-space()='Charges']   | " +
-            "//li[normalize-space()='Charges']  | " +
-            "//button[normalize-space()='Charges']"
-        );
+        By chargesTab = By.XPath("//td[contains(@id, 'Charge_HC')]");
 
         try
         {
@@ -82,110 +155,39 @@ public class ChargesHandler : BaseHandler
     }
 
     /// <summary>Click Add Charge button to create a new charge row.</summary>
-    private void AddNewCharge(int chargeIndex)
+    private void AddNewCharge()
     {
-        if (chargeIndex == 0)
-        {
-            bool firstRowExists = IsVisible(GetChargeLocator(0, "ChargeType"));
-            if (firstRowExists) return;
-        }
-
-        Click(AddChargeButton);
-
-        Wait.Until(driver =>
-            driver.FindElements(GetChargeLocator(chargeIndex, "Amount")).Count > 0,
-            timeoutSeconds: 8
-        );
+        Wait.UntilClickable(AddChargeButton).Click();
+        //Click(AddChargeButton);
+        WaitForLoader();
     }
 
-    /// <summary>Fill all fields for a single charge row.</summary>
-    private void FillCharge(int index, ChargeDM charge)
+    // ── Set Cell Value ────────────────────────────────────────────────────
+    private void SetCell(string field, object? value)
     {
-        FillChargeType(index, charge.ChargeType);
-        FillChargeAmount(index, charge.AmountFC);
-        FillChargeTaxType(index, charge.TaxType);
-        FillChargeTaxable(index, charge.IsTaxable);
+        if (value == null || !IsValidValue(value)) return;
+
+        string finalValue = value switch
+        {
+            decimal d => d.ToString("G29"),
+            double d => d.ToString("G29"),
+            _ => value.ToString()
+        };
+
+        var cell = GetCell(field);
+        SetClipboardValue(cell, finalValue);
     }
 
-    /// <summary>
-    /// Select charge type from dropdown.
-    /// Examples: "Freight", "Packing Charges", "Insurance"
-    /// TODO: May be a <select> or autocomplete depending on your ERP.
-    /// </summary>
-    private void FillChargeType(int index, string? chargeType)
+    // ── Validation ────────────────────────────────────────────────────────
+    private bool IsValidValue(object value)
     {
-        if (string.IsNullOrWhiteSpace(chargeType)) return;
-
-        By locator = GetChargeLocator(index, "ChargeTypeId");
-
-        try
+        return value switch
         {
-            SelectByText(locator, chargeType);
-        }
-        catch
-        {
-            // Try as text input if not a <select>
-            Type(GetChargeLocator(index, "ChargeType"), chargeType);
-        }
-    }
-
-    /// <summary>Enter the charge amount.</summary>
-    private void FillChargeAmount(int index, decimal amount)
-    {
-        if (amount <= 0) return;
-
-        By locator = GetChargeLocator(index, "Amount");
-        IWebElement el = Wait.UntilVisible(locator);
-        ScrollIntoView(el);
-
-        el.SendKeys(Keys.Control + "a");
-        el.SendKeys(amount.ToString("F2"));
-        el.SendKeys(Keys.Tab);
-    }
-
-    /// <summary>Select tax type applied on this charge.</summary>
-    private void FillChargeTaxType(int index, string? taxType)
-    {
-        if (string.IsNullOrWhiteSpace(taxType)) return;
-
-        By locator = GetChargeLocator(index, "TaxTypeId");
-        try
-        {
-            SelectByText(locator, taxType);
-            WaitForLoader();
-        }
-        catch
-        {
-            // Tax type may be optional or read-only
-        }
-    }
-
-    /// <summary>Check/uncheck the IsTaxable checkbox for this charge.</summary>
-    private void FillChargeTaxable(int index, bool isTaxable)
-    {
-        By locator = GetChargeLocator(index, "IsTaxable");
-
-        try
-        {
-            if (isTaxable)
-                Check(locator);
-            else
-                Uncheck(locator);
-        }
-        catch
-        {
-            // Checkbox may not exist if tax is controlled by TaxType selection
-        }
-    }
-
-    // ── Locator builder ────────────────────────────────────────────────────
-
-    /// <summary>
-    /// Builds the locator for a specific field in a specific charge row.
-    /// TODO: Verify this pattern matches your ERP's actual rendered HTML.
-    /// </summary>
-    private static By GetChargeLocator(int index, string fieldName)
-    {
-        return By.Id($"Charges_{index}__{fieldName}");
+            string s => !string.IsNullOrWhiteSpace(s),
+            decimal d => d > 0,
+            int i => i > 0,
+            double d => d > 0,
+            _ => true
+        };
     }
 }
