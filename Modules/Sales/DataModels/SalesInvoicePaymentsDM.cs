@@ -29,4 +29,5 @@ public class PaymentEntryDM
 
     /// <summary>Bank account or cash account used for payment.</summary>
     public string? Account { get; set; }
+    public string? Remarks { get; set; }
 }
