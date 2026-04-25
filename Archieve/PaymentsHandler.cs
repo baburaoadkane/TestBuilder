@@ -3,7 +3,7 @@ using Enfinity.ERP.Automation.Core.Base;
 using Enfinity.ERP.Automation.Core.Utilities;
 using Enfinity.ERP.Automation.Modules.Sales.DataModels;
 
-namespace Enfinity.ERP.Automation.Modules.Sales.Handlers;
+namespace Enfinity.ERP.Automation.Archieve;
 
 /// <summary>
 /// Handles all UI interactions for the Sales Invoice PAYMENTS section.

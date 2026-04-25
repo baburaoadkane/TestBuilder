@@ -9,14 +9,14 @@
       "Enfinity.ERP.Automation/1.0.0": {
         "dependencies": {
           "ExtentReports": "5.0.5-beta1",
-          "Microsoft.NET.Test.Sdk": "18.3.0",
+          "Microsoft.NET.Test.Sdk": "18.4.0",
           "NUnit": "4.5.1",
           "NUnit3TestAdapter": "6.2.0",
           "Newtonsoft.Json": "13.0.5-beta1",
           "Selenium.Support": "4.41.0",
           "Selenium.WebDriver": "4.41.0",
-          "System.Drawing.Common": "11.0.0-preview.2.26159.112",
-          "System.Text.Json": "11.0.0-preview.2.26159.112",
+          "System.Drawing.Common": "11.0.0-preview.3.26207.106",
+          "System.Text.Json": "11.0.0-preview.3.26207.106",
           "TextCopy": "6.2.1"
         },
         "runtime": {
@@ -153,11 +153,11 @@
           }
         }
       },
-      "Microsoft.CodeCoverage/18.3.0": {
+      "Microsoft.CodeCoverage/18.4.0": {
         "runtime": {
           "lib/net8.0/Microsoft.VisualStudio.CodeCoverage.Shim.dll": {
             "assemblyVersion": "15.0.0.0",
-            "fileVersion": "18.300.126.5501"
+            "fileVersion": "18.400.26.7201"
           }
         }
       },
@@ -177,10 +177,10 @@
           }
         }
       },
-      "Microsoft.NET.Test.Sdk/18.3.0": {
+      "Microsoft.NET.Test.Sdk/18.4.0": {
         "dependencies": {
-          "Microsoft.CodeCoverage": "18.3.0",
-          "Microsoft.TestPlatform.TestHost": "18.3.0"
+          "Microsoft.CodeCoverage": "18.4.0",
+          "Microsoft.TestPlatform.TestHost": "18.4.0"
         }
       },
       "Microsoft.Testing.Extensions.Telemetry/2.1.0": {
@@ -249,7 +249,7 @@
       },
       "Microsoft.Testing.Extensions.VSTestBridge/2.1.0": {
         "dependencies": {
-          "Microsoft.TestPlatform.ObjectModel": "18.3.0",
+          "Microsoft.TestPlatform.ObjectModel": "18.4.0",
           "Microsoft.Testing.Extensions.Telemetry": "2.1.0",
           "Microsoft.Testing.Extensions.TrxReport.Abstractions": "2.1.0",
           "Microsoft.Testing.Platform": "2.1.0"
@@ -403,19 +403,19 @@
           }
         }
       },
-      "Microsoft.TestPlatform.ObjectModel/18.3.0": {
+      "Microsoft.TestPlatform.ObjectModel/18.4.0": {
         "runtime": {
           "lib/net8.0/Microsoft.TestPlatform.CoreUtilities.dll": {
             "assemblyVersion": "15.0.0.0",
-            "fileVersion": "18.300.26.12003"
+            "fileVersion": "18.400.26.20205"
           },
           "lib/net8.0/Microsoft.TestPlatform.PlatformAbstractions.dll": {
             "assemblyVersion": "15.0.0.0",
-            "fileVersion": "18.300.26.12003"
+            "fileVersion": "18.400.26.20205"
           },
           "lib/net8.0/Microsoft.VisualStudio.TestPlatform.ObjectModel.dll": {
             "assemblyVersion": "15.0.0.0",
-            "fileVersion": "18.300.26.12003"
+            "fileVersion": "18.400.26.20205"
           }
         },
         "resources": {
@@ -499,31 +499,31 @@
           }
         }
       },
-      "Microsoft.TestPlatform.TestHost/18.3.0": {
+      "Microsoft.TestPlatform.TestHost/18.4.0": {
         "dependencies": {
-          "Microsoft.TestPlatform.ObjectModel": "18.3.0",
+          "Microsoft.TestPlatform.ObjectModel": "18.4.0",
           "Newtonsoft.Json": "13.0.5-beta1"
         },
         "runtime": {
           "lib/net8.0/Microsoft.TestPlatform.CommunicationUtilities.dll": {
             "assemblyVersion": "15.0.0.0",
-            "fileVersion": "18.300.26.12003"
+            "fileVersion": "18.400.26.20205"
           },
           "lib/net8.0/Microsoft.TestPlatform.CrossPlatEngine.dll": {
             "assemblyVersion": "15.0.0.0",
-            "fileVersion": "18.300.26.12003"
+            "fileVersion": "18.400.26.20205"
           },
           "lib/net8.0/Microsoft.TestPlatform.Utilities.dll": {
             "assemblyVersion": "15.0.0.0",
-            "fileVersion": "18.300.26.12003"
+            "fileVersion": "18.400.26.20205"
           },
           "lib/net8.0/Microsoft.VisualStudio.TestPlatform.Common.dll": {
             "assemblyVersion": "15.0.0.0",
-            "fileVersion": "18.300.26.12003"
+            "fileVersion": "18.400.26.20205"
           },
           "lib/net8.0/testhost.dll": {
             "assemblyVersion": "15.0.0.0",
-            "fileVersion": "18.300.26.12003"
+            "fileVersion": "18.400.26.20205"
           }
         },
         "resources": {
@@ -646,11 +646,11 @@
           }
         }
       },
-      "Microsoft.Win32.SystemEvents/11.0.0-preview.2.26159.112": {
+      "Microsoft.Win32.SystemEvents/11.0.0-preview.3.26207.106": {
         "runtime": {
           "lib/net10.0/Microsoft.Win32.SystemEvents.dll": {
             "assemblyVersion": "11.0.0.0",
-            "fileVersion": "11.0.26.16012"
+            "fileVersion": "11.0.26.20806"
           }
         },
         "runtimeTargets": {
@@ -658,7 +658,7 @@
             "rid": "win",
             "assetType": "runtime",
             "assemblyVersion": "11.0.0.0",
-            "fileVersion": "11.0.26.16012"
+            "fileVersion": "11.0.26.20806"
           }
         }
       },
@@ -738,30 +738,30 @@
           }
         }
       },
-      "System.Drawing.Common/11.0.0-preview.2.26159.112": {
+      "System.Drawing.Common/11.0.0-preview.3.26207.106": {
         "dependencies": {
-          "Microsoft.Win32.SystemEvents": "11.0.0-preview.2.26159.112"
+          "Microsoft.Win32.SystemEvents": "11.0.0-preview.3.26207.106"
         },
         "runtime": {
           "lib/net10.0/System.Drawing.Common.dll": {
             "assemblyVersion": "11.0.0.0",
-            "fileVersion": "11.0.26.16012"
+            "fileVersion": "11.0.26.20806"
           },
           "lib/net10.0/System.Private.Windows.Core.dll": {
             "assemblyVersion": "11.0.0.0",
-            "fileVersion": "11.0.26.16012"
+            "fileVersion": "11.0.26.20806"
           },
           "lib/net10.0/System.Private.Windows.GdiPlus.dll": {
             "assemblyVersion": "11.0.0.0",
-            "fileVersion": "11.0.26.16012"
+            "fileVersion": "11.0.26.20806"
           }
         }
       },
-      "System.IO.Pipelines/11.0.0-preview.2.26159.112": {
+      "System.IO.Pipelines/11.0.0-preview.3.26207.106": {
         "runtime": {
           "lib/net10.0/System.IO.Pipelines.dll": {
             "assemblyVersion": "11.0.0.0",
-            "fileVersion": "11.0.26.16012"
+            "fileVersion": "11.0.26.20806"
           }
         }
       },
@@ -784,11 +784,11 @@
           }
         }
       },
-      "System.Text.Encodings.Web/11.0.0-preview.2.26159.112": {
+      "System.Text.Encodings.Web/11.0.0-preview.3.26207.106": {
         "runtime": {
           "lib/net10.0/System.Text.Encodings.Web.dll": {
             "assemblyVersion": "11.0.0.0",
-            "fileVersion": "11.0.26.16012"
+            "fileVersion": "11.0.26.20806"
           }
         },
         "runtimeTargets": {
@@ -796,25 +796,25 @@
             "rid": "browser",
             "assetType": "runtime",
             "assemblyVersion": "11.0.0.0",
-            "fileVersion": "11.0.26.16012"
+            "fileVersion": "11.0.26.20806"
           }
         }
       },
-      "System.Text.Json/11.0.0-preview.2.26159.112": {
+      "System.Text.Json/11.0.0-preview.3.26207.106": {
         "dependencies": {
-          "System.IO.Pipelines": "11.0.0-preview.2.26159.112",
-          "System.Text.Encodings.Web": "11.0.0-preview.2.26159.112"
+          "System.IO.Pipelines": "11.0.0-preview.3.26207.106",
+          "System.Text.Encodings.Web": "11.0.0-preview.3.26207.106"
         },
         "runtime": {
           "lib/net10.0/System.Text.Json.dll": {
             "assemblyVersion": "11.0.0.0",
-            "fileVersion": "11.0.26.16012"
+            "fileVersion": "11.0.26.20806"
           }
         }
       },
       "System.Windows.Extensions/5.0.0": {
         "dependencies": {
-          "System.Drawing.Common": "11.0.0-preview.2.26159.112"
+          "System.Drawing.Common": "11.0.0-preview.3.26207.106"
         },
         "runtime": {
           "lib/netcoreapp3.0/System.Windows.Extensions.dll": {
@@ -885,12 +885,12 @@
       "path": "microsoft.codeanalysis.csharp/3.9.0",
       "hashPath": "microsoft.codeanalysis.csharp.3.9.0.nupkg.sha512"
     },
-    "Microsoft.CodeCoverage/18.3.0": {
+    "Microsoft.CodeCoverage/18.4.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-23BNy/vziREC20Wwhb50K7+kZe0m07KlLWDQv4qjJ9tt3QjpDpDIqJFrhYHmMEo9xDkuSp55U/8h4bMF7MiB+g==",
-      "path": "microsoft.codecoverage/18.3.0",
-      "hashPath": "microsoft.codecoverage.18.3.0.nupkg.sha512"
+      "sha512": "sha512-9O0BtCfzCWrkAmK187ugKdq72HHOXoOUjuWFDVc2LsZZ0pOnA9bTt+Sg9q4cF+MoAaUU+MuWtvBuFsnduviJow==",
+      "path": "microsoft.codecoverage/18.4.0",
+      "hashPath": "microsoft.codecoverage.18.4.0.nupkg.sha512"
     },
     "Microsoft.Extensions.DependencyInjection.Abstractions/7.0.0": {
       "type": "package",
@@ -906,12 +906,12 @@
       "path": "microsoft.extensions.dependencymodel/8.0.2",
       "hashPath": "microsoft.extensions.dependencymodel.8.0.2.nupkg.sha512"
     },
-    "Microsoft.NET.Test.Sdk/18.3.0": {
+    "Microsoft.NET.Test.Sdk/18.4.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-xW3kXuWRQtgoxJp4J+gdhHSQyK+6Wb/AZDSd7lMvuMRYlZ1tnpkojyfZlWilB5G4dmZ0Y0ZxU/M23TlubndNkw==",
-      "path": "microsoft.net.test.sdk/18.3.0",
-      "hashPath": "microsoft.net.test.sdk.18.3.0.nupkg.sha512"
+      "sha512": "sha512-w49iZdL4HL6V25l41NVQLXWQ+e71GvSkKVteMrOL02gP/PUkcnO/1yEb2s9FntU4wGmJWfKnyrRAhcMHd9ZZNA==",
+      "path": "microsoft.net.test.sdk/18.4.0",
+      "hashPath": "microsoft.net.test.sdk.18.4.0.nupkg.sha512"
     },
     "Microsoft.Testing.Extensions.Telemetry/2.1.0": {
       "type": "package",
@@ -948,26 +948,26 @@
       "path": "microsoft.testing.platform.msbuild/2.1.0",
       "hashPath": "microsoft.testing.platform.msbuild.2.1.0.nupkg.sha512"
     },
-    "Microsoft.TestPlatform.ObjectModel/18.3.0": {
+    "Microsoft.TestPlatform.ObjectModel/18.4.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-AEIEX2aWdPO9XbtR96eBaJxmXRD9vaI9uQ1T/JbPEKlTAZwYx0ZrMzKyULMdh/HH9Sg03kXCoN7LszQ90o6nPQ==",
-      "path": "microsoft.testplatform.objectmodel/18.3.0",
-      "hashPath": "microsoft.testplatform.objectmodel.18.3.0.nupkg.sha512"
+      "sha512": "sha512-4L6m2kS2pY5uJ9cpeRxzW22opr6ttScIRqsOpMDQpgENp/ZwxkkQCcmc6LRSURo2dFaaSW5KVflQZvroiJ7Wzg==",
+      "path": "microsoft.testplatform.objectmodel/18.4.0",
+      "hashPath": "microsoft.testplatform.objectmodel.18.4.0.nupkg.sha512"
     },
-    "Microsoft.TestPlatform.TestHost/18.3.0": {
+    "Microsoft.TestPlatform.TestHost/18.4.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-twmsoelXnp1uWMU3VGip9f0Jr1mZ0PZqgJdF35CIrdYgYrkHIJMV1m8uKyhcdjLdsQDESHAgkR7KhS9i1qpJag==",
-      "path": "microsoft.testplatform.testhost/18.3.0",
-      "hashPath": "microsoft.testplatform.testhost.18.3.0.nupkg.sha512"
+      "sha512": "sha512-gZsCHI+zOmZCcKZieIL4Jg14qKD2OGZOmX5DehuIk1EA9BN6Crm0+taXQNEuajOH1G9CCyBxw8VWR4t5tumcng==",
+      "path": "microsoft.testplatform.testhost/18.4.0",
+      "hashPath": "microsoft.testplatform.testhost.18.4.0.nupkg.sha512"
     },
-    "Microsoft.Win32.SystemEvents/11.0.0-preview.2.26159.112": {
+    "Microsoft.Win32.SystemEvents/11.0.0-preview.3.26207.106": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-AW1z3ULhOZ1bB6JQx/I4181pFrxiCVJH8pGradKyxmVHpZVo+DXEXRtCdHjmuPTJJQd7inAEIGKOZ0eQhLiiag==",
-      "path": "microsoft.win32.systemevents/11.0.0-preview.2.26159.112",
-      "hashPath": "microsoft.win32.systemevents.11.0.0-preview.2.26159.112.nupkg.sha512"
+      "sha512": "sha512-0t8UKDxKQOq2t5k12JrZywfrgcsprxX7f22fWGzOdwmycTVYzYL5zJJydu4e0qiUvRYFsE8ml9hRDF0oSIwYmw==",
+      "path": "microsoft.win32.systemevents/11.0.0-preview.3.26207.106",
+      "hashPath": "microsoft.win32.systemevents.11.0.0-preview.3.26207.106.nupkg.sha512"
     },
     "Newtonsoft.Json/13.0.5-beta1": {
       "type": "package",
@@ -1011,19 +1011,19 @@
       "path": "selenium.webdriver/4.41.0",
       "hashPath": "selenium.webdriver.4.41.0.nupkg.sha512"
     },
-    "System.Drawing.Common/11.0.0-preview.2.26159.112": {
+    "System.Drawing.Common/11.0.0-preview.3.26207.106": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-d5xZm73NpqOVfm4F0fHK0NSmn0tFanQ5VQjjGYDOqjD5p97xgx4XpKDp5ydiqe4U/P7CouxoePpcvt3q8xq2tA==",
-      "path": "system.drawing.common/11.0.0-preview.2.26159.112",
-      "hashPath": "system.drawing.common.11.0.0-preview.2.26159.112.nupkg.sha512"
+      "sha512": "sha512-4q/6KPrTq5csOCd6DsrKLWTCMFHtjIDBtG/LBDV9NiujtKQJ8KgUAGiilYNE7815oYqQfPetZD5dVYpE77c8KQ==",
+      "path": "system.drawing.common/11.0.0-preview.3.26207.106",
+      "hashPath": "system.drawing.common.11.0.0-preview.3.26207.106.nupkg.sha512"
     },
-    "System.IO.Pipelines/11.0.0-preview.2.26159.112": {
+    "System.IO.Pipelines/11.0.0-preview.3.26207.106": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-vySMafxlii0LynI8wgdrCZweaCDofpHy6zLWlwGK1jbSm3FfRoiuf777WjeaG0gxOj8Y0hsD8+Ydl6g17lI8Xw==",
-      "path": "system.io.pipelines/11.0.0-preview.2.26159.112",
-      "hashPath": "system.io.pipelines.11.0.0-preview.2.26159.112.nupkg.sha512"
+      "sha512": "sha512-Idb+LIXwAXjlA2XEJmjqn7oBJ/SqwPjxtpHXl6PTJEP8mWTDdYpp+f1eZdFbf3ovYnGjRrFt4CNd6wq+qw04dg==",
+      "path": "system.io.pipelines/11.0.0-preview.3.26207.106",
+      "hashPath": "system.io.pipelines.11.0.0-preview.3.26207.106.nupkg.sha512"
     },
     "System.Reactive/6.0.0": {
       "type": "package",
@@ -1039,19 +1039,19 @@
       "path": "system.security.permissions/5.0.0",
       "hashPath": "system.security.permissions.5.0.0.nupkg.sha512"
     },
-    "System.Text.Encodings.Web/11.0.0-preview.2.26159.112": {
+    "System.Text.Encodings.Web/11.0.0-preview.3.26207.106": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-zovjxGZSQh8kG7rd7NU4H/AdsFuCTDwd3vZfT+EJioNShR8sa5aWf4LORkVWAu6/A5hU99REeineAEJD3soGtw==",
-      "path": "system.text.encodings.web/11.0.0-preview.2.26159.112",
-      "hashPath": "system.text.encodings.web.11.0.0-preview.2.26159.112.nupkg.sha512"
+      "sha512": "sha512-SgwhdO9wvGcslITiiXuzALloNSKxVERDdjq+m20Y4ozKf71ZG4vZvv6a8J1K46daIQV3B3m3o6aEmhgs5oaK1A==",
+      "path": "system.text.encodings.web/11.0.0-preview.3.26207.106",
+      "hashPath": "system.text.encodings.web.11.0.0-preview.3.26207.106.nupkg.sha512"
     },
-    "System.Text.Json/11.0.0-preview.2.26159.112": {
+    "System.Text.Json/11.0.0-preview.3.26207.106": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-3pAlK9rxbovbkYzGDcmlcajVj+JtJ8aegjligipaXhfv2EdOND4VX5dYP3yF7FUHkSBlpgESD/wqUQAc+yjKdQ==",
-      "path": "system.text.json/11.0.0-preview.2.26159.112",
-      "hashPath": "system.text.json.11.0.0-preview.2.26159.112.nupkg.sha512"
+      "sha512": "sha512-7/lf9jNqkTuoi6UWnP810QssyAiVtOvEN4x8R/Odybp+Nzefn99+K0oxtjyySEQmwOmIJU0hSLW26iFvrvyYWQ==",
+      "path": "system.text.json/11.0.0-preview.3.26207.106",
+      "hashPath": "system.text.json.11.0.0-preview.3.26207.106.nupkg.sha512"
     },
     "System.Windows.Extensions/5.0.0": {
       "type": "package",

@@ -37,7 +37,7 @@ public class LinesValidator : BaseValidator
     /// </summary>
     public void ValidateLineTotals(List<SalesInvoiceLineDM>? lines)
     {
-        if (lines == null || lines.Count == 0)
+        if (lines == null || lines.Count == 0) 
         {
             Report.Warning("No lines defined in data model — skipping line totals validation.");
             return;

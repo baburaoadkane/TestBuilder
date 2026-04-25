@@ -222,7 +222,7 @@ D:\Platform\Auto.ERP\bin\Debug\net10.0\NUnit3.TestAdapter.dll
 D:\Platform\Auto.ERP\bin\Debug\net10.0\Config\appsettings.json
 D:\Platform\Auto.ERP\bin\Debug\net10.0\Config\appsettings.test.json
 D:\Platform\Auto.ERP\bin\Debug\net10.0\Config\appsettings.staging.json
-D:\Platform\Auto.ERP\bin\Debug\net10.0\Modules\Sales\Data\SalesInvoice\Create\SI_Create_Basic.json
+D:\Platform\Auto.ERP\bin\Debug\net10.0\Modules\Sales\Data\SalesInvoice\Create\Create.json
 D:\Platform\Auto.ERP\bin\Debug\net10.0\Enfinity.ERP.Automation.deps.json
 D:\Platform\Auto.ERP\bin\Debug\net10.0\Enfinity.ERP.Automation.runtimeconfig.json
 D:\Platform\Auto.ERP\bin\Debug\net10.0\Enfinity.ERP.Automation.dll
@@ -233,6 +233,7 @@ D:\Platform\Auto.ERP\bin\Debug\net10.0\Microsoft.AspNetCore.Razor.Language.dll
 D:\Platform\Auto.ERP\bin\Debug\net10.0\Microsoft.CodeAnalysis.dll
 D:\Platform\Auto.ERP\bin\Debug\net10.0\Microsoft.CodeAnalysis.CSharp.dll
 D:\Platform\Auto.ERP\bin\Debug\net10.0\Microsoft.VisualStudio.CodeCoverage.Shim.dll
+D:\Platform\Auto.ERP\bin\Debug\net10.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
 D:\Platform\Auto.ERP\bin\Debug\net10.0\Microsoft.Extensions.DependencyModel.dll
 D:\Platform\Auto.ERP\bin\Debug\net10.0\Microsoft.Testing.Extensions.Telemetry.dll
 D:\Platform\Auto.ERP\bin\Debug\net10.0\Microsoft.Testing.Extensions.TrxReport.Abstractions.dll
@@ -262,6 +263,7 @@ D:\Platform\Auto.ERP\bin\Debug\net10.0\System.Security.Permissions.dll
 D:\Platform\Auto.ERP\bin\Debug\net10.0\System.Text.Encodings.Web.dll
 D:\Platform\Auto.ERP\bin\Debug\net10.0\System.Text.Json.dll
 D:\Platform\Auto.ERP\bin\Debug\net10.0\System.Windows.Extensions.dll
+D:\Platform\Auto.ERP\bin\Debug\net10.0\TextCopy.dll
 D:\Platform\Auto.ERP\bin\Debug\net10.0\cs\Microsoft.CodeAnalysis.resources.dll
 D:\Platform\Auto.ERP\bin\Debug\net10.0\de\Microsoft.CodeAnalysis.resources.dll
 D:\Platform\Auto.ERP\bin\Debug\net10.0\es\Microsoft.CodeAnalysis.resources.dll
@@ -425,5 +427,3 @@ D:\Platform\Auto.ERP\obj\Debug\net10.0\refint\Enfinity.ERP.Automation.dll
 D:\Platform\Auto.ERP\obj\Debug\net10.0\Enfinity.ERP.Automation.pdb
 D:\Platform\Auto.ERP\obj\Debug\net10.0\Enfinity.ERP.Automation.genruntimeconfig.cache
 D:\Platform\Auto.ERP\obj\Debug\net10.0\ref\Enfinity.ERP.Automation.dll
-D:\Platform\Auto.ERP\bin\Debug\net10.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
-D:\Platform\Auto.ERP\bin\Debug\net10.0\TextCopy.dll

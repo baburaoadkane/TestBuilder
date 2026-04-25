@@ -6,22 +6,6 @@ using Enfinity.ERP.Automation.Modules.Sales.Executors;
 
 namespace Enfinity.ERP.Automation.Modules.Sales.TestCases;
 
-/// <summary>
-/// All Sales Invoice test cases.
-///
-/// Structure:
-///   - Every test method is data-driven via [TestCaseSource]
-///   - JSON files drive the scenario — no hardcoded values in test methods
-///   - One test method per scenario type: Create, Approval, Negative, Edit, Validation
-///   - BaseTest handles: Driver init, Login, Screenshot on fail, Report flush
-///
-/// To add a new test scenario:
-///   1. Add a new JSON file in the relevant Json/ subfolder
-///   2. The [TestCaseSource] picks it up automatically — zero code changes
-///
-/// Naming convention:
-///   {DocumentType}_{ScenarioType}_{Condition}_ShouldSucceed/Fail
-/// </summary>
 [TestFixture]
 [Category("Sales")]
 [Category("SalesInvoice")]
@@ -37,12 +21,12 @@ public class SalesInvoiceTests : BaseTest
     private const string EditFolder = "Modules/Sales/Data/SalesInvoice/Edit";
     private const string ValidationFolder = "Modules/Sales/Data/SalesInvoice/Validation";
 
-    // ── Per-test SetUp ─────────────────────────────────────────────────────
+    // ── SetUp ─────────────────────────────────────────────────────
 
     [SetUp]
     public override void SetUp()
     {
-        base.SetUp(); // Initializes Driver, Login, Report
+        base.SetUp();
         _executor = new SalesInvoiceExecutor(Driver, Wait, Report);
     }
 
@@ -50,18 +34,12 @@ public class SalesInvoiceTests : BaseTest
     // CREATE SCENARIOS
     // ══════════════════════════════════════════════════════════════════════
 
-    /// <summary>
-    /// Data-driven: runs once per JSON file in the Create/ folder.
-    /// Covers: basic invoice, multi-line, with payment, with charges.
-    /// </summary>
     [Test]
     [TestCaseSource(nameof(CreateScenarios))]
     [Category("Create")]
     public void SalesInvoice_Create_ShouldSaveSuccessfully(string jsonPath)
     {
-        var data = SalesInvoiceBuilder
-            .FromJson(jsonPath)
-            .Build();
+        var data = SalesInvoiceBuilder.FromJson(jsonPath).Build();
 
         Report.Info($"Scenario: {data.TestDescription}");
 
@@ -72,10 +50,6 @@ public class SalesInvoiceTests : BaseTest
     // APPROVAL SCENARIOS
     // ══════════════════════════════════════════════════════════════════════
 
-    /// <summary>
-    /// Data-driven: runs for every JSON in Approval/ folder.
-    /// Covers: Submit only, full Save → Submit → Approve flow.
-    /// </summary>
     [Test]
     [TestCaseSource(nameof(ApprovalScenarios))]
     [Category("Approval")]
@@ -95,11 +69,6 @@ public class SalesInvoiceTests : BaseTest
     // NEGATIVE SCENARIOS
     // ══════════════════════════════════════════════════════════════════════
 
-    /// <summary>
-    /// Data-driven: runs for every JSON in Negative/ folder.
-    /// Covers: missing customer, no lines, invalid dates, duplicate ref no.
-    /// Each JSON defines the Expected.ErrorMessage to assert.
-    /// </summary>
     [Test]
     [TestCaseSource(nameof(NegativeScenarios))]
     [Category("Negative")]
@@ -120,11 +89,6 @@ public class SalesInvoiceTests : BaseTest
     // EDIT SCENARIOS
     // ══════════════════════════════════════════════════════════════════════
 
-    /// <summary>
-    /// Data-driven: runs for every JSON in Edit/ folder.
-    /// Covers: update quantity, change customer, add new line, modify charges.
-    /// Each JSON must have DocumentNo set to an existing invoice.
-    /// </summary>
     [Test]
     [TestCaseSource(nameof(EditScenarios))]
     [Category("Edit")]
@@ -145,11 +109,6 @@ public class SalesInvoiceTests : BaseTest
     // VALIDATION SCENARIOS
     // ══════════════════════════════════════════════════════════════════════
 
-    /// <summary>
-    /// Data-driven: runs for every JSON in Validation/ folder.
-    /// Covers: totals validation, status check, field value assertions.
-    /// Each JSON must have DocumentNo set to the invoice to validate.
-    /// </summary>
     [Test]
     [TestCaseSource(nameof(ValidationScenarios))]
     [Category("Validation")]
@@ -167,14 +126,9 @@ public class SalesInvoiceTests : BaseTest
     }
 
     // ══════════════════════════════════════════════════════════════════════
-    // INLINE TESTS — Programmatic builder (no JSON file needed)
+    // SMOKE TESTS — programmatic, no JSON file needed
     // ══════════════════════════════════════════════════════════════════════
 
-    /// <summary>
-    /// Programmatic test using the Builder API directly.
-    /// Use this pattern for quick one-off or exploratory tests
-    /// that don't need a permanent JSON file.
-    /// </summary>
     [Test]
     [Category("Create")]
     [Category("Smoke")]
@@ -186,22 +140,15 @@ public class SalesInvoiceTests : BaseTest
             .WithWarehouse("Grand Prime House")
             .WithReferenceNum("Smoke Test")
             .AddLine(
-                barcode: "I0001",
-                item: "I0001 | Screen Protectors",
-                warehouse: "Grand Second House",
-                discountInPercent: 10
+                barcode: "",
+                item: "I0001 | Screen Protectors"
             )
-            .WithRemarks("Smoke test invoice")
             .AsScenario("Create")
             .Build();
 
         _executor.Execute(data);
     }
 
-    /// <summary>
-    /// Full approval workflow smoke test — built programmatically.
-    /// Verifies the complete Save → Submit → Approve path in one test.
-    /// </summary>
     [Test]
     [Category("Approval")]
     [Category("Smoke")]
@@ -209,15 +156,12 @@ public class SalesInvoiceTests : BaseTest
     {
         var data = SalesInvoiceBuilder
             .New()
-            .WithCustomer("C0008 | Anabia Reza")
+            .WithCustomer("C0002 | Minnah Elamin")
             .WithWarehouse("Grand Prime House")
+            .WithReferenceNum("Smoke Test With Approval")
             .AddLine(
-                barcode: "I0001",
-                item: "ITEM-001",
-                qty: 2,
-                price: 500,
-                taxType: "GST 18%",
-                taxPercent: 18
+                barcode: "",
+                item: "I0001 | Screen Protectors"
             )
             .WithApproval()
             .Build();
@@ -225,9 +169,6 @@ public class SalesInvoiceTests : BaseTest
         _executor.Execute(data);
     }
 
-    /// <summary>
-    /// Negative test — missing customer — built programmatically.
-    /// </summary>
     [Test]
     [Category("Negative")]
     [Category("Smoke")]
@@ -236,20 +177,37 @@ public class SalesInvoiceTests : BaseTest
         var data = SalesInvoiceBuilder
             .New()
             .AsScenario("Negative")
-            .AddLine("","ITEM-001", qty: 1, price: 100)
             .Build();
 
-        // Manually set expected error for programmatic test
         data.Expected = new Core.DataModels.Shared.ExpectedResultDM
         {
-            ErrorMessage = "Customer is required"
+            ValidationMessage = "Currency is required."
+        };
+
+        _executor.Execute(data);
+    }
+
+    [Test]
+    [Category("Negative")]
+    [Category("Smoke")]
+    public void SalesInvoice_Negative_MissingWarehouse_SmokeTest()
+    {
+        var data = SalesInvoiceBuilder
+            .New()
+            .WithCustomer("C0002 | Minnah Elamin")
+            .AsScenario("Negative")
+            .Build();
+
+        data.Expected = new Core.DataModels.Shared.ExpectedResultDM
+        {
+            ValidationMessage = "Warehouse is required."
         };
 
         _executor.Execute(data);
     }
 
     // ══════════════════════════════════════════════════════════════════════
-    // TEST CASE SOURCES — auto-discover JSON files from folders
+    // TEST CASE SOURCES
     // ══════════════════════════════════════════════════════════════════════
 
     /// <summary>Returns all JSON file paths from the Create folder.</summary>
@@ -273,10 +231,14 @@ public class SalesInvoiceTests : BaseTest
         => BuildTestCases(ValidationFolder);
 
     /// <summary>
-    /// Builds NUnit TestCaseData from all JSON files in a folder.
-    /// Uses the filename (without extension) as the test name in the report.
-    /// Gracefully returns empty if the folder has no JSON files yet.
+    /// Discovers all JSON files in the given folder relative to the
+    /// test output directory (AppContext.BaseDirectory).
+    ///
+    /// Called at DISCOVERY TIME by NUnit — must never throw,
+    /// must never use TestContext (it is null during discovery).
+    /// Returns empty silently if the folder has no files yet.
     /// </summary>
+    /// 
     private static IEnumerable<TestCaseData> BuildTestCases(string folderPath)
     {
         IEnumerable<string> files;

@@ -26,19 +26,16 @@ public class ExpectationHandler : BaseHandler
     // ── Document status ────────────────────────────────────────────────────
 
     /// <summary>Status badge/label showing Draft, Submitted, Approved etc.</summary>
-    private static readonly By DocumentStatus = By.CssSelector(
-        ".document-status, .status-badge, [data-field='Status'], #documentStatus, .doc-status-label"
-    );
+    private static readonly By DocumentStatus = By.CssSelector(".TxnWorkflowStatus");
 
     // ── Totals section ─────────────────────────────────────────────────────
 
-    private static readonly By SubTotalAmount = By.Id("Summary_SubTotal");
-    private static readonly By TotalDiscountAmt = By.Id("Summary_TotalDiscount");
-    private static readonly By TotalTaxAmount = By.Id("Summary_TotalTax");
-    private static readonly By TotalChargesAmt = By.Id("Summary_TotalCharges");
-    private static readonly By GrandTotalAmount = By.Id("Summary_GrandTotal");
-    private static readonly By AmountPaidAmount = By.Id("Summary_AmountPaid");
-    private static readonly By BalanceDueAmount = By.Id("Summary_BalanceDue");
+    //private static readonly By SubTotalAmount = By.Id("Summary_SubTotal");
+    private static readonly By SubTotalAmount = By.XPath("//input[contains(@id, '.TxnTotalGrossValue_I')]");
+    private static readonly By TotalDiscountAmt = By.XPath("//input[contains(@id, '.DiscountValue_I')]");
+    private static readonly By GrandTotalAmount = By.XPath("//input[contains(@id, '.TotalNetValueLC_I')]");
+    //private static readonly By AmountPaidAmount = By.XPath("//input[contains(@id, '.AmountPaid_I')]");
+    //private static readonly By BalanceDueAmount = By.XPath("//input[contains(@id, '.BalanceDue_I')]");
 
     // ── Toast / notification ───────────────────────────────────────────────
 
@@ -50,6 +47,7 @@ public class ExpectationHandler : BaseHandler
         ".toast-error, .alert-danger, [class*='error-message'], .validation-summary-errors"
     );
 
+    private static readonly By ValidationMessage = By.Id("ValidationSummary");
     // ── Document number ────────────────────────────────────────────────────
 
     private static readonly By DocumentNoField = By.CssSelector(
@@ -92,6 +90,16 @@ public class ExpectationHandler : BaseHandler
         catch { return string.Empty; }
     }
 
+    public string ReadValidationMessage()
+    {
+        try
+        {
+            Wait.UntilVisible(ValidationMessage, timeoutSeconds: 5);
+            return GetText(ValidationMessage);
+        }
+        catch { return string.Empty; }
+    }
+
     /// <summary>
     /// Read all financial totals from the invoice summary section.
     /// Returns a dictionary keyed by field name for easy validator access.
@@ -102,11 +110,7 @@ public class ExpectationHandler : BaseHandler
         {
             ["SubTotal"] = ParseAmount(GetText(SubTotalAmount)),
             ["TotalDiscount"] = ParseAmount(GetText(TotalDiscountAmt)),
-            ["TotalTax"] = ParseAmount(GetText(TotalTaxAmount)),
-            ["TotalCharges"] = ParseAmount(GetText(TotalChargesAmt)),
-            ["GrandTotal"] = ParseAmount(GetText(GrandTotalAmount)),
-            ["AmountPaid"] = ParseAmount(GetText(AmountPaidAmount)),
-            ["BalanceDue"] = ParseAmount(GetText(BalanceDueAmount))
+            ["GrandTotal"] = ParseAmount(GetText(GrandTotalAmount))
         };
     }
 
@@ -116,7 +120,7 @@ public class ExpectationHandler : BaseHandler
     /// </summary>
     public decimal ReadLineTotal(int lineIndex)
     {
-        By locator = By.Id($"Lines_{lineIndex}__LineTotal");
+        By locator = By.XPath($"//tr[contains(@id, '_DXDataRow{lineIndex}')]//td[@class='grid-cell dx-wrap dxgv dx-ellipsis dx-ar'][3]");       
         string raw = GetText(locator);
         return ParseAmount(raw);
     }

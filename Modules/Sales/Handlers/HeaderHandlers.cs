@@ -7,22 +7,10 @@ namespace Enfinity.ERP.Automation.Modules.Sales.Handlers
 {
     public class HeaderHandlers : BaseHandler
     {
-        // ── Common Lookup Locator ───────────────────────────────────────────
+        // ── Common Lookup Locator ─────────────────────────────────────────
         private static readonly By LookupText = By.XPath("//div[@class='lookup-text']");
 
-        // ── Field Mapping (🔥 CORE) ─────────────────────────────────────────
-        private static readonly Dictionary<string, string> FieldMap = new()
-        {
-            { "Customer", "CustomerId" },
-            { "Currency", "CurrencyId" },
-            { "PriceList", "PriceListId" },
-            { "Warehouse", "WarehouseId" },
-            { "Salesman", "SalesmanId" },
-            { "PaymentMethod", "PaymentMethodId" },
-            { "PaymentTerm", "PaymentTermId" }
-        };
-
-        // ── Static (Non-Lookup) Fields ──────────────────────────────────────
+        // ── Static Fields ──────────────────────────────────────────────────
         private static readonly By TxnDateDropdown = By.XPath("//td[contains(@id, '.TxnDate_B-1')]");
         private static readonly By TxnDateInput = By.XPath("//input[contains(@id, '.TxnDate_I')]");
 
@@ -31,22 +19,21 @@ namespace Enfinity.ERP.Automation.Modules.Sales.Handlers
         private static readonly By DisplayNameInput = By.XPath("//input[contains(@id, '.DisplayCustomerName_I')]");
         private static readonly By MobileNumInput = By.XPath("//input[contains(@id, '.MobileNum_I')]");
 
-        // ── Constructor ─────────────────────────────────────────────────────
-        public HeaderHandlers(IWebDriver driver, WaitHelper wait)
-            : base(driver, wait) { }
+        public HeaderHandlers(IWebDriver driver, WaitHelper wait) : base(driver, wait) { }
 
-        // ── PUBLIC ENTRY ────────────────────────────────────────────────────
+        // ── PUBLIC ENTRY ──────────────────────────────────────────────────
         public void Fill(SalesInvoiceHeaderDM header)
         {
             FillInvoiceDate(header.InvoiceDate);
 
-            Lookup("Customer", header.Customer);
-            Lookup("Currency", header.Currency);
-            Lookup("PriceList", header.PriceList);
-            Lookup("Warehouse", header.Warehouse);
-            Lookup("Salesman", header.Salesman);
-            Lookup("PaymentMethod", header.PaymentMethod);
-            Lookup("PaymentTerm", header.PaymentTerm);
+            // 🔥 Fully Dynamic (NO FieldMap)
+            Lookup("CustomerId", header.Customer);
+            Lookup("CurrencyId", header.Currency);
+            Lookup("PriceListId", header.PriceList);
+            Lookup("WarehouseId", header.Warehouse);
+            Lookup("SalesmanId", header.Salesman);
+            Lookup("PaymentMethodId", header.PaymentMethod);
+            Lookup("PaymentTermId", header.PaymentTerm);
 
             Type(ReferenceNumInput, header.ReferenceNum);
             Type(CustomerPONumInput, header.CustomerPONum);
@@ -56,36 +43,40 @@ namespace Enfinity.ERP.Automation.Modules.Sales.Handlers
             WaitForLoader();
         }
 
-        // ── 🔥 GENERIC LOOKUP METHOD ────────────────────────────────────────
-        private void Lookup(string fieldKey, string? value)
+        // ── 🔥 FULLY DYNAMIC LOOKUP ───────────────────────────────────────
+        private void Lookup(string fieldName, string? value)
         {
             if (string.IsNullOrWhiteSpace(value)) return;
 
-            var (dropdown, input, nextPage) = BuildLookupLocators(fieldKey);
+            var (dropdown, input, nextPage) = BuildLookupLocators(fieldName);
 
-            OpenDropdown(dropdown);            
+            OpenDropdown(dropdown);
+            //Type(input, value);   
+
+            WaitForLoader();
 
             SelectOption(LookupText, nextPage, value);
         }
 
-        // ── 🔥 DYNAMIC LOCATOR BUILDER ──────────────────────────────────────
-        private (By dropdown, By input, By nextPage) BuildLookupLocators(string fieldKey)
+        // ── 🔥 SMART LOCATOR BUILDER ──────────────────────────────────────
+        private (By dropdown, By input, By nextPage) BuildLookupLocators(string fieldName)
         {
-            if (!FieldMap.ContainsKey(fieldKey))
-                throw new Exception($"Field '{fieldKey}' not mapped.");
+            // Find exact input for this field
+            var inputElement = Wait.UntilVisible(
+                By.XPath($"//input[contains(@id, '.{fieldName}Lookup_I')]")
+            );
 
-            string field = FieldMap[fieldKey];
-
-            // Detect module prefix dynamically (SalesInvoice)
-            var anyInput = Wait.UntilVisible(By.XPath("//input[contains(@id,'Lookup_I')]"));
-            string id = anyInput.GetAttribute("id");
+            string id = inputElement.GetAttribute("id");
 
             if (string.IsNullOrWhiteSpace(id) || !id.Contains('.'))
                 throw new Exception($"Invalid ID format: {id}");
 
+            // Example:
+            // SalesInvoice.CustomerIdLookup_I
+
             string modulePrefix = id.Split('.')[0];
 
-            string baseId = $"{modulePrefix}.{field}";
+            string baseId = $"{modulePrefix}.{fieldName}";
 
             var dropdown = By.Id($"{baseId}Lookup_B-1");
             var input = By.Id($"{baseId}Lookup_I");
@@ -94,8 +85,7 @@ namespace Enfinity.ERP.Automation.Modules.Sales.Handlers
             return (dropdown, input, nextPage);
         }
 
-        // ── NON-LOOKUP FIELDS ──────────────────────────────────────────────
-
+        // ── NON-LOOKUP ────────────────────────────────────────────────────
         private void FillInvoiceDate(string? date)
         {
             if (string.IsNullOrWhiteSpace(date)) return;

@@ -14,6 +14,7 @@ public class ChargesHandler : BaseHandler
     // ── Constructor ────────────────────────────────────────────────────────
     public ChargesHandler(IWebDriver driver, WaitHelper wait) : base(driver, wait) { }
 
+    // ── Field Mapping (🔥 Dictionary Driven) ──────────────────────────────
     private class FieldConfig
     {
         public By? Dropdown { get; set; }
@@ -52,12 +53,7 @@ public class ChargesHandler : BaseHandler
         }
     };
 
-    // ── Public entry point ─────────────────────────────────────────────────
-
-    /// <summary>
-    /// Fill all charge rows from the data model.
-    /// Skips gracefully if Charges section is empty.
-    /// </summary>
+    // ── Public entry ─────────────────────────────────────────────────
     public void Fill(SalesInvoiceChargesDM charges)
     {
         if (charges?.Items == null || charges.Items.Count == 0) return;
@@ -72,16 +68,17 @@ public class ChargesHandler : BaseHandler
         }
     }
 
-    /// <summary>Fill all fields for a single charge row.</summary>
+    // ── 🔥 Core Row Fill ──────────────────────────────────────────────────
     private void FillCharge(ChargeDM charge)
     {
         Lookup("Charge", charge.ChargeType);
         LookupCell("Account", charge.Account);
+
         SetCell("AmountFC", charge.AmountFC);
         SetCell("Remarks", charge.Remarks);
     }
 
-    // ── 🔥 Lookup inside Grid Cell ────────────────────────────────────────
+    // ── 🔥 Generic Lookup ────────────────────────────────────────────────
     private void Lookup(string field, string? value)
     {
         if (string.IsNullOrWhiteSpace(value)) return;
@@ -94,7 +91,7 @@ public class ChargesHandler : BaseHandler
         SelectOption(LookupText, NextButton, value);
     }
 
-    // ── 🔥 Lookup inside Grid Cell ────────────────────────────────────────
+    // ── 🔥 Lookup inside Grid Cell ─────────────────────────────────────────
     private void LookupCell(string field, string? value)
     {
         if (string.IsNullOrWhiteSpace(value)) return;
@@ -110,6 +107,7 @@ public class ChargesHandler : BaseHandler
         SelectOption(LookupText, NextButton, value);
     }
 
+    // ── Mapping Helpers ───────────────────────────────────────────────────
     private By GetDropdown(string field)
     {
         if (!FieldMap.ContainsKey(field) || FieldMap[field].Dropdown == null)
@@ -133,12 +131,7 @@ public class ChargesHandler : BaseHandler
         return By.XPath($"(//div[@class='dxgBCTC dx-ellipsis'])[{colIndex}]");
     }
 
-    // ── Private methods ────────────────────────────────────────────────────
-
-    /// <summary>
-    /// Click the Charges tab if the form uses tabs for sections.
-    /// TODO: If Charges is always visible (not tabbed), remove this method body.
-    /// </summary>
+    // ── Navigation ────────────────────────────────────────────────────────
     private void NavigateToChargesSection()
     {
         By chargesTab = By.XPath("//td[contains(@id, 'Charge_HC')]");
@@ -154,11 +147,9 @@ public class ChargesHandler : BaseHandler
         }
     }
 
-    /// <summary>Click Add Charge button to create a new charge row.</summary>
     private void AddNewCharge()
     {
-        Wait.UntilClickable(AddChargeButton).Click();
-        //Click(AddChargeButton);
+        Click(AddChargeButton);
         WaitForLoader();
     }
 

@@ -120,6 +120,42 @@ public class MessageValidator : BaseValidator
         }
     }
 
+    public void ValidateValidationMessage(ExpectedResultDM? expected)
+    {
+        if (string.IsNullOrWhiteSpace(expected?.ValidationMessage))
+        {
+            Report.Warning("Expected.ValidationMessage not defined in JSON — skipping validation message check.");
+            return;
+        }
+
+        Report.Info($"Validating message: Expected = '{expected.ValidationMessage}'");   
+        string actual = _expectation.ReadValidationMessage();
+
+        if (string.IsNullOrWhiteSpace(actual))
+        {
+            Report.Fail($"✗ No validation message found. Expected: '{expected.ValidationMessage}'");
+            NUnit.Framework.Assert.Fail(
+                $"[MessageValidator] Expected validation message '{expected.ValidationMessage}' " +
+                $"but no validation message was displayed on the page.");
+            return;
+        }
+
+        bool matches = actual.Contains(
+            expected.ValidationMessage,
+            StringComparison.OrdinalIgnoreCase
+        );
+
+        if (matches)
+            Report.Pass($"✓ Validation Message: Expected='{expected.ValidationMessage}' | Actual='{actual}'");
+        else
+        {
+            Report.Fail($"✗ Validation Message: Expected='{expected.ValidationMessage}' | Actual='{actual}'");
+            NUnit.Framework.Assert.Fail(
+                $"[MessageValidator] Validation message mismatch. " +
+                $"Expected to contain: '{expected.ValidationMessage}', Actual: '{actual}'");
+        }
+    }
+
     /// <summary>
     /// Assert no error messages are visible on the page.
     /// Useful to confirm a valid form submission has no validation errors.

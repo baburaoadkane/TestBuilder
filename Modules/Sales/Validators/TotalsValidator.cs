@@ -1,6 +1,7 @@
 ﻿using Enfinity.ERP.Automation.Core.Base;
 using Enfinity.ERP.Automation.Core.DataModels.Shared;
 using Enfinity.ERP.Automation.Core.Utilities;
+using Enfinity.ERP.Automation.Modules.Sales.DataModels;
 using Enfinity.ERP.Automation.Modules.Sales.Handlers;
 using OpenQA.Selenium;
 
@@ -57,7 +58,7 @@ public class TotalsValidator : BaseValidator
         ValidateSingleTotal(actuals, "GrandTotal", expected.Totals.GrandTotal);
         ValidateSingleTotal(actuals, "AmountPaid", expected.Totals.AmountPaid);
         ValidateSingleTotal(actuals, "BalanceDue", expected.Totals.BalanceDue);
-    }
+    }    
 
     /// <summary>
     /// Validate only the GrandTotal — quick assertion for simple scenarios.
@@ -105,5 +106,18 @@ public class TotalsValidator : BaseValidator
         }
 
         AssertAmountEqual(expected, actual, key);
+    }
+
+    public void ValidateFromApi(InvoiceTotalsResponse actual, ExpectedResultDM? expected)
+    {
+        if (expected == null)
+        {
+            Report.Warning("Expected result is null — skipping API totals validation.");
+            return;
+        }
+
+        Assert.AreEqual(expected.Totals.SubTotal, actual.SubTotal, "SubTotal mismatch");
+        Assert.AreEqual(expected.Totals.TotalDiscount, actual.TotalDiscount, "Discount mismatch");
+        Assert.AreEqual(expected.Totals.GrandTotal, actual.GrandTotal, "GrandTotal mismatch");
     }
 }

@@ -38,7 +38,7 @@ public class HeaderValidator : BaseValidator
     {
         if (expected?.Status == null)
         {
-            Report.Warning("Expected.Status not defined in JSON — skipping status validation.");
+            Report.Warning("Expected Status not defined in JSON — skipping status validation.");
             return;
         }
 

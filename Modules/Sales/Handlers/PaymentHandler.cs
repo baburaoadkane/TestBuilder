@@ -26,7 +26,7 @@ public class PaymentHandler : BaseHandler
         {
             Dropdown = By.XPath("//td[contains(@id, '_PaymentMethodId_B-1')]"),
             ColumnIndex = 1
-        },        
+        },
         ["Currency"] = new()
         {
             Dropdown = By.XPath("//td[contains(@id, '_CurrencyId_B-1')]"),
@@ -47,11 +47,6 @@ public class PaymentHandler : BaseHandler
     };
 
     // ── Public entry point ─────────────────────────────────────────────────
-
-    /// <summary>
-    /// Fill all charge rows from the data model.
-    /// Skips gracefully if Charges section is empty.
-    /// </summary>
     public void Fill(SalesInvoicePaymentsDM payments)
     {
         if (payments?.Entries == null || payments.Entries.Count == 0) return;
@@ -66,11 +61,13 @@ public class PaymentHandler : BaseHandler
         }
     }
 
-    /// <summary>Fill all fields for a single charge row.</summary>
+    /// <summary>Fill all fields for a single payment row.</summary>
     private void FillPayment(PaymentEntryDM payment)
     {
-        Lookup("Charge", payment.PaymentMode);
-        LookupCell("Account", payment.Account);
+        Lookup("PaymentMethod", payment.PaymentMode);
+        LookupCell("Currency", payment.Currency);
+
+        SetCell("CardNum", payment.CardNumber);
         SetCell("AmountFC", payment.AmountFC);
         SetCell("Remarks", payment.Remarks);
     }
@@ -104,6 +101,7 @@ public class PaymentHandler : BaseHandler
         SelectOption(LookupText, NextButton, value);
     }
 
+    // ── Mapping Helpers ───────────────────────────────────────────────────
     private By GetDropdown(string field)
     {
         if (!FieldMap.ContainsKey(field) || FieldMap[field].Dropdown == null)
@@ -127,36 +125,30 @@ public class PaymentHandler : BaseHandler
         return By.XPath($"(//div[@class='dxgBCTC dx-ellipsis'])[{colIndex}]");
     }
 
-    // ── Private methods ────────────────────────────────────────────────────
-
-    /// <summary>
-    /// Click the Charges tab if the form uses tabs for sections.
-    /// TODO: If Charges is always visible (not tabbed), remove this method body.
-    /// </summary>
+    // ── Navigation ────────────────────────────────────────────────────────
     private void NavigateToPaymentSection()
     {
-        By chargesTab = By.XPath("//td[contains(@id, 'PaymentMethods_HC')]");
+        By paymentsTab = By.XPath("//td[contains(@id, 'PaymentMethods_HC')]");
 
         try
         {
-            Wait.UntilClickable(chargesTab, timeoutSeconds: 3).Click();
+            Wait.UntilClickable(paymentsTab, timeoutSeconds: 3).Click();
             WaitForLoader();
         }
         catch
         {
-            // Charges section already visible — no tab navigation needed
+            // Payments section already visible — no tab navigation needed
         }
     }
 
-    /// <summary>Click Add Charge button to create a new charge row.</summary>
+    /// <summary>Click Add Payment button to create a new payment row.</summary>
     private void AddNewPayment()
     {
-        Wait.UntilClickable(AddPaymentButton).Click();
-        //Click(AddChargeButton);
+        Click(AddPaymentButton);
         WaitForLoader();
     }
 
-    // ── Set Cell Value ────────────────────────────────────────────────────
+    // ── Cell Value Setter────────────────────────────────────────────────────
     private void SetCell(string field, object? value)
     {
         if (value == null || !IsValidValue(value)) return;

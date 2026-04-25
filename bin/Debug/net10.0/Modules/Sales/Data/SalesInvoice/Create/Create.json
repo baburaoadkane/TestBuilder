@@ -1,0 +1,52 @@
+{
+  "TestDescription": "Create a basic Sales Invoice",
+  "ScenarioType": "Create",
+  "RequiresApproval": false,
+
+  "Header": {
+    "Customer": "C0002 | Minnah Elamin",
+    "ReferenceNum": "REF-001",
+    "Warehouse": "Grand Prime House"
+  },
+
+  "Lines": [
+    {
+      "Barcode": "",
+      "Item": "I0001",
+      "Quantity": 2,
+      "UOM": "",
+      "UnitPrice": 100.00,
+      "ExpectedLineTotal": 200.00
+    },
+    {
+      "Barcode": "",
+      "Item": "I0002",
+      "Quantity": 1,
+      "UOM": "",
+      "UnitPrice": 100.00,
+      "ExpectedLineTotal": 100.00
+    }
+  ],
+
+  "Charges": {
+    "Items": []
+  },
+
+  "Payments": {
+    "Entries": []
+  },
+
+  "Others": {
+    "Remarks": ""
+  },
+
+  "Expected": {
+    "Status": "Active",
+    "SuccessMessage": "",
+    "Totals": {
+      "SubTotal": 300.00,
+      "TotalDiscount": 0.00,
+      "GrandTotal": 300.00
+    }
+  }
+}

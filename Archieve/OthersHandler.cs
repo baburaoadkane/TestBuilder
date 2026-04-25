@@ -3,7 +3,7 @@ using Enfinity.ERP.Automation.Core.Base;
 using Enfinity.ERP.Automation.Core.Utilities;
 using Enfinity.ERP.Automation.Modules.Sales.DataModels;
 
-namespace Enfinity.ERP.Automation.Modules.Sales.Handlers;
+namespace Enfinity.ERP.Automation.Archieve;
 
 /// <summary>
 /// Handles all UI interactions for the Sales Invoice OTHERS / REMARKS section.
@@ -30,8 +30,7 @@ public class OthersHandler : BaseHandler
     private static readonly By TermsAndConditionsTextarea = By.Id("Others_TermsAndConditions");
 
     // ── Constructor ────────────────────────────────────────────────────────
-    public OthersHandler(IWebDriver driver, WaitHelper wait)
-        : base(driver, wait) { }
+    public OthersHandler(IWebDriver driver, WaitHelper wait) : base(driver, wait) { }
 
     // ── Public entry point ─────────────────────────────────────────────────
 

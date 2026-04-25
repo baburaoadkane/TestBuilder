@@ -16,6 +16,8 @@ public class ExpectedResultDM
     /// <summary>Expected error/validation message for negative test cases.</summary>
     public string? ErrorMessage { get; set; }
 
+    public string? ValidationMessage { get; set; } = null;
+
     /// <summary>Expected totals — validated by TotalsValidator.</summary>
     public ExpectedTotalsDM? Totals { get; set; }
 }
