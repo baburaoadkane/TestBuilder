@@ -1,19 +1,15 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.DevTools;
-using OpenQA.Selenium.DevTools.V145.Network;
+using OpenQA.Selenium.DevTools.V147.Network;
 using System.Text.Json;
-using System.Collections.Concurrent;
 
 namespace Enfinity.ERP.Automation.Core.Utilities
 {
     public class NetworkHelper
     {
         private readonly IWebDriver _driver;
-        private readonly DevToolsSession _devTools;
-
-        // Store multiple responses safely
-        private readonly ConcurrentDictionary<string, string> _responses = new();
-
+        private DevToolsSession _devTools;
+        private string _responseBody = string.Empty;
         private string _urlFilter = string.Empty;
 
         public NetworkHelper(IWebDriver driver)
@@ -22,14 +18,15 @@ namespace Enfinity.ERP.Automation.Core.Utilities
             _devTools = ((IDevTools)_driver).GetDevToolsSession();
         }
 
-        // ─────────────────────────────────────────────
-        // Start capturing API responses
-        // ─────────────────────────────────────────────
+        /// <summary>
+        /// Start capturing network calls that match the given URL
+        /// </summary>
         public void StartCapture(string urlContains)
         {
             _urlFilter = urlContains;
+            _responseBody = string.Empty;
 
-            var domains = _devTools.GetVersionSpecificDomains<OpenQA.Selenium.DevTools.V145.DevToolsSessionDomains>();
+            var domains = _devTools.GetVersionSpecificDomains<OpenQA.Selenium.DevTools.V147.DevToolsSessionDomains>();
             var network = domains.Network;
 
             network.Enable(new EnableCommandSettings());
@@ -38,42 +35,44 @@ namespace Enfinity.ERP.Automation.Core.Utilities
             {
                 try
                 {
-                    if (!e.Response.Url.Contains(_urlFilter)) return;
-
-                    var body = await network.GetResponseBody(new GetResponseBodyCommandSettings
+                    if (!string.IsNullOrEmpty(e.Response.Url) &&
+                        e.Response.Url.Contains(_urlFilter))
                     {
-                        RequestId = e.RequestId
-                    });
+                        var body = await network.GetResponseBody(new GetResponseBodyCommandSettings
+                        {
+                            RequestId = e.RequestId
+                        });
 
-                    _responses[e.Response.Url] = body.Body;
+                        _responseBody = body.Body;
+                    }
                 }
                 catch
                 {
-                    // Ignore intermittent failures
+                    // Ignore failures (sometimes body not available)
                 }
             };
         }
 
-        // ─────────────────────────────────────────────
-        // Wait & Get Latest Matching Response
-        // ─────────────────────────────────────────────
-        public T GetResponse<T>(int timeoutSeconds = 10)
+        /// <summary>
+        /// Wait and return API response (important to avoid 0 values)
+        /// </summary>
+        public T GetResponse<T>()
         {
-            var wait = new OpenQA.Selenium.Support.UI.WebDriverWait(_driver, TimeSpan.FromSeconds(timeoutSeconds));
+            if (string.IsNullOrEmpty(_responseBody))
+                throw new Exception("No network response captured.");
 
-            wait.Until(_ => _responses.Count > 0);
-
-            var latest = _responses.Last().Value;
-
-            return JsonSerializer.Deserialize<T>(latest)!;
+            return JsonSerializer.Deserialize<T>(_responseBody, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
         }
 
-        // ─────────────────────────────────────────────
-        // Optional: Clear old responses
-        // ─────────────────────────────────────────────
+        /// <summary>
+        /// Clear previous captured response
+        /// </summary>
         public void Clear()
         {
-            _responses.Clear();
+            _responseBody = string.Empty;
         }
     }
 }

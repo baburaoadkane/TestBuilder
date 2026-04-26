@@ -13,8 +13,8 @@
           "NUnit": "4.5.1",
           "NUnit3TestAdapter": "6.2.0",
           "Newtonsoft.Json": "13.0.5-beta1",
-          "Selenium.Support": "4.41.0",
-          "Selenium.WebDriver": "4.41.0",
+          "Selenium.Support": "4.43.0",
+          "Selenium.WebDriver": "4.43.0",
           "System.Drawing.Common": "11.0.0-preview.3.26207.106",
           "System.Text.Json": "11.0.0-preview.3.26207.106",
           "TextCopy": "6.2.1"
@@ -702,9 +702,9 @@
           }
         }
       },
-      "Selenium.Support/4.41.0": {
+      "Selenium.Support/4.43.0": {
         "dependencies": {
-          "Selenium.WebDriver": "4.41.0"
+          "Selenium.WebDriver": "4.43.0"
         },
         "runtime": {
           "lib/netstandard2.0/WebDriver.Support.dll": {
@@ -713,7 +713,7 @@
           }
         }
       },
-      "Selenium.WebDriver/4.41.0": {
+      "Selenium.WebDriver/4.43.0": {
         "runtime": {
           "lib/net8.0/WebDriver.dll": {
             "assemblyVersion": "4.0.0.0",
@@ -997,19 +997,19 @@
       "path": "razorengine.netcore.nixfix/1.0.1",
       "hashPath": "razorengine.netcore.nixfix.1.0.1.nupkg.sha512"
     },
-    "Selenium.Support/4.41.0": {
+    "Selenium.Support/4.43.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-ZKUuiHuJKUV/7uC1eF81zSb8w2RA+JlkC1/yeM99XAa3Q8a2PgyHVA2MH9FHzufGO3nJXUe0RIx2wbBdVDgioA==",
-      "path": "selenium.support/4.41.0",
-      "hashPath": "selenium.support.4.41.0.nupkg.sha512"
+      "sha512": "sha512-Q395pb0VkESAlyf+caT6qaFIfI6OPR0kWZZRaKh7Zxx5Ci7qIMfwpRzyJq+E/DA5bnbH5uhAq4TI3p57E1AvhQ==",
+      "path": "selenium.support/4.43.0",
+      "hashPath": "selenium.support.4.43.0.nupkg.sha512"
     },
-    "Selenium.WebDriver/4.41.0": {
+    "Selenium.WebDriver/4.43.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-oQPPzUGYy7M5+m3cMlGUKiswVLX/TbGySKH0jHsT0B9ZNfPZO6b0aqKNopR0FmDbSgjUsHoA9Vdur81/WW4DGg==",
-      "path": "selenium.webdriver/4.41.0",
-      "hashPath": "selenium.webdriver.4.41.0.nupkg.sha512"
+      "sha512": "sha512-gsT0/pFeTUbyeUL9qcf/KLeII802sZrRNeb7YGKKOlFfT50MKxggWQW3Wh9p82IstCcXG91Ya9OLbu3tH/BRoQ==",
+      "path": "selenium.webdriver/4.43.0",
+      "hashPath": "selenium.webdriver.4.43.0.nupkg.sha512"
     },
     "System.Drawing.Common/11.0.0-preview.3.26207.106": {
       "type": "package",

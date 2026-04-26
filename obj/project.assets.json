@@ -830,10 +830,10 @@
           "lib/netcoreapp3.1/RazorEngine.NetCore.dll": {}
         }
       },
-      "Selenium.Support/4.41.0": {
+      "Selenium.Support/4.43.0": {
         "type": "package",
         "dependencies": {
-          "Selenium.WebDriver": "4.41.0"
+          "Selenium.WebDriver": "4.43.0"
         },
         "compile": {
           "lib/netstandard2.0/WebDriver.Support.dll": {
@@ -846,7 +846,7 @@
           }
         }
       },
-      "Selenium.WebDriver/4.41.0": {
+      "Selenium.WebDriver/4.43.0": {
         "type": "package",
         "compile": {
           "lib/net8.0/WebDriver.dll": {
@@ -859,7 +859,7 @@
           }
         },
         "build": {
-          "buildTransitive/Selenium.WebDriver.targets": {}
+          "buildTransitive/Selenium.WebDriver.props": {}
         },
         "runtimeTargets": {
           "runtimes/linux/native/selenium-manager": {
@@ -2246,30 +2246,30 @@
         "razorengine.netcore.nixfix.nuspec"
       ]
     },
-    "Selenium.Support/4.41.0": {
-      "sha512": "ZKUuiHuJKUV/7uC1eF81zSb8w2RA+JlkC1/yeM99XAa3Q8a2PgyHVA2MH9FHzufGO3nJXUe0RIx2wbBdVDgioA==",
+    "Selenium.Support/4.43.0": {
+      "sha512": "Q395pb0VkESAlyf+caT6qaFIfI6OPR0kWZZRaKh7Zxx5Ci7qIMfwpRzyJq+E/DA5bnbH5uhAq4TI3p57E1AvhQ==",
       "type": "package",
-      "path": "selenium.support/4.41.0",
+      "path": "selenium.support/4.43.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "icon.png",
         "lib/netstandard2.0/WebDriver.Support.dll",
         "lib/netstandard2.0/WebDriver.Support.xml",
-        "selenium.support.4.41.0.nupkg.sha512",
+        "selenium.support.4.43.0.nupkg.sha512",
         "selenium.support.nuspec"
       ]
     },
-    "Selenium.WebDriver/4.41.0": {
-      "sha512": "oQPPzUGYy7M5+m3cMlGUKiswVLX/TbGySKH0jHsT0B9ZNfPZO6b0aqKNopR0FmDbSgjUsHoA9Vdur81/WW4DGg==",
+    "Selenium.WebDriver/4.43.0": {
+      "sha512": "gsT0/pFeTUbyeUL9qcf/KLeII802sZrRNeb7YGKKOlFfT50MKxggWQW3Wh9p82IstCcXG91Ya9OLbu3tH/BRoQ==",
       "type": "package",
-      "path": "selenium.webdriver/4.41.0",
+      "path": "selenium.webdriver/4.43.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "README.md",
-        "build/Selenium.WebDriver.targets",
-        "buildTransitive/Selenium.WebDriver.targets",
+        "build/Selenium.WebDriver.props",
+        "buildTransitive/Selenium.WebDriver.props",
         "icon.png",
         "lib/net462/WebDriver.dll",
         "lib/net462/WebDriver.xml",
@@ -2280,7 +2280,7 @@
         "runtimes/linux/native/selenium-manager",
         "runtimes/osx/native/selenium-manager",
         "runtimes/win/native/selenium-manager.exe",
-        "selenium.webdriver.4.41.0.nupkg.sha512",
+        "selenium.webdriver.4.43.0.nupkg.sha512",
         "selenium.webdriver.nuspec"
       ]
     },
@@ -2575,8 +2575,8 @@
       "NUnit.Analyzers >= 4.12.0",
       "NUnit3TestAdapter >= 6.2.0",
       "Newtonsoft.Json >= 13.0.5-beta1",
-      "Selenium.Support >= 4.41.0",
-      "Selenium.WebDriver >= 4.41.0",
+      "Selenium.Support >= 4.43.0",
+      "Selenium.WebDriver >= 4.43.0",
       "System.Drawing.Common >= 11.0.0-preview.3.26207.106",
       "System.Text.Json >= 11.0.0-preview.3.26207.106",
       "TextCopy >= 6.2.1",
@@ -2663,11 +2663,11 @@
           },
           "Selenium.Support": {
             "target": "Package",
-            "version": "[4.41.0, )"
+            "version": "[4.43.0, )"
           },
           "Selenium.WebDriver": {
             "target": "Package",
-            "version": "[4.41.0, )"
+            "version": "[4.43.0, )"
           },
           "System.Drawing.Common": {
             "target": "Package",

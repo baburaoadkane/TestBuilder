@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "cyeNGy4NJvE=",
+  "dgSpecHash": "N3X+yp+eBTg=",
   "success": true,
   "projectFilePath": "D:\\Platform\\Auto.ERP\\Enfinity.ERP.Automation.csproj",
   "expectedPackageFiles": [
@@ -28,8 +28,8 @@
     "C:\\Users\\Admin\\.nuget\\packages\\nunit.analyzers\\4.12.0\\nunit.analyzers.4.12.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\nunit3testadapter\\6.2.0\\nunit3testadapter.6.2.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\razorengine.netcore.nixfix\\1.0.1\\razorengine.netcore.nixfix.1.0.1.nupkg.sha512",
-    "C:\\Users\\Admin\\.nuget\\packages\\selenium.support\\4.41.0\\selenium.support.4.41.0.nupkg.sha512",
-    "C:\\Users\\Admin\\.nuget\\packages\\selenium.webdriver\\4.41.0\\selenium.webdriver.4.41.0.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\selenium.support\\4.43.0\\selenium.support.4.43.0.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\selenium.webdriver\\4.43.0\\selenium.webdriver.4.43.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\system.drawing.common\\11.0.0-preview.3.26207.106\\system.drawing.common.11.0.0-preview.3.26207.106.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\system.io.pipelines\\11.0.0-preview.3.26207.106\\system.io.pipelines.11.0.0-preview.3.26207.106.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\system.reactive\\6.0.0\\system.reactive.6.0.0.nupkg.sha512",

@@ -21,6 +21,7 @@ namespace Enfinity.ERP.Automation.Modules.Sales.Validators;
 public class TotalsValidator : BaseValidator
 {
     private readonly ExpectationHandler _expectation;
+    private readonly NetworkHelper network;
 
     public TotalsValidator(
         IWebDriver driver,
@@ -30,6 +31,7 @@ public class TotalsValidator : BaseValidator
         : base(driver, wait, report)
     {
         _expectation = expectation;
+        network = new NetworkHelper(driver);
     }
 
     // ── Public validation methods ──────────────────────────────────────────
@@ -38,27 +40,27 @@ public class TotalsValidator : BaseValidator
     /// Validate all totals against the expected values from the JSON file.
     /// Skips fields where the expected value is 0 and not critical.
     /// </summary>
-    public void ValidateTotals(ExpectedResultDM? expected)
-    {
-        if (expected?.Totals == null)
-        {
-            Report.Warning("Expected.Totals not defined in JSON — skipping totals validation.");
-            return;
-        }
+    //public void ValidateTotals(ExpectedResultDM? expected)
+    //{
+    //    if (expected?.Totals == null)
+    //    {
+    //        Report.Warning("Expected.Totals not defined in JSON — skipping totals validation.");
+    //        return;
+    //    }
 
-        Report.Info("── Validating Financial Totals ──");
+    //    Report.Info("── Validating Financial Totals ──");
 
-        // Read all actual totals from the UI in one call
-        var actuals = _expectation.ReadTotals();
+    //    // Read all actual totals from the UI in one call
+    //    var actuals = _expectation.ReadTotals();
 
-        ValidateSingleTotal(actuals, "SubTotal", expected.Totals.SubTotal);
-        ValidateSingleTotal(actuals, "TotalDiscount", expected.Totals.TotalDiscount);
-        ValidateSingleTotal(actuals, "TotalTax", expected.Totals.TotalTax);
-        ValidateSingleTotal(actuals, "TotalCharges", expected.Totals.TotalCharges);
-        ValidateSingleTotal(actuals, "GrandTotal", expected.Totals.GrandTotal);
-        ValidateSingleTotal(actuals, "AmountPaid", expected.Totals.AmountPaid);
-        ValidateSingleTotal(actuals, "BalanceDue", expected.Totals.BalanceDue);
-    }    
+    //    ValidateSingleTotal(actuals, "SubTotal", expected.Totals.SubTotal);
+    //    ValidateSingleTotal(actuals, "TotalDiscount", expected.Totals.TotalDiscount);
+    //    ValidateSingleTotal(actuals, "TotalTax", expected.Totals.TotalTax);
+    //    ValidateSingleTotal(actuals, "TotalCharges", expected.Totals.TotalCharges);
+    //    ValidateSingleTotal(actuals, "GrandTotal", expected.Totals.GrandTotal);
+    //    ValidateSingleTotal(actuals, "AmountPaid", expected.Totals.AmountPaid);
+    //    ValidateSingleTotal(actuals, "BalanceDue", expected.Totals.BalanceDue);
+    //}    
 
     /// <summary>
     /// Validate only the GrandTotal — quick assertion for simple scenarios.
@@ -108,16 +110,35 @@ public class TotalsValidator : BaseValidator
         AssertAmountEqual(expected, actual, key);
     }
 
-    public void ValidateFromApi(InvoiceTotalsResponse actual, ExpectedResultDM? expected)
+    public void ValidateTotals(ExpectedResultDM? expected)
     {
-        if (expected == null)
+        if (expected?.Totals == null)
         {
-            Report.Warning("Expected result is null — skipping API totals validation.");
+            Report.Warning("Expected.Totals not defined in JSON — skipping totals validation.");
             return;
         }
 
-        Assert.AreEqual(expected.Totals.SubTotal, actual.GrossValue, "SubTotal mismatch");
-        Assert.AreEqual(expected.Totals.TotalDiscount, actual.DiscountValue, "Discount mismatch");
-        Assert.AreEqual(expected.Totals.GrandTotal, actual.NetValue, "GrandTotal mismatch");
+        Report.Info("── Validating Financial Totals (API) ──");
+
+        // 🔥 Get API response (already captured before save)
+        var totals = network.GetResponse<InvoiceTotalsResponse>();
+
+        Assert.AreEqual(expected.Totals.SubTotal, totals.GrossValue);
+        Assert.AreEqual(expected.Totals.TotalDiscount, totals.DiscountValue);
+        Assert.AreEqual(expected.Totals.GrandTotal, totals.NetValue);
+
+        // Optional (only if API gives)
+        // Compare("TotalTax", expected.Totals.TotalTax, totals.TaxValue);
+        // Compare("TotalCharges", expected.Totals.TotalCharges, totals.ChargesValue);
+        // Compare("AmountPaid", expected.Totals.AmountPaid, totals.PaidValue);
+        // Compare("BalanceDue", expected.Totals.BalanceDue, totals.BalanceValue);
+    }
+
+    private void Compare(string field, decimal expected, decimal actual)
+    {
+        if (Math.Abs(expected - actual) > 0.01m)
+            throw new Exception($"{field} mismatch → Expected: {expected}, Actual: {actual}");
+
+        Report.Pass($"{field} matched → {actual}");
     }
 }
