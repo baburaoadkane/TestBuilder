@@ -116,8 +116,8 @@ public class TotalsValidator : BaseValidator
             return;
         }
 
-        Assert.AreEqual(expected.Totals.SubTotal, actual.SubTotal, "SubTotal mismatch");
-        Assert.AreEqual(expected.Totals.TotalDiscount, actual.TotalDiscount, "Discount mismatch");
-        Assert.AreEqual(expected.Totals.GrandTotal, actual.GrandTotal, "GrandTotal mismatch");
+        Assert.AreEqual(expected.Totals.SubTotal, actual.GrossValue, "SubTotal mismatch");
+        Assert.AreEqual(expected.Totals.TotalDiscount, actual.DiscountValue, "Discount mismatch");
+        Assert.AreEqual(expected.Totals.GrandTotal, actual.NetValue, "GrandTotal mismatch");
     }
 }
