@@ -1,5 +1,5 @@
 {
-  "TestDescription": "Create Save and Validate a Sales Invoice",
+  "TestDescription": "SalesInvoice_Create_MultiLine_ValidateTotal",
   "ScenarioType": "Create",
   "RequiresApproval": false,
 

@@ -132,9 +132,9 @@ public class SalesInvoiceExecutor : BaseExecutor<SalesInvoiceDM>
         // Step 1–7: Same as Create
         ExecuteCreate(data);
 
-        // Step 8: Submit for approval
+        // Step 8: Submit for approval if workflow enabled
         //Report.Info("Step 8: Submit document for approval");
-        //Submit();
+        //lickOnForm("Submit");
         //_messageValidator.ValidateSuccessMessage(data.Expected);
 
         // Step 9: Approve
@@ -143,8 +143,8 @@ public class SalesInvoiceExecutor : BaseExecutor<SalesInvoiceDM>
         //_messageValidator.ValidateSuccessMessage(data.Expected);
 
         // Step 10: Validate final approved state
-        //Report.Info("Step 10: Validate approved state");
-        //_headerValidator.ValidateStatus(data.Expected);
+        Report.Info("Step 10: Validate approved state");
+        _headerValidator.ValidateStatus(data.Expected);
         //_totalsValidator.ValidateTotals(data.Expected);
     }
 
