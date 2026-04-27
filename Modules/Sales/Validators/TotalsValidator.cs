@@ -7,21 +7,9 @@ using OpenQA.Selenium;
 
 namespace Enfinity.ERP.Automation.Modules.Sales.Validators;
 
-/// <summary>
-/// Validates the financial TOTALS section of a saved Sales Invoice.
-///
-/// Validates every amount in the invoice summary:
-///   SubTotal, TotalDiscount, TotalTax, TotalCharges,
-///   GrandTotal, AmountPaid, BalanceDue
-///
-/// Uses ExpectationHandler.ReadTotals() to get actual values from the UI.
-/// Compares against ExpectedTotalsDM from the JSON file.
-/// Tolerance: ±0.01 to handle ERP rounding differences.
-/// </summary>
 public class TotalsValidator : BaseValidator
 {
     private readonly ExpectationHandler _expectation;
-    private readonly NetworkHelper _networkHelper;
 
     public TotalsValidator(
         IWebDriver driver,
@@ -31,36 +19,9 @@ public class TotalsValidator : BaseValidator
         : base(driver, wait, report)
     {
         _expectation = expectation;
-        _networkHelper = new NetworkHelper(driver);
     }
 
     // ── Public validation methods ──────────────────────────────────────────
-
-    /// <summary>
-    /// Validate all totals against the expected values from the JSON file.
-    /// Skips fields where the expected value is 0 and not critical.
-    /// </summary>
-    //public void ValidateTotals(ExpectedResultDM? expected)
-    //{
-    //    if (expected?.Totals == null)
-    //    {
-    //        Report.Warning("Expected.Totals not defined in JSON — skipping totals validation.");
-    //        return;
-    //    }
-
-    //    Report.Info("── Validating Financial Totals ──");
-
-    //    // Read all actual totals from the UI in one call
-    //    var actuals = _expectation.ReadTotals();
-
-    //    ValidateSingleTotal(actuals, "SubTotal", expected.Totals.SubTotal);
-    //    ValidateSingleTotal(actuals, "TotalDiscount", expected.Totals.TotalDiscount);
-    //    ValidateSingleTotal(actuals, "TotalTax", expected.Totals.TotalTax);
-    //    ValidateSingleTotal(actuals, "TotalCharges", expected.Totals.TotalCharges);
-    //    ValidateSingleTotal(actuals, "GrandTotal", expected.Totals.GrandTotal);
-    //    ValidateSingleTotal(actuals, "AmountPaid", expected.Totals.AmountPaid);
-    //    ValidateSingleTotal(actuals, "BalanceDue", expected.Totals.BalanceDue);
-    //}    
 
     /// <summary>
     /// Validate only the GrandTotal — quick assertion for simple scenarios.
@@ -108,31 +69,7 @@ public class TotalsValidator : BaseValidator
         }
 
         AssertAmountEqual(expected, actual, key);
-    }
-
-    public void ValidateTotals(ExpectedResultDM? expected)
-    {
-        if (expected?.Totals == null)
-        {
-            Report.Warning("Expected.Totals not defined in JSON — skipping totals validation.");
-            return;
-        }
-
-        Report.Info("── Validating Financial Totals (API) ──");
-
-        // 🔥 Get API response (already captured before save)
-        var totals = _networkHelper.GetResponse<TotalsResponseDM>();
-
-        Assert.AreEqual(expected.Totals.GrossValue, totals.GrossValue);
-        Assert.AreEqual(expected.Totals.DiscountValue, totals.DiscountValue);
-        Assert.AreEqual(expected.Totals.NetValue, totals.NetValue);
-
-        // Optional (only if API gives)
-        // Compare("TotalTax", expected.Totals.TaxValue, totals.TaxValue);
-        // Compare("TotalCharges", expected.Totals.TotalCharges, totals.ChargesValue);
-        // Compare("AmountPaid", expected.Totals.AmountPaid, totals.PaidValue);
-        // Compare("BalanceDue", expected.Totals.BalanceDue, totals.BalanceValue);
-    }
+    }    
 
     private void Compare(string field, decimal expected, decimal actual)
     {
@@ -141,4 +78,20 @@ public class TotalsValidator : BaseValidator
 
         Report.Pass($"{field} matched → {actual}");
     }
+
+    public void ValidateTotalsFromApi(ExpectedResultDM expected, TotalsResponseDM actual)
+    {
+        if (expected?.Totals == null)
+        {
+            Report.Warning("Expected.Totals not defined — skipping API validation.");
+            return;
+        }
+
+        Report.Info("── Validating Financial Totals (API) ──");
+
+        // Mapping JSON → API
+        AssertAmountEqual(expected.Totals.GrossValue, actual.GrossValue, "GrossValue");
+        AssertAmountEqual(expected.Totals.DiscountValue, actual.DiscountValue, "DiscountValue");
+        AssertAmountEqual(expected.Totals.NetValue, actual.NetValue, "NetValue");
+    }    
 }

@@ -23,6 +23,8 @@ public class SalesInvoiceExecutor : BaseExecutor<SalesInvoiceDM>
     private readonly LinesValidator _linesValidator;
     private readonly TotalsValidator _totalsValidator;
     private readonly MessageValidator _messageValidator;
+
+    // ── Network ────────────────────────────────────────────────────────────
     private readonly NetworkHelper _networkHelper;
 
     // ── Navigation route ───────────────────────────────────────────────────
@@ -46,7 +48,9 @@ public class SalesInvoiceExecutor : BaseExecutor<SalesInvoiceDM>
         _linesValidator = new LinesValidator(driver, wait, report, _expectationHandler);
         _totalsValidator = new TotalsValidator(driver, wait, report, _expectationHandler);
         _messageValidator = new MessageValidator(driver, wait, report, _expectationHandler);
-        _networkHelper = new NetworkHelper(Driver);
+
+        // Initialize network helper
+        _networkHelper = new NetworkHelper(driver);
     }
 
     // ── Entry point ───────────────────────────────────────────────────
@@ -112,24 +116,15 @@ public class SalesInvoiceExecutor : BaseExecutor<SalesInvoiceDM>
         Report.Info("Step 6: Fill Others");
         _othersHandler.Fill(data.Others);
 
-        //Report.Info("Step 8: Save document");
-        //ClickOnForm("View");
-
-        Report.Info("Step 7: Start API Capture");        
+        Report.Info("Step 7: Start capturing totals API");        
         _networkHelper.Clear();
         _networkHelper.StartCapture("/SalesInvoice/GetTxnSubtotals");
 
         Report.Info("Step 8: Save and View document");
-        ClickOnForm("View");   
+        ClickOnForm("View");
 
-        //Report.Info("Step 9: Validate");
-        //ValidateAfterSave(data);
-
-        var totals = _networkHelper.GetResponse<TotalsResponseDM>();
-
-        Assert.AreEqual(data.Expected.Totals.GrossValue, totals.GrossValue);
-        Assert.AreEqual(data.Expected.Totals.DiscountValue, totals.DiscountValue);
-        Assert.AreEqual(data.Expected.Totals.NetValue, totals.NetValue);
+        Report.Info("Step 9: Validate After Save and View");
+        ValidateAfterSave(data);
     }
 
     private void ExecuteApproval(SalesInvoiceDM data)
@@ -222,9 +217,14 @@ public class SalesInvoiceExecutor : BaseExecutor<SalesInvoiceDM>
             return;
         }
 
-        //_messageValidator.ValidateSuccessMessage(data.Expected);
-        //_headerValidator.ValidateStatus(data.Expected);
-        //_linesValidator.ValidateLineTotals(data.Lines);
-        _totalsValidator.ValidateTotals(data.Expected);        
+        _messageValidator.ValidateSuccessMessage(data.Expected);
+        _headerValidator.ValidateStatus(data.Expected);
+        _linesValidator.ValidateLineTotals(data.Lines);
+
+        // ✅ Get API response HERE
+        var totals = _networkHelper.GetResponse<TotalsResponseDM>();
+
+        // ✅ Pass to validator
+        _totalsValidator.ValidateTotalsFromApi(data.Expected, totals);
     }    
 }

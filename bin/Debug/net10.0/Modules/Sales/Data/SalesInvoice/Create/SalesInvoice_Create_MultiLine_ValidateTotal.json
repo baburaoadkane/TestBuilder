@@ -1,5 +1,5 @@
 {
-  "TestDescription": "Create a basic Sales Invoice",
+  "TestDescription": "Create Save and Validate a Sales Invoice",
   "ScenarioType": "Create",
   "RequiresApproval": false,
 
@@ -15,16 +15,16 @@
       "Item": "I0001",
       "Quantity": 2,
       "UOM": "",
-      "UnitPrice": 100.00,
-      "ExpectedLineTotal": 200.00
+      "UnitPrice": 100.000,
+      "ExpectedLineTotal": 200.000
     },
     {
       "Barcode": "",
       "Item": "I0002",
       "Quantity": 1,
       "UOM": "",
-      "UnitPrice": 100.00,
-      "ExpectedLineTotal": 100.00
+      "UnitPrice": 100.000,
+      "ExpectedLineTotal": 100.000
     }
   ],
 
@@ -44,9 +44,9 @@
     "Status": "Active",
     "SuccessMessage": "",
     "Totals": {
-      "GrossValue": 300.00,
-      "DiscountValue": 0.00,
-      "NetValue": 300.00
+      "GrossValue": 300.000,
+      "DiscountValue": 0.000,
+      "NetValue": 300.000
     }
   }
 }

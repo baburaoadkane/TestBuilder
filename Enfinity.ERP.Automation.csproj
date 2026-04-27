@@ -56,7 +56,6 @@
 		<Folder Include="Modules\Accounting\" />
 		<Folder Include="Modules\Inventory\" />
 		<Folder Include="Modules\Purchase\" />
-		<Folder Include="Modules\Sales\Data\SalesInvoice\Create\" />
 		<Folder Include="Modules\Sales\Data\SalesInvoice\Edit\" />
 		<Folder Include="Modules\Sales\Data\SalesInvoice\Approve\" />
 		<Folder Include="Modules\Sales\Data\SalesReturn\" />
@@ -65,7 +64,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Content Update="Modules\Sales\Data\SalesInvoice\Create\Create.json">
+	  <Content Update="Modules\Sales\Data\SalesInvoice\Create\SalesInvoice_Create_MultiLine_ValidateTotal.json">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
 	</ItemGroup>
