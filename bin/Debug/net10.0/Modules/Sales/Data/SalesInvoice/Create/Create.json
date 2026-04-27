@@ -44,9 +44,9 @@
     "Status": "Active",
     "SuccessMessage": "",
     "Totals": {
-      "SubTotal": 300.00,
-      "TotalDiscount": 0.00,
-      "GrandTotal": 300.00
+      "GrossValue": 300.00,
+      "DiscountValue": 0.00,
+      "NetValue": 300.00
     }
   }
 }

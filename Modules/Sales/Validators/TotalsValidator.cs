@@ -21,7 +21,7 @@ namespace Enfinity.ERP.Automation.Modules.Sales.Validators;
 public class TotalsValidator : BaseValidator
 {
     private readonly ExpectationHandler _expectation;
-    private readonly NetworkHelper network;
+    private readonly NetworkHelper _networkHelper;
 
     public TotalsValidator(
         IWebDriver driver,
@@ -31,7 +31,7 @@ public class TotalsValidator : BaseValidator
         : base(driver, wait, report)
     {
         _expectation = expectation;
-        network = new NetworkHelper(driver);
+        _networkHelper = new NetworkHelper(driver);
     }
 
     // ── Public validation methods ──────────────────────────────────────────
@@ -121,14 +121,14 @@ public class TotalsValidator : BaseValidator
         Report.Info("── Validating Financial Totals (API) ──");
 
         // 🔥 Get API response (already captured before save)
-        var totals = network.GetResponse<InvoiceTotalsResponse>();
+        var totals = _networkHelper.GetResponse<TotalsResponseDM>();
 
-        Assert.AreEqual(expected.Totals.SubTotal, totals.GrossValue);
-        Assert.AreEqual(expected.Totals.TotalDiscount, totals.DiscountValue);
-        Assert.AreEqual(expected.Totals.GrandTotal, totals.NetValue);
+        Assert.AreEqual(expected.Totals.GrossValue, totals.GrossValue);
+        Assert.AreEqual(expected.Totals.DiscountValue, totals.DiscountValue);
+        Assert.AreEqual(expected.Totals.NetValue, totals.NetValue);
 
         // Optional (only if API gives)
-        // Compare("TotalTax", expected.Totals.TotalTax, totals.TaxValue);
+        // Compare("TotalTax", expected.Totals.TaxValue, totals.TaxValue);
         // Compare("TotalCharges", expected.Totals.TotalCharges, totals.ChargesValue);
         // Compare("AmountPaid", expected.Totals.AmountPaid, totals.PaidValue);
         // Compare("BalanceDue", expected.Totals.BalanceDue, totals.BalanceValue);
