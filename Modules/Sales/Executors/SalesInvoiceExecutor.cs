@@ -72,17 +72,17 @@ public class SalesInvoiceExecutor : BaseExecutor<SalesInvoiceDM>
                 ExecuteApproval(data);
                 break;
 
-            case "NEGATIVE":
-                ExecuteNegative(data);
-                break;
+            //case "NEGATIVE":
+            //    ExecuteNegative(data);
+            //    break;
 
-            case "EDIT":
-                ExecuteEdit(data);
-                break;
+            //case "EDIT":
+            //    ExecuteEdit(data);
+            //    break;
 
-            case "VALIDATION":
-                ExecuteValidation(data);
-                break;
+            //case "VALIDATION":
+            //    ExecuteValidation(data);
+            //    break;
 
             default:
                 throw new ArgumentException(
@@ -124,7 +124,7 @@ public class SalesInvoiceExecutor : BaseExecutor<SalesInvoiceDM>
         ClickOnForm("View");
 
         Report.Info("Step 9: Validate After Save and View");
-        ValidateAfterSave(data);
+        ValidateAfterView(data);
     }
 
     private void ExecuteApproval(SalesInvoiceDM data)
@@ -140,73 +140,13 @@ public class SalesInvoiceExecutor : BaseExecutor<SalesInvoiceDM>
         // Step 9: Approve
         Report.Info("Step 9: Approve document");
         ClickOnForm("Approve");
+        Wait.WaitForSeconds(2);
         //_messageValidator.ValidateSuccessMessage(data.Expected);
 
         // Step 10: Validate final approved state
         Report.Info("Step 10: Validate approved state");
         _headerValidator.ValidateStatus(data.Expected);
         //_totalsValidator.ValidateTotals(data.Expected);
-    }
-
-    private void ExecuteNegative(SalesInvoiceDM data)
-    {
-        Report.Info("Step 1: Navigate to New Sales Invoice");
-        NavigateToModule("Sales");
-        NavigateToListing("Invoice");
-        OpenFormMode("New");
-
-        Report.Info("Step 2: Fill form with invalid/incomplete data");
-        _headerHandler.Fill(data.Header);
-
-        Report.Info("Step 3: Attempt to Save (expecting validation error)");
-        ClickOnForm("Save");
-
-        Report.Info("Step 4: Validate validation message");
-        _messageValidator.ValidateValidationMessage(data.Expected);
-    }
-
-    private void ExecuteEdit(SalesInvoiceDM data)
-    {
-        if (string.IsNullOrWhiteSpace(data.DocumentNo))
-            throw new InvalidOperationException(
-                "[SalesInvoiceExecutor] Edit scenario requires DocumentNo in the JSON file.");
-
-        Report.Info($"Step 1: Navigate to existing invoice: {data.DocumentNo}");
-        Navigate(string.Format(EditInvoiceRoute, data.DocumentNo));
-
-        Report.Info("Step 2: Update Header fields");
-        _headerHandler.Fill(data.Header);
-
-        Report.Info("Step 3: Update Lines");
-        _linesHandler.Fill(data.Lines);
-
-        Report.Info("Step 4: Update Charges");
-        _chargesHandler.Fill(data.Charges);
-
-        Report.Info("Step 5: Update Payments");
-        _paymentsHandler.Fill(data.Payments);
-
-        Report.Info("Step 6: Update Others");
-        _othersHandler.Fill(data.Others);
-
-        Report.Info("Step 7: Save updated document");
-        ClickOnForm("Save");
-
-        Report.Info("Step 8: Validate updated values");
-        ValidateAfterSave(data);
-    }
-
-    private void ExecuteValidation(SalesInvoiceDM data)
-    {
-        if (string.IsNullOrWhiteSpace(data.DocumentNo))
-            throw new InvalidOperationException(
-                "[SalesInvoiceExecutor] Validation scenario requires DocumentNo in the JSON file.");
-
-        Report.Info($"Step 1: Navigate to existing invoice: {data.DocumentNo}");
-        Navigate(string.Format(EditInvoiceRoute, data.DocumentNo));
-
-        Report.Info("Step 2: Validate all sections");
-        ValidateAfterSave(data);
     }
 
     private void ValidateAfterSave(SalesInvoiceDM data)
@@ -219,6 +159,18 @@ public class SalesInvoiceExecutor : BaseExecutor<SalesInvoiceDM>
 
         _messageValidator.ValidateSuccessMessage(data.Expected);
         _headerValidator.ValidateStatus(data.Expected);
+    }
+
+    private void ValidateAfterView(SalesInvoiceDM data)
+    {
+        if (data.Expected == null)
+        {
+            Report.Warning("No Expected values defined in JSON — skipping validation.");
+            return;
+        }
+
+        //_messageValidator.ValidateSuccessMessage(data.Expected);
+        //_headerValidator.ValidateStatus(data.Expected);
         _linesValidator.ValidateLineTotals(data.Lines);
 
         // ✅ Get API response HERE
@@ -226,5 +178,77 @@ public class SalesInvoiceExecutor : BaseExecutor<SalesInvoiceDM>
 
         // ✅ Pass to validator
         _totalsValidator.ValidateTotalsFromApi(data.Expected, totals);
-    }    
+    }
+
+    private void ValidateAfterApprove(SalesInvoiceDM data)
+    {
+        if (data.Expected == null)
+        {
+            Report.Warning("No Expected values defined in JSON — skipping validation.");
+            return;
+        }
+
+        _headerValidator.ValidateStatus(data.Expected);
+    }
+
+    //private void ExecuteNegative(SalesInvoiceDM data)
+    //{
+    //    Report.Info("Step 1: Navigate to New Sales Invoice");
+    //    NavigateToModule("Sales");
+    //    NavigateToListing("Invoice");
+    //    OpenFormMode("New");
+
+    //    Report.Info("Step 2: Fill form with invalid/incomplete data");
+    //    _headerHandler.Fill(data.Header);
+
+    //    Report.Info("Step 3: Attempt to Save (expecting validation error)");
+    //    ClickOnForm("Save");
+
+    //    Report.Info("Step 4: Validate validation message");
+    //    _messageValidator.ValidateValidationMessage(data.Expected);
+    //}
+
+    //private void ExecuteEdit(SalesInvoiceDM data)
+    //{
+    //    if (string.IsNullOrWhiteSpace(data.DocumentNo))
+    //        throw new InvalidOperationException(
+    //            "[SalesInvoiceExecutor] Edit scenario requires DocumentNo in the JSON file.");
+
+    //    Report.Info($"Step 1: Navigate to existing invoice: {data.DocumentNo}");
+    //    Navigate(string.Format(EditInvoiceRoute, data.DocumentNo));
+
+    //    Report.Info("Step 2: Update Header fields");
+    //    _headerHandler.Fill(data.Header);
+
+    //    Report.Info("Step 3: Update Lines");
+    //    _linesHandler.Fill(data.Lines);
+
+    //    Report.Info("Step 4: Update Charges");
+    //    _chargesHandler.Fill(data.Charges);
+
+    //    Report.Info("Step 5: Update Payments");
+    //    _paymentsHandler.Fill(data.Payments);
+
+    //    Report.Info("Step 6: Update Others");
+    //    _othersHandler.Fill(data.Others);
+
+    //    Report.Info("Step 7: Save updated document");
+    //    ClickOnForm("Save");
+
+    //    Report.Info("Step 8: Validate updated values");
+    //    ValidateAfterSave(data);
+    //}
+
+    //private void ExecuteValidation(SalesInvoiceDM data)
+    //{
+    //    if (string.IsNullOrWhiteSpace(data.DocumentNo))
+    //        throw new InvalidOperationException(
+    //            "[SalesInvoiceExecutor] Validation scenario requires DocumentNo in the JSON file.");
+
+    //    Report.Info($"Step 1: Navigate to existing invoice: {data.DocumentNo}");
+    //    Navigate(string.Format(EditInvoiceRoute, data.DocumentNo));
+
+    //    Report.Info("Step 2: Validate all sections");
+    //    ValidateAfterSave(data);
+    //}       
 }

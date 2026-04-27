@@ -57,7 +57,8 @@
 		<Folder Include="Modules\Inventory\" />
 		<Folder Include="Modules\Purchase\" />
 		<Folder Include="Modules\Sales\Data\SalesInvoice\Edit\" />
-		<Folder Include="Modules\Sales\Data\SalesInvoice\Approve\" />
+		<Folder Include="Modules\Sales\Data\SalesInvoice\Negative\" />
+		<Folder Include="Modules\Sales\Data\SalesInvoice\Validation\" />
 		<Folder Include="Modules\Sales\Data\SalesReturn\" />
 		<Folder Include="Modules\Sales\Data\SalesOrder\" />
 		<Folder Include="Reports\" />

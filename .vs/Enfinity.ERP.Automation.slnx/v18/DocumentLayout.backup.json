@@ -1,13 +1,13 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\Data\\TestBuilder\\",
+  "WorkspaceRootPath": "D:\\Platform\\Auto.ERP\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{7E2571D3-2B58-7F6A-2F56-BA9F7DDB0F0E}|Enfinity.ERP.Automation.csproj|d:\\data\\testbuilder\\modules\\sales\\executors\\salesinvoiceexecutor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{7E2571D3-2B58-7F6A-2F56-BA9F7DDB0F0E}|Enfinity.ERP.Automation.csproj|d:\\platform\\auto.erp\\modules\\sales\\executors\\salesinvoiceexecutor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7E2571D3-2B58-7F6A-2F56-BA9F7DDB0F0E}|Enfinity.ERP.Automation.csproj|solutionrelative:modules\\sales\\executors\\salesinvoiceexecutor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7E2571D3-2B58-7F6A-2F56-BA9F7DDB0F0E}|Enfinity.ERP.Automation.csproj|d:\\data\\testbuilder\\modules\\sales\\testcases\\salesinvoicetests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{7E2571D3-2B58-7F6A-2F56-BA9F7DDB0F0E}|Enfinity.ERP.Automation.csproj|d:\\platform\\auto.erp\\modules\\sales\\testcases\\salesinvoicetests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7E2571D3-2B58-7F6A-2F56-BA9F7DDB0F0E}|Enfinity.ERP.Automation.csproj|solutionrelative:modules\\sales\\testcases\\salesinvoicetests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -18,29 +18,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "SalesInvoiceExecutor.cs",
-              "DocumentMoniker": "D:\\Data\\TestBuilder\\Modules\\Sales\\Executors\\SalesInvoiceExecutor.cs",
-              "RelativeDocumentMoniker": "Modules\\Sales\\Executors\\SalesInvoiceExecutor.cs",
-              "ToolTip": "D:\\Data\\TestBuilder\\Modules\\Sales\\Executors\\SalesInvoiceExecutor.cs",
-              "RelativeToolTip": "Modules\\Sales\\Executors\\SalesInvoiceExecutor.cs",
-              "ViewState": "AgIAAJQAAAAAAAAAAAAmwNoAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "SalesInvoiceTests.cs",
+              "DocumentMoniker": "D:\\Platform\\Auto.ERP\\Modules\\Sales\\TestCases\\SalesInvoiceTests.cs",
+              "RelativeDocumentMoniker": "Modules\\Sales\\TestCases\\SalesInvoiceTests.cs",
+              "ToolTip": "D:\\Platform\\Auto.ERP\\Modules\\Sales\\TestCases\\SalesInvoiceTests.cs",
+              "RelativeToolTip": "Modules\\Sales\\TestCases\\SalesInvoiceTests.cs",
+              "ViewState": "AgIAACoAAAAAAAAAAAAYwEAAAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-27T07:36:34.328Z",
+              "WhenOpened": "2026-04-27T14:39:15.744Z",
               "IsPinned": true,
               "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{40ea2e6b-2121-4bb8-a43e-c83c04b51041}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{809f6ff3-8092-454a-8003-6d4091f9b5bb}"
             },
             {
               "$type": "Bookmark",
@@ -59,16 +51,24 @@
               "Name": "ST:14:0:{2456bd12-ecf7-4988-a4a6-67d49173f565}"
             },
             {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{40ea2e6b-2121-4bb8-a43e-c83c04b51041}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{809f6ff3-8092-454a-8003-6d4091f9b5bb}"
+            },
+            {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "SalesInvoiceTests.cs",
-              "DocumentMoniker": "D:\\Data\\TestBuilder\\Modules\\Sales\\TestCases\\SalesInvoiceTests.cs",
-              "RelativeDocumentMoniker": "Modules\\Sales\\TestCases\\SalesInvoiceTests.cs",
-              "ToolTip": "D:\\Data\\TestBuilder\\Modules\\Sales\\TestCases\\SalesInvoiceTests.cs",
-              "RelativeToolTip": "Modules\\Sales\\TestCases\\SalesInvoiceTests.cs",
-              "ViewState": "AgIAAJcAAAAAAAAAAAAwwKQAAAAZAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "SalesInvoiceExecutor.cs",
+              "DocumentMoniker": "D:\\Platform\\Auto.ERP\\Modules\\Sales\\Executors\\SalesInvoiceExecutor.cs",
+              "RelativeDocumentMoniker": "Modules\\Sales\\Executors\\SalesInvoiceExecutor.cs",
+              "ToolTip": "D:\\Platform\\Auto.ERP\\Modules\\Sales\\Executors\\SalesInvoiceExecutor.cs",
+              "RelativeToolTip": "Modules\\Sales\\Executors\\SalesInvoiceExecutor.cs",
+              "ViewState": "AgIAAGoAAAAAAAAAAAAAwL0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-27T11:30:13.302Z",
+              "WhenOpened": "2026-04-27T16:29:19.142Z",
               "EditorCaption": ""
             }
           ]

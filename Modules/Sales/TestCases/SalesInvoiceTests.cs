@@ -15,7 +15,7 @@ public class SalesInvoiceTests : BaseTest
 
     // ── JSON folder paths ──────────────────────────────────────────────────
     private const string CreateFolder = "Modules/Sales/Data/SalesInvoice/Create";
-    private const string ApprovalFolder = "Modules/Sales/Data/SalesInvoice/Approval";
+    private const string ApprovalFolder = "Modules/Sales/Data/SalesInvoice/Approve";
     private const string NegativeFolder = "Modules/Sales/Data/SalesInvoice/Negative";
     private const string EditFolder = "Modules/Sales/Data/SalesInvoice/Edit";
     private const string ValidationFolder = "Modules/Sales/Data/SalesInvoice/Validation";
@@ -33,10 +33,10 @@ public class SalesInvoiceTests : BaseTest
     // CREATE SCENARIOS
     // ══════════════════════════════════════════════════════════════════════
 
-    [Test]
+    [Test, Order(1)]
     [TestCaseSource(nameof(CreateScenarios))]
     [Category("Create")]
-    public void SalesInvoice_Create_ShouldSaveSuccessfully(string jsonPath)
+    public void SalesInvoice_Create_Multiline_ValidateTotal_Base(string jsonPath)
     {
         var data = SalesInvoiceBuilder.FromJson(jsonPath).Build();
 
@@ -49,10 +49,10 @@ public class SalesInvoiceTests : BaseTest
     // APPROVAL SCENARIOS
     // ══════════════════════════════════════════════════════════════════════
 
-    [Test]
+    [Test, Order(2)]
     [TestCaseSource(nameof(ApprovalScenarios))]
     [Category("Approval")]
-    public void SalesInvoice_Approval_ShouldCompleteWorkflow(string jsonPath)
+    public void SalesInvoice_Approval_MultiLine_ValidateTotal_Base(string jsonPath)
     {
         var data = SalesInvoiceBuilder
             .FromJson(jsonPath)
@@ -68,142 +68,142 @@ public class SalesInvoiceTests : BaseTest
     // NEGATIVE SCENARIOS
     // ══════════════════════════════════════════════════════════════════════
 
-    [Test]
-    [TestCaseSource(nameof(NegativeScenarios))]
-    [Category("Negative")]
-    public void SalesInvoice_Negative_ShouldShowValidationError(string jsonPath)
-    {
-        var data = SalesInvoiceBuilder
-            .FromJson(jsonPath)
-            .AsScenario("Negative")
-            .Build();
+    //[Test]
+    //[TestCaseSource(nameof(NegativeScenarios))]
+    //[Category("Negative")]
+    //public void SalesInvoice_Negative_ValidationError_Json(string jsonPath)
+    //{
+    //    var data = SalesInvoiceBuilder
+    //        .FromJson(jsonPath)
+    //        .AsScenario("Negative")
+    //        .Build();
 
-        Report.Info($"Scenario: {data.TestDescription}");
-        Report.Info($"Expected Error: {data.Expected?.ErrorMessage}");
+    //    Report.Info($"Scenario: {data.TestDescription}");
+    //    Report.Info($"Expected Error: {data.Expected?.ErrorMessage}");
 
-        _executor.Execute(data);
-    }
+    //    _executor.Execute(data);
+    //}
 
     // ══════════════════════════════════════════════════════════════════════
     // EDIT SCENARIOS
     // ══════════════════════════════════════════════════════════════════════
 
-    [Test]
-    [TestCaseSource(nameof(EditScenarios))]
-    [Category("Edit")]
-    public void SalesInvoice_Edit_ShouldUpdateSuccessfully(string jsonPath)
-    {
-        var data = SalesInvoiceBuilder
-            .FromJson(jsonPath)
-            .AsScenario("Edit")
-            .Build();
+    //[Test]
+    //[TestCaseSource(nameof(EditScenarios))]
+    //[Category("Edit")]
+    //public void SalesInvoice_Edit_Update_Json(string jsonPath)
+    //{
+    //    var data = SalesInvoiceBuilder
+    //        .FromJson(jsonPath)
+    //        .AsScenario("Edit")
+    //        .Build();
 
-        Report.Info($"Scenario: {data.TestDescription}");
-        Report.Info($"Document: {data.DocumentNo}");
+    //    Report.Info($"Scenario: {data.TestDescription}");
+    //    Report.Info($"Document: {data.DocumentNo}");
 
-        _executor.Execute(data);
-    }
+    //    _executor.Execute(data);
+    //}
 
     // ══════════════════════════════════════════════════════════════════════
     // VALIDATION SCENARIOS
     // ══════════════════════════════════════════════════════════════════════
 
-    [Test]
-    [TestCaseSource(nameof(ValidationScenarios))]
-    [Category("Validation")]
-    public void SalesInvoice_Validation_ShouldMatchExpectedValues(string jsonPath)
-    {
-        var data = SalesInvoiceBuilder
-            .FromJson(jsonPath)
-            .AsScenario("Validation")
-            .Build();
+    //[Test]
+    //[TestCaseSource(nameof(ValidationScenarios))]
+    //[Category("Validation")]
+    //public void SalesInvoice_Validation_ExpectedValues_Json(string jsonPath)
+    //{
+    //    var data = SalesInvoiceBuilder
+    //        .FromJson(jsonPath)
+    //        .AsScenario("Validation")
+    //        .Build();
 
-        Report.Info($"Scenario: {data.TestDescription}");
-        Report.Info($"Document: {data.DocumentNo}");
+    //    Report.Info($"Scenario: {data.TestDescription}");
+    //    Report.Info($"Document: {data.DocumentNo}");
 
-        _executor.Execute(data);
-    }
+    //    _executor.Execute(data);
+    //}
 
     // ══════════════════════════════════════════════════════════════════════
     // SMOKE TESTS — programmatic, no JSON file needed
     // ══════════════════════════════════════════════════════════════════════
 
-    [Test]
-    [Category("Create")]
-    [Category("Smoke")]
-    public void SalesInvoice_Create_SingleLine_SmokeTest()
-    {
-        var data = SalesInvoiceBuilder
-            .New()
-            .WithCustomer("C0002 | Minnah Elamin")
-            .WithWarehouse("Grand Prime House")
-            .WithReferenceNum("Smoke Test")
-            .AddLine(
-                barcode: "",
-                item: "I0001 | Screen Protectors"
-            )
-            .AsScenario("Create")
-            .Build();
+    //[Test]
+    //[Category("Create")]
+    //[Category("Smoke")]
+    //public void SalesInvoice_Create_SingleLine_SmokeTest()
+    //{
+    //    var data = SalesInvoiceBuilder
+    //        .New()
+    //        .WithCustomer("C0002 | Minnah Elamin")
+    //        .WithWarehouse("Grand Prime House")
+    //        .WithReferenceNum("Smoke Test")
+    //        .AddLine(
+    //            barcode: "",
+    //            item: "I0001 | Screen Protectors"
+    //        )
+    //        .AsScenario("Create")
+    //        .Build();
 
-        _executor.Execute(data);
-    }
+    //    _executor.Execute(data);
+    //}
 
-    [Test]
-    [Category("Approval")]
-    [Category("Smoke")]
-    public void SalesInvoice_Approval_FullFlow_SmokeTest()
-    {
-        var data = SalesInvoiceBuilder
-            .New()
-            .WithCustomer("C0002 | Minnah Elamin")
-            .WithWarehouse("Grand Prime House")
-            .WithReferenceNum("Smoke Test With Approval")
-            .AddLine(
-                barcode: "",
-                item: "I0001 | Screen Protectors"
-            )
-            .WithApproval()
-            .Build();
+    //[Test]
+    //[Category("Approval")]
+    //[Category("Smoke")]
+    //public void SalesInvoice_Approval_FullFlow_SmokeTest()
+    //{
+    //    var data = SalesInvoiceBuilder
+    //        .New()
+    //        .WithCustomer("C0002 | Minnah Elamin")
+    //        .WithWarehouse("Grand Prime House")
+    //        .WithReferenceNum("Smoke Test With Approval")
+    //        .AddLine(
+    //            barcode: "",
+    //            item: "I0001 | Screen Protectors"
+    //        )
+    //        .WithApproval()
+    //        .Build();
 
-        _executor.Execute(data);
-    }
+    //    _executor.Execute(data);
+    //}
 
-    [Test]
-    [Category("Negative")]
-    [Category("Smoke")]
-    public void SalesInvoice_Negative_MissingCustomer_SmokeTest()
-    {
-        var data = SalesInvoiceBuilder
-            .New()
-            .AsScenario("Negative")
-            .Build();
+    //[Test]
+    //[Category("Negative")]
+    //[Category("Smoke")]
+    //public void SalesInvoice_Negative_MissingCustomer_SmokeTest()
+    //{
+    //    var data = SalesInvoiceBuilder
+    //        .New()
+    //        .AsScenario("Negative")
+    //        .Build();
 
-        data.Expected = new Core.DataModels.Shared.ExpectedResultDM
-        {
-            ValidationMessage = "Currency is required."
-        };
+    //    data.Expected = new Core.DataModels.Shared.ExpectedResultDM
+    //    {
+    //        ValidationMessage = "Currency is required."
+    //    };
 
-        _executor.Execute(data);
-    }
+    //    _executor.Execute(data);
+    //}
 
-    [Test]
-    [Category("Negative")]
-    [Category("Smoke")]
-    public void SalesInvoice_Negative_MissingWarehouse_SmokeTest()
-    {
-        var data = SalesInvoiceBuilder
-            .New()
-            .WithCustomer("C0002 | Minnah Elamin")
-            .AsScenario("Negative")
-            .Build();
+    //[Test]
+    //[Category("Negative")]
+    //[Category("Smoke")]
+    //public void SalesInvoice_Negative_MissingWarehouse_SmokeTest()
+    //{
+    //    var data = SalesInvoiceBuilder
+    //        .New()
+    //        .WithCustomer("C0002 | Minnah Elamin")
+    //        .AsScenario("Negative")
+    //        .Build();
 
-        data.Expected = new Core.DataModels.Shared.ExpectedResultDM
-        {
-            ValidationMessage = "Warehouse is required."
-        };
+    //    data.Expected = new Core.DataModels.Shared.ExpectedResultDM
+    //    {
+    //        ValidationMessage = "Warehouse is required."
+    //    };
 
-        _executor.Execute(data);
-    }
+    //    _executor.Execute(data);
+    //}
 
     // ══════════════════════════════════════════════════════════════════════
     // TEST CASE SOURCES

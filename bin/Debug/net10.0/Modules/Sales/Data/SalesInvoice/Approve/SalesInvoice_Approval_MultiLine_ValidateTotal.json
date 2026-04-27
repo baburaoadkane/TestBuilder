@@ -1,0 +1,44 @@
+{
+  "TestDescription": "SalesInvoice_Approval_MultiLine_ValidateTotal",
+  "ScenarioType": "Approval",
+  "RequiresApproval": true,
+
+  "Header": {
+    "Customer": "C0002 | Minnah Elamin",
+    "ReferenceNum": "REF-002",
+    "Warehouse": "Grand Prime House"
+  },
+
+  "Lines": [
+    {
+      "Barcode": "",
+      "Item": "I0001",
+      "Quantity": 2,
+      "UOM": "",
+      "UnitPrice": 100.000,
+      "ExpectedLineTotal": 200.000
+    }
+  ],
+
+  "Charges": {
+    "Items": []
+  },
+
+  "Payments": {
+    "Entries": []
+  },
+
+  "Others": {
+    "Remarks": ""
+  },
+
+  "Expected": {
+    "Status": "Approved",
+    "SuccessMessage": "",
+    "Totals": {
+      "GrossValue": 200.000,
+      "DiscountValue": 0.000,
+      "NetValue": 200.000
+    }
+  }
+}
