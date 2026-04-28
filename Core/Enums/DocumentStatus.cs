@@ -10,12 +10,12 @@ namespace Enfinity.ERP.Automation.Core.Enums
     /// </summary>
     public enum DocumentStatus
     {
-        Draft,
-        PendingApproval,
+        Active,
         Approved,
         Rejected,
         Cancelled,
         Closed,
-        Posted
+        Posted,
+        PendingApproval,
     }
 }
