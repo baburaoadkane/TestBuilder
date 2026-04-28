@@ -120,7 +120,7 @@ public abstract class BaseExecutor<TDataModel> where TDataModel : class
         WaitForLoader();
         WaitForSuccessToast();
 
-        Report.Info($"Document {buttonText} Successfully.");
+        Report.Info($"Document {buttonText} Successfully Done.");
     }
 
     /// <summary>
@@ -129,7 +129,7 @@ public abstract class BaseExecutor<TDataModel> where TDataModel : class
     /// </summary>
     protected virtual void Submit()
     {
-        Report.Info("Submitting document for approval...");
+        Report.Info("Submitting document for approval.");
 
         By submitButton = By.XPath(
             "//button[normalize-space()='Submit'] | " +
@@ -167,7 +167,7 @@ public abstract class BaseExecutor<TDataModel> where TDataModel : class
     /// Cancel the document.
     /// Override with your ERP's specific cancel button and confirmation dialog.
     /// </summary>
-    protected virtual void Cancel()
+    protected virtual void Cancel(string confirmOption)
     {
         Report.Info("Cancelling document...");
 
@@ -175,7 +175,7 @@ public abstract class BaseExecutor<TDataModel> where TDataModel : class
         Wait.UntilClickable(cancelButton).Click();
 
         // Handle confirmation dialog if it appears
-        ConfirmDialog();
+        ConfirmDialog(confirmOption);
         WaitForLoader();
 
         Report.Info("Document cancelled.");
@@ -185,14 +185,14 @@ public abstract class BaseExecutor<TDataModel> where TDataModel : class
     /// Delete the document.
     /// Override with your ERP's specific delete button and confirmation dialog.
     /// </summary>
-    protected virtual void Delete()
+    protected virtual void Delete(string confirmOption)
     {
         Report.Info("Deleting document...");
 
         By deleteButton = By.XPath("//button[normalize-space()='Delete']");
         Wait.UntilClickable(deleteButton).Click();
 
-        ConfirmDialog();
+        ConfirmDialog(confirmOption);
         WaitForLoader();
 
         Report.Info("Document deleted.");
@@ -204,13 +204,9 @@ public abstract class BaseExecutor<TDataModel> where TDataModel : class
     /// Handle a Yes/Confirm/OK dialog button.
     /// Override for ERP-specific confirmation dialogs.
     /// </summary>
-    protected virtual void ConfirmDialog()
+    protected virtual void ConfirmDialog(string confirmOption)
     {
-        By confirmBtn = By.XPath(
-            "//button[normalize-space()='Yes'] | " +
-            "//button[normalize-space()='Confirm'] | " +
-            "//button[normalize-space()='OK']"
-        );
+        By confirmBtn = By.XPath($"//div[@aria-label='{confirmOption}']");
 
         try
         {

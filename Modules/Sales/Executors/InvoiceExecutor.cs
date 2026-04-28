@@ -109,6 +109,7 @@ public class InvoiceExecutor : BaseExecutor<InvoiceDM>
 
         Report.Info("Step 4: Fill Lines");
         _linesHandler.Fill(data.Lines);
+        ClickOnForm("Save");
 
         Report.Info("Step 5: Fill Charges");
         _chargesHandler.Fill(data.Charges);
@@ -146,7 +147,7 @@ public class InvoiceExecutor : BaseExecutor<InvoiceDM>
         Wait.WaitForSeconds(3);
 
         // Step 13: Validate final approved state
-        Report.Info("Step 13: Validate approved state");
+        Report.Info("Step 13: Validate After Approve");
         ValidateAfterApprove(data);
     }
 

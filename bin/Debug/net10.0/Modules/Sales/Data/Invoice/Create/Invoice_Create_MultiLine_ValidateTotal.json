@@ -21,7 +21,13 @@
   ],
 
   "Charges": {
-    "Items": []
+    "Items": [
+      {
+        "ChargeType": "Freight Charges",
+        "Account": "42300 | Freight Charges Income",
+        "AmountFC": 10.000
+      }
+    ]
   },
 
   "Payments": {
