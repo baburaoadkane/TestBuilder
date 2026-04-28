@@ -104,28 +104,29 @@ public class SalesInvoiceExecutor : BaseExecutor<SalesInvoiceDM>
         _headerHandler.Fill(data.Header);
         ClickOnForm("Save");
 
+        Report.Info("Step 3: Validate After Save");
         ValidateAfterSave(data);
 
-        Report.Info("Step 3: Fill Lines");
+        Report.Info("Step 4: Fill Lines");
         _linesHandler.Fill(data.Lines);
 
-        Report.Info("Step 4: Fill Charges");
+        Report.Info("Step 5: Fill Charges");
         _chargesHandler.Fill(data.Charges);
 
-        Report.Info("Step 5: Fill Payments");
+        Report.Info("Step 6: Fill Payments");
         _paymentsHandler.Fill(data.Payments);
 
-        Report.Info("Step 6: Fill Others");
+        Report.Info("Step 7: Fill Others");
         _othersHandler.Fill(data.Others);
 
-        Report.Info("Step 7: Start capturing totals API");        
+        Report.Info("Step 8: Start capturing totals API");        
         _networkHelper.Clear();
         _networkHelper.StartCapture("/SalesInvoice/GetTxnSubtotals");
 
-        Report.Info("Step 8: Click To View Document");
+        Report.Info("Step 9: Click To View Document");
         ClickOnForm("View");
 
-        Report.Info("Step 9: Validate After View");
+        Report.Info("Step 10: Validate After View");
         ValidateAfterView(data);
     }
 
@@ -134,18 +135,18 @@ public class SalesInvoiceExecutor : BaseExecutor<SalesInvoiceDM>
         // Step 1–7: Same as Create
         ExecuteCreate(data);
 
-        // Step 8: Submit for approval if workflow enabled
+        // Step 11: Submit for approval if workflow enabled
         //Report.Info("Step 8: Submit document for approval");
         //lickOnForm("Submit");
         //_messageValidator.ValidateSuccessMessage(data.Expected);
 
-        // Step 9: Approve
-        Report.Info("Step 9: Click To Approve Document");
+        // Step 12: Approve
+        Report.Info("Step 12: Click To Approve Document");
         ClickOnForm("Approve");
         Wait.WaitForSeconds(3);
 
-        // Step 10: Validate final approved state
-        Report.Info("Step 10: Validate approved state");
+        // Step 13: Validate final approved state
+        Report.Info("Step 13: Validate approved state");
         ValidateAfterApprove(data);
     }
 
