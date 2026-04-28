@@ -1,7 +1,7 @@
 ﻿using OpenQA.Selenium;
 using Enfinity.ERP.Automation.Core.Base;
 using Enfinity.ERP.Automation.Core.Utilities;
-using Enfinity.ERP.Automation.Modules.Sales.DataModels;
+using Enfinity.ERP.Automation.Modules.Sales.DataModels.Invoice;
 
 namespace Enfinity.ERP.Automation.Modules.Sales.Handlers;
 
@@ -50,7 +50,7 @@ public class LinesHandler : BaseHandler
 
     // ── Public entry point ─────────────────────────────────────────────────
 
-    public void Fill(List<SalesInvoiceLineDM> lines)
+    public void Fill(List<InvoiceLineDM> lines)
     {
         if (lines == null || lines.Count == 0) return;
 
@@ -79,7 +79,7 @@ public class LinesHandler : BaseHandler
         Wait.WaitForSeconds(1);
     }
 
-    private void FillLine(SalesInvoiceLineDM line)
+    private void FillLine(InvoiceLineDM line)
     {
         FillBarcode(line.Barcode);
         FillItem(line.Item);

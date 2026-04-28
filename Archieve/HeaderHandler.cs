@@ -1,6 +1,6 @@
 ﻿using Enfinity.ERP.Automation.Core.Base;
 using Enfinity.ERP.Automation.Core.Utilities;
-using Enfinity.ERP.Automation.Modules.Sales.DataModels;
+using Enfinity.ERP.Automation.Modules.Sales.DataModels.Invoice;
 using OpenQA.Selenium;
 
 namespace Enfinity.ERP.Automation.Archieve
@@ -57,7 +57,7 @@ namespace Enfinity.ERP.Automation.Archieve
             : base(driver, wait) { }
 
         // ── Public Entry Point ──────────────────────────────────────────────
-        public void Fill(SalesInvoiceHeaderDM header)
+        public void Fill(InvoiceHeaderDM header)
         {
             FillInvoiceDate(header.InvoiceDate);
             FillCustomer(header.Customer);

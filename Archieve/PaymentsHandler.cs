@@ -1,7 +1,7 @@
 ﻿using OpenQA.Selenium;
 using Enfinity.ERP.Automation.Core.Base;
 using Enfinity.ERP.Automation.Core.Utilities;
-using Enfinity.ERP.Automation.Modules.Sales.DataModels;
+using Enfinity.ERP.Automation.Modules.Sales.DataModels.Invoice;
 
 namespace Enfinity.ERP.Automation.Archieve;
 
@@ -41,7 +41,7 @@ public class PaymentsHandler : BaseHandler
     /// Fill all payment entries from the data model.
     /// Skips gracefully if Payments section is empty.
     /// </summary>
-    public void Fill(SalesInvoicePaymentsDM payments)
+    public void Fill(InvoicePaymentsDM payments)
     {
         if (payments?.Entries == null || payments.Entries.Count == 0) return;
 

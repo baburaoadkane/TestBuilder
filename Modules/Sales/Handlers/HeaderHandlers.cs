@@ -1,6 +1,6 @@
 ﻿using Enfinity.ERP.Automation.Core.Base;
 using Enfinity.ERP.Automation.Core.Utilities;
-using Enfinity.ERP.Automation.Modules.Sales.DataModels;
+using Enfinity.ERP.Automation.Modules.Sales.DataModels.Invoice;
 using OpenQA.Selenium;
 
 namespace Enfinity.ERP.Automation.Modules.Sales.Handlers
@@ -22,7 +22,7 @@ namespace Enfinity.ERP.Automation.Modules.Sales.Handlers
         public HeaderHandlers(IWebDriver driver, WaitHelper wait) : base(driver, wait) { }
 
         // ── PUBLIC ENTRY ──────────────────────────────────────────────────
-        public void Fill(SalesInvoiceHeaderDM header)
+        public void Fill(InvoiceHeaderDM header)
         {
             FillInvoiceDate(header.InvoiceDate);
 

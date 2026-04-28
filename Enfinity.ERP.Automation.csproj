@@ -56,16 +56,23 @@
 		<Folder Include="Modules\Accounting\" />
 		<Folder Include="Modules\Inventory\" />
 		<Folder Include="Modules\Purchase\" />
-		<Folder Include="Modules\Sales\Data\SalesInvoice\Edit\" />
-		<Folder Include="Modules\Sales\Data\SalesInvoice\Negative\" />
-		<Folder Include="Modules\Sales\Data\SalesInvoice\Validation\" />
+		<Folder Include="Modules\Sales\DataModels\Global\" />
+		<Folder Include="Modules\Sales\DataModels\DeliveryNote\" />
+		<Folder Include="Modules\Sales\DataModels\Quotation\" />
+		<Folder Include="Modules\Sales\Data\DeliveryNote\" />
+		<Folder Include="Modules\Sales\Data\Return\" />
+		<Folder Include="Modules\Sales\Data\Quotation\" />
+		<Folder Include="Modules\Sales\Data\Order\" />
+		<Folder Include="Modules\Sales\Data\Invoice\Edit\" />
+		<Folder Include="Modules\Sales\Data\Invoice\Negative\" />
+		<Folder Include="Modules\Sales\Data\Invoice\Validation\" />
 		<Folder Include="Modules\Sales\Data\SalesReturn\" />
 		<Folder Include="Modules\Sales\Data\SalesOrder\" />
 		<Folder Include="Reports\" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Content Update="Modules\Sales\Data\SalesInvoice\Create\SalesInvoice_Create_MultiLine_ValidateTotal.json">
+	  <Content Update="Modules\Sales\Data\Invoice\Create\Invoice_Create_MultiLine_ValidateTotal.json">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
 	</ItemGroup>

@@ -1,7 +1,7 @@
 ﻿using OpenQA.Selenium;
 using Enfinity.ERP.Automation.Core.Base;
 using Enfinity.ERP.Automation.Core.Utilities;
-using Enfinity.ERP.Automation.Modules.Sales.DataModels;
+using Enfinity.ERP.Automation.Modules.Sales.DataModels.Invoice;
 
 namespace Enfinity.ERP.Automation.Modules.Sales.Handlers;
 
@@ -22,7 +22,7 @@ public class OtherHandler : BaseHandler
     public OtherHandler(IWebDriver driver, WaitHelper wait) : base(driver, wait) { }
 
     // ── Public Entry ─────────────────────────────────────────────────────
-    public void Fill(SalesInvoiceOthersDM other)
+    public void Fill(InvoiceOthersDM other)
     {
         Lookup("PaymentTermId", other.PaymentTerm);
 

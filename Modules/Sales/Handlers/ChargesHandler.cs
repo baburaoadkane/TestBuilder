@@ -1,7 +1,7 @@
 ﻿using OpenQA.Selenium;
 using Enfinity.ERP.Automation.Core.Base;
 using Enfinity.ERP.Automation.Core.Utilities;
-using Enfinity.ERP.Automation.Modules.Sales.DataModels;
+using Enfinity.ERP.Automation.Modules.Sales.DataModels.Invoice;
 
 namespace Enfinity.ERP.Automation.Modules.Sales.Handlers;
 
@@ -54,7 +54,7 @@ public class ChargesHandler : BaseHandler
     };
 
     // ── Public entry ─────────────────────────────────────────────────
-    public void Fill(SalesInvoiceChargesDM charges)
+    public void Fill(InvoiceChargesDM charges)
     {
         if (charges?.Items == null || charges.Items.Count == 0) return;
 

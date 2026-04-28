@@ -1,7 +1,7 @@
 ﻿using Enfinity.ERP.Automation.Core.Base;
 using Enfinity.ERP.Automation.Core.DataModels.Shared;
 using Enfinity.ERP.Automation.Core.Utilities;
-using Enfinity.ERP.Automation.Modules.Sales.DataModels;
+using Enfinity.ERP.Automation.Modules.Sales.DataModels.Invoice;
 using Enfinity.ERP.Automation.Modules.Sales.Handlers;
 using OpenQA.Selenium;
 

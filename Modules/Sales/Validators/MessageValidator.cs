@@ -1,16 +1,8 @@
-﻿using AventStack.ExtentReports;
-using AventStack.ExtentReports.Gherkin.Model;
-using AventStack.ExtentReports.Model;
-using Enfinity.ERP.Automation.Core.Base;
+﻿using Enfinity.ERP.Automation.Core.Base;
 using Enfinity.ERP.Automation.Core.DataModels.Shared;
 using Enfinity.ERP.Automation.Core.Utilities;
-using Enfinity.ERP.Automation.Modules.Sales.Builders;
-using Enfinity.ERP.Automation.Modules.Sales.Executors;
 using Enfinity.ERP.Automation.Modules.Sales.Handlers;
-using Microsoft.VisualBasic;
 using OpenQA.Selenium;
-using OpenQA.Selenium.BiDi.Script;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Enfinity.ERP.Automation.Modules.Sales.Validators;
 

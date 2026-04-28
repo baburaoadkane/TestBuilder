@@ -1,7 +1,7 @@
 ﻿using OpenQA.Selenium;
 using Enfinity.ERP.Automation.Core.Base;
 using Enfinity.ERP.Automation.Core.Utilities;
-using Enfinity.ERP.Automation.Modules.Sales.DataModels;
+using Enfinity.ERP.Automation.Modules.Sales.DataModels.Invoice;
 
 namespace Enfinity.ERP.Automation.Archieve;
 
@@ -38,7 +38,7 @@ public class OthersHandler : BaseHandler
     /// Fill all Others/Remarks fields from the data model.
     /// Each field is skipped if null or empty.
     /// </summary>
-    public void Fill(SalesInvoiceOthersDM others)
+    public void Fill(InvoiceOthersDM others)
     {
         if (others == null) return;
 

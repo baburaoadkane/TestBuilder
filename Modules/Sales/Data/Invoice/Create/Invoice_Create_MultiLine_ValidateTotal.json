@@ -1,0 +1,44 @@
+{
+  "TestDescription": "Invoice_Create_MultiLine_ValidateTotal",
+  "ScenarioType": "Create",
+  "RequiresApproval": false,
+
+  "Header": {
+    "Customer": "C0002 | Minnah Elamin",
+    "ReferenceNum": "REF-001",
+    "Warehouse": "Grand Prime House"
+  },
+
+  "Lines": [    
+    {
+      "Barcode": "",
+      "Item": "I0002",
+      "Quantity": 1,
+      "UOM": "",
+      "UnitPrice": 100.000,
+      "ExpectedLineTotal": 100.000
+    }
+  ],
+
+  "Charges": {
+    "Items": []
+  },
+
+  "Payments": {
+    "Entries": []
+  },
+
+  "Others": {
+    "Remarks": ""
+  },
+
+  "Expected": {
+    "Status": "Active",    
+    "SuccessMessage": "Invoice created successfully!",
+    "Totals": {
+      "GrossValue": 100.000,
+      "DiscountValue": 0.000,
+      "NetValue": 100.000
+    }
+  }
+}

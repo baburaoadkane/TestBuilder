@@ -1,8 +1,8 @@
 ﻿using OpenQA.Selenium;
 using Enfinity.ERP.Automation.Core.Base;
 using Enfinity.ERP.Automation.Core.Utilities;
-using Enfinity.ERP.Automation.Modules.Sales.DataModels;
 using Enfinity.ERP.Automation.Modules.Sales.Handlers;
+using Enfinity.ERP.Automation.Modules.Sales.DataModels.Invoice;
 
 namespace Enfinity.ERP.Automation.Modules.Sales.Validators;
 
@@ -35,7 +35,7 @@ public class LinesValidator : BaseValidator
     /// defined in the JSON data model.
     /// Skips lines where ExpectedLineTotal is 0 (not specified).
     /// </summary>
-    public void ValidateLineTotals(List<SalesInvoiceLineDM>? lines)
+    public void ValidateLineTotals(List<InvoiceLineDM>? lines)
     {
         if (lines == null || lines.Count == 0) 
         {
@@ -47,7 +47,7 @@ public class LinesValidator : BaseValidator
 
         for (int i = 0; i < lines.Count; i++)
         {
-            SalesInvoiceLineDM line = lines[i];
+            InvoiceLineDM line = lines[i];
 
             if (line.ExpectedLineTotal == 0)
             {
