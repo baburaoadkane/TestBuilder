@@ -9,15 +9,7 @@
     "Warehouse": "Grand Prime House"
   },
 
-  "Lines": [
-    {
-      "Barcode": "",
-      "Item": "I0001",
-      "Quantity": 2,
-      "UOM": "",
-      "UnitPrice": 100.000,
-      "ExpectedLineTotal": 200.000
-    },
+  "Lines": [    
     {
       "Barcode": "",
       "Item": "I0002",
@@ -41,12 +33,12 @@
   },
 
   "Expected": {
-    "Status": "Active",
-    "SuccessMessage": "",
+    "Status": "Active",    
+    "SuccessMessage": "Invoice created successfully!",
     "Totals": {
-      "GrossValue": 300.000,
+      "GrossValue": 100.000,
       "DiscountValue": 0.000,
-      "NetValue": 300.000
+      "NetValue": 100.000
     }
   }
 }

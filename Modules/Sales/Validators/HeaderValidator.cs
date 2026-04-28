@@ -31,41 +31,6 @@ public class HeaderValidator : BaseValidator
     // ── Public validation methods ──────────────────────────────────────────
 
     /// <summary>
-    /// Assert the document status matches the expected value from JSON.
-    /// Example: "Draft", "Submitted", "Approved"
-    /// </summary>
-    public void ValidateStatus(ExpectedResultDM? expected)
-    {
-        if (expected?.Status == null)
-        {
-            Report.Warning("Expected Status not defined in JSON — skipping status validation.");
-            return;
-        }
-
-        Report.Info($"Validating Document Status: Expected = '{expected.Status}'");
-
-        string actualStatus = _expectation.ReadDocumentStatus();
-        LogAndAssert(expected.Status, actualStatus, "Document Status");
-    }
-
-    /// <summary>
-    /// Assert that a document number was generated after save.
-    /// Validates the document number is not empty.
-    /// </summary>
-    public void ValidateDocumentNumberGenerated()
-    {
-        string docNo = _expectation.ReadDocumentNumber();
-
-        if (!string.IsNullOrWhiteSpace(docNo))
-            Report.Pass($"✓ Document Number generated: '{docNo}'");
-        else
-        {
-            Report.Fail("✗ Document Number is empty after Save.");
-            NUnit.Framework.Assert.Fail("Document Number was not generated after Save.");
-        }
-    }
-
-    /// <summary>
     /// Assert multiple header field values match the data model.
     /// Reads each field from the UI and compares against the model values.
     /// Only validates fields that are non-null in the data model.
@@ -100,6 +65,59 @@ public class HeaderValidator : BaseValidator
             LogAndAssert(expectedCurrency, actual, "Currency");
         }
     }
+
+    /// <summary>
+    /// Assert that a document number was generated after save.
+    /// Validates the document number is not empty.
+    /// </summary>
+    public void ValidateDocumentNumberGenerated()
+    {
+        string docNo = _expectation.ReadDocumentNumber();
+
+        if (!string.IsNullOrWhiteSpace(docNo))
+            Report.Pass($"✓ Document Number generated: '{docNo}'");
+        else
+        {
+            Report.Fail("✗ Document Number is empty after Save.");
+            NUnit.Framework.Assert.Fail("Document Number was not generated after Save.");
+        }
+    }
+
+    /// <summary>
+    /// Assert the document status matches the expected value from JSON.
+    /// Example: "Draft", "Submitted", "Approved"
+    /// </summary>
+    public void ValidateDocumentPaymentStatus(ExpectedResultDM? expected)
+    {
+        if (expected?.PaymentStatus == null)
+        {
+            Report.Warning("Expected Payment Status not defined in JSON — skipping status validation.");
+            return;
+        }
+
+        Report.Info($"Validating Document Payment Status: Expected = '{expected.PaymentStatus}'");
+
+        string actualStatus = _expectation.ReadDocumentPaymentStatus();
+        LogAndAssert(expected.PaymentStatus, actualStatus, "Document Payment Status");
+    }
+
+    /// <summary>
+    /// Assert the document status matches the expected value from JSON.
+    /// Example: "Draft", "Submitted", "Approved"
+    /// </summary>
+    public void ValidateDocumentStatus(ExpectedResultDM? expected)
+    {
+        if (expected?.Status == null)
+        {
+            Report.Warning("Expected Status not defined in JSON — skipping status validation.");
+            return;
+        }
+
+        Report.Info($"Validating Document Status: Expected = '{expected.Status}'");
+
+        string actualStatus = _expectation.ReadDocumentStatus();
+        LogAndAssert(expected.Status, actualStatus, "Document Status");
+    } 
 
     // ── Private helper ─────────────────────────────────────────────────────
 

@@ -112,7 +112,7 @@ public abstract class BaseExecutor<TDataModel> where TDataModel : class
     /// </summary>
     protected virtual void ClickOnForm(string? buttonText = "Save")
     {
-        Report.Info($"{buttonText} document...");
+        Report.Info($"{buttonText} document.");
 
         By button = By.XPath($"//span[contains(@class, 'dx-vam') and text()='{buttonText}']");
 

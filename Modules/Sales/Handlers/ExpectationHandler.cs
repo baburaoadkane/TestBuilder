@@ -27,6 +27,9 @@ public class ExpectationHandler : BaseHandler
 
     /// <summary>Status badge/label showing Draft, Submitted, Approved etc.</summary>
     private static readonly By DocumentStatus = By.CssSelector(".TxnWorkflowStatus");
+    private static readonly By DocumentPaymentStatus = By.CssSelector(".Payment-Status");
+    private static readonly By DocumentNoField = By.CssSelector(".subTitle");
+
 
     // ── Totals section ─────────────────────────────────────────────────────
 
@@ -37,22 +40,10 @@ public class ExpectationHandler : BaseHandler
     //private static readonly By AmountPaidAmount = By.XPath("//input[contains(@id, '.AmountPaid_I')]");
     //private static readonly By BalanceDueAmount = By.XPath("//input[contains(@id, '.BalanceDue_I')]");
 
-    // ── Toast / notification ───────────────────────────────────────────────
-
-    private static readonly By SuccessToast = By.CssSelector(
-        ".toast-success, .alert-success, [class*='success-message'], .notification-success"
-    );
-
-    private static readonly By ErrorToast = By.CssSelector(
-        ".toast-error, .alert-danger, [class*='error-message'], .validation-summary-errors"
-    );
-
+    // ── Validation / Toast / notification ──────────────────────────────────
     private static readonly By ValidationMessage = By.Id("ValidationSummary");
-    // ── Document number ────────────────────────────────────────────────────
-
-    private static readonly By DocumentNoField = By.CssSelector(
-        "#documentNo, [data-field='DocumentNo'], .document-number, #Header_DocumentNo"
-    );
+    private static readonly By SuccessToast = By.CssSelector(".dx-toast-success, [class*='toast-success']");
+    private static readonly By ErrorToast = By.CssSelector(".toast-error, [class*='error-message']");
 
     // ── Constructor ────────────────────────────────────────────────────────
     public ExpectationHandler(IWebDriver driver, WaitHelper wait)
@@ -63,6 +54,9 @@ public class ExpectationHandler : BaseHandler
     /// <summary>Read the current document status from the UI.</summary>
     public string ReadDocumentStatus()
         => GetText(DocumentStatus);
+
+    public string ReadDocumentPaymentStatus()
+        => GetText(DocumentPaymentStatus);
 
     /// <summary>Read the generated document number after save.</summary>
     public string ReadDocumentNumber()

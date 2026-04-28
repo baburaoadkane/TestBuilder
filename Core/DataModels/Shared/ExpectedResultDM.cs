@@ -10,6 +10,8 @@ public class ExpectedResultDM
     /// <example>Draft, Submitted, Approved, Cancelled</example>
     public string? Status { get; set; }
 
+    public string? PaymentStatus { get; set; }
+
     /// <summary>Expected success message text to appear in toast/notification.</summary>
     public string? SuccessMessage { get; set; }
 

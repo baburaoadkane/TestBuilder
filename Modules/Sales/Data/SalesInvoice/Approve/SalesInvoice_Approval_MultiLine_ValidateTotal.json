@@ -34,6 +34,7 @@
 
   "Expected": {
     "Status": "Approved",
+    "PaymentStatus": "Unpaid",
     "SuccessMessage": "",
     "Totals": {
       "GrossValue": 200.000,

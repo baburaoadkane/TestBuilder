@@ -7,8 +7,20 @@
       "RelativeMoniker": "D:0:0:{7E2571D3-2B58-7F6A-2F56-BA9F7DDB0F0E}|Enfinity.ERP.Automation.csproj|solutionrelative:modules\\sales\\executors\\salesinvoiceexecutor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7E2571D3-2B58-7F6A-2F56-BA9F7DDB0F0E}|Enfinity.ERP.Automation.csproj|d:\\platform\\auto.erp\\modules\\sales\\testcases\\salesinvoicetests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7E2571D3-2B58-7F6A-2F56-BA9F7DDB0F0E}|Enfinity.ERP.Automation.csproj|solutionrelative:modules\\sales\\testcases\\salesinvoicetests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{7E2571D3-2B58-7F6A-2F56-BA9F7DDB0F0E}|Enfinity.ERP.Automation.csproj|d:\\platform\\auto.erp\\modules\\sales\\validators\\headervalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7E2571D3-2B58-7F6A-2F56-BA9F7DDB0F0E}|Enfinity.ERP.Automation.csproj|solutionrelative:modules\\sales\\validators\\headervalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7E2571D3-2B58-7F6A-2F56-BA9F7DDB0F0E}|Enfinity.ERP.Automation.csproj|d:\\platform\\auto.erp\\modules\\sales\\data\\salesinvoice\\approve\\salesinvoice_approval_multiline_validatetotal.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{7E2571D3-2B58-7F6A-2F56-BA9F7DDB0F0E}|Enfinity.ERP.Automation.csproj|solutionrelative:modules\\sales\\data\\salesinvoice\\approve\\salesinvoice_approval_multiline_validatetotal.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7E2571D3-2B58-7F6A-2F56-BA9F7DDB0F0E}|Enfinity.ERP.Automation.csproj|d:\\platform\\auto.erp\\modules\\sales\\handlers\\expectationhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7E2571D3-2B58-7F6A-2F56-BA9F7DDB0F0E}|Enfinity.ERP.Automation.csproj|solutionrelative:modules\\sales\\handlers\\expectationhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7E2571D3-2B58-7F6A-2F56-BA9F7DDB0F0E}|Enfinity.ERP.Automation.csproj|d:\\platform\\auto.erp\\core\\datamodels\\shared\\expectedresultdm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7E2571D3-2B58-7F6A-2F56-BA9F7DDB0F0E}|Enfinity.ERP.Automation.csproj|solutionrelative:core\\datamodels\\shared\\expectedresultdm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,20 +30,45 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 10,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "SalesInvoiceTests.cs",
-              "DocumentMoniker": "D:\\Platform\\Auto.ERP\\Modules\\Sales\\TestCases\\SalesInvoiceTests.cs",
-              "RelativeDocumentMoniker": "Modules\\Sales\\TestCases\\SalesInvoiceTests.cs",
-              "ToolTip": "D:\\Platform\\Auto.ERP\\Modules\\Sales\\TestCases\\SalesInvoiceTests.cs",
-              "RelativeToolTip": "Modules\\Sales\\TestCases\\SalesInvoiceTests.cs",
-              "ViewState": "AgIAACoAAAAAAAAAAAAYwEAAAAAEAAAAAAAAAA==",
+              "DocumentIndex": 2,
+              "Title": "SalesInvoice_Approval_MultiLine_ValidateTotal.json",
+              "DocumentMoniker": "D:\\Platform\\Auto.ERP\\Modules\\Sales\\Data\\SalesInvoice\\Approve\\SalesInvoice_Approval_MultiLine_ValidateTotal.json",
+              "RelativeDocumentMoniker": "Modules\\Sales\\Data\\SalesInvoice\\Approve\\SalesInvoice_Approval_MultiLine_ValidateTotal.json",
+              "ToolTip": "D:\\Platform\\Auto.ERP\\Modules\\Sales\\Data\\SalesInvoice\\Approve\\SalesInvoice_Approval_MultiLine_ValidateTotal.json",
+              "RelativeToolTip": "Modules\\Sales\\Data\\SalesInvoice\\Approve\\SalesInvoice_Approval_MultiLine_ValidateTotal.json",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAAA0AAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-04-28T01:14:55.079Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ExpectedResultDM.cs",
+              "DocumentMoniker": "D:\\Platform\\Auto.ERP\\Core\\DataModels\\Shared\\ExpectedResultDM.cs",
+              "RelativeDocumentMoniker": "Core\\DataModels\\Shared\\ExpectedResultDM.cs",
+              "ToolTip": "D:\\Platform\\Auto.ERP\\Core\\DataModels\\Shared\\ExpectedResultDM.cs",
+              "RelativeToolTip": "Core\\DataModels\\Shared\\ExpectedResultDM.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-27T14:39:15.744Z",
-              "IsPinned": true,
+              "WhenOpened": "2026-04-28T00:51:30.214Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "HeaderValidator.cs",
+              "DocumentMoniker": "D:\\Platform\\Auto.ERP\\Modules\\Sales\\Validators\\HeaderValidator.cs",
+              "RelativeDocumentMoniker": "Modules\\Sales\\Validators\\HeaderValidator.cs",
+              "ToolTip": "D:\\Platform\\Auto.ERP\\Modules\\Sales\\Validators\\HeaderValidator.cs",
+              "RelativeToolTip": "Modules\\Sales\\Validators\\HeaderValidator.cs",
+              "ViewState": "AgIAAGUAAAAAAAAAAAApwHYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-28T00:38:09.73Z",
               "EditorCaption": ""
             },
             {
@@ -60,13 +97,26 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ExpectationHandler.cs",
+              "DocumentMoniker": "D:\\Platform\\Auto.ERP\\Modules\\Sales\\Handlers\\ExpectationHandler.cs",
+              "RelativeDocumentMoniker": "Modules\\Sales\\Handlers\\ExpectationHandler.cs",
+              "ToolTip": "D:\\Platform\\Auto.ERP\\Modules\\Sales\\Handlers\\ExpectationHandler.cs",
+              "RelativeToolTip": "Modules\\Sales\\Handlers\\ExpectationHandler.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAQwB4AAABNAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-28T00:10:31.787Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
               "Title": "SalesInvoiceExecutor.cs",
               "DocumentMoniker": "D:\\Platform\\Auto.ERP\\Modules\\Sales\\Executors\\SalesInvoiceExecutor.cs",
               "RelativeDocumentMoniker": "Modules\\Sales\\Executors\\SalesInvoiceExecutor.cs",
               "ToolTip": "D:\\Platform\\Auto.ERP\\Modules\\Sales\\Executors\\SalesInvoiceExecutor.cs",
               "RelativeToolTip": "Modules\\Sales\\Executors\\SalesInvoiceExecutor.cs",
-              "ViewState": "AgIAAGoAAAAAAAAAAAAAwL0AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAKkAAAAAAAAAAIAwwKMAAABAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-04-27T16:29:19.142Z",
               "EditorCaption": ""

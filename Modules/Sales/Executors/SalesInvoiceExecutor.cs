@@ -104,6 +104,8 @@ public class SalesInvoiceExecutor : BaseExecutor<SalesInvoiceDM>
         _headerHandler.Fill(data.Header);
         ClickOnForm("Save");
 
+        ValidateAfterSave(data);
+
         Report.Info("Step 3: Fill Lines");
         _linesHandler.Fill(data.Lines);
 
@@ -120,10 +122,10 @@ public class SalesInvoiceExecutor : BaseExecutor<SalesInvoiceDM>
         _networkHelper.Clear();
         _networkHelper.StartCapture("/SalesInvoice/GetTxnSubtotals");
 
-        Report.Info("Step 8: Save and View document");
+        Report.Info("Step 8: Click To View Document");
         ClickOnForm("View");
 
-        Report.Info("Step 9: Validate After Save and View");
+        Report.Info("Step 9: Validate After View");
         ValidateAfterView(data);
     }
 
@@ -138,15 +140,13 @@ public class SalesInvoiceExecutor : BaseExecutor<SalesInvoiceDM>
         //_messageValidator.ValidateSuccessMessage(data.Expected);
 
         // Step 9: Approve
-        Report.Info("Step 9: Approve document");
+        Report.Info("Step 9: Click To Approve Document");
         ClickOnForm("Approve");
-        Wait.WaitForSeconds(2);
-        //_messageValidator.ValidateSuccessMessage(data.Expected);
+        Wait.WaitForSeconds(3);
 
         // Step 10: Validate final approved state
         Report.Info("Step 10: Validate approved state");
-        _headerValidator.ValidateStatus(data.Expected);
-        //_totalsValidator.ValidateTotals(data.Expected);
+        ValidateAfterApprove(data);
     }
 
     private void ValidateAfterSave(SalesInvoiceDM data)
@@ -158,7 +158,7 @@ public class SalesInvoiceExecutor : BaseExecutor<SalesInvoiceDM>
         }
 
         _messageValidator.ValidateSuccessMessage(data.Expected);
-        _headerValidator.ValidateStatus(data.Expected);
+        _headerValidator.ValidateDocumentNumberGenerated();
     }
 
     private void ValidateAfterView(SalesInvoiceDM data)
@@ -169,14 +169,12 @@ public class SalesInvoiceExecutor : BaseExecutor<SalesInvoiceDM>
             return;
         }
 
-        //_messageValidator.ValidateSuccessMessage(data.Expected);
-        //_headerValidator.ValidateStatus(data.Expected);
         _linesValidator.ValidateLineTotals(data.Lines);
 
-        // ✅ Get API response HERE
+        // ✅ Get API response
         var totals = _networkHelper.GetResponse<TotalsResponseDM>();
 
-        // ✅ Pass to validator
+        // ✅ Pass to validator and validate against expected values from JSON
         _totalsValidator.ValidateTotalsFromApi(data.Expected, totals);
     }
 
@@ -187,8 +185,10 @@ public class SalesInvoiceExecutor : BaseExecutor<SalesInvoiceDM>
             Report.Warning("No Expected values defined in JSON — skipping validation.");
             return;
         }
-
-        _headerValidator.ValidateStatus(data.Expected);
+        
+        _headerValidator.ValidateDocumentStatus(data.Expected);
+        _headerValidator.ValidateDocumentPaymentStatus(data.Expected);
+        //_totalsValidator.ValidateTotals(data.Expected);
     }
 
     //private void ExecuteNegative(SalesInvoiceDM data)
