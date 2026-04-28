@@ -24,6 +24,10 @@ public class OtherHandler : BaseHandler
     // ── Public Entry ─────────────────────────────────────────────────────
     public void Fill(InvoiceOthersDM other)
     {
+        if(other == null) return;
+
+        NavigateToOtherSection();
+
         Lookup("PaymentTermId", other.PaymentTerm);
 
         Type(ChequeNumInput, other.ChequeNum);
@@ -46,7 +50,7 @@ public class OtherHandler : BaseHandler
 
         OpenDropdown(dropdown);
 
-        Type(input, value); // ✅ IMPORTANT FIX
+        //Type(input, value); 
 
         WaitForLoader();
 
@@ -80,5 +84,20 @@ public class OtherHandler : BaseHandler
         var nextPage = By.Id($"{baseId}_NextPage");
 
         return (dropdown, input, nextPage);
+    }
+
+    private void NavigateToOtherSection()
+    {
+        By otherTab = By.XPath("//td[contains(@id, 'General_HC')]");
+
+        try
+        {
+            Wait.UntilClickable(otherTab, timeoutSeconds: 3).Click();
+            WaitForLoader();
+        }
+        catch
+        {
+            // Other section already visible — no tab navigation needed
+        }
     }
 }

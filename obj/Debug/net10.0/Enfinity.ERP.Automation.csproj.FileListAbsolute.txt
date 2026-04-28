@@ -222,7 +222,6 @@ D:\Platform\Auto.ERP\bin\Debug\net10.0\NUnit3.TestAdapter.dll
 D:\Platform\Auto.ERP\bin\Debug\net10.0\Config\appsettings.json
 D:\Platform\Auto.ERP\bin\Debug\net10.0\Config\appsettings.test.json
 D:\Platform\Auto.ERP\bin\Debug\net10.0\Config\appsettings.staging.json
-D:\Platform\Auto.ERP\bin\Debug\net10.0\Modules\Sales\Data\SalesInvoice\Create\SalesInvoice_Create_MultiLine_ValidateTotal.json
 D:\Platform\Auto.ERP\bin\Debug\net10.0\Enfinity.ERP.Automation.deps.json
 D:\Platform\Auto.ERP\bin\Debug\net10.0\Enfinity.ERP.Automation.runtimeconfig.json
 D:\Platform\Auto.ERP\bin\Debug\net10.0\Enfinity.ERP.Automation.dll
@@ -427,7 +426,6 @@ D:\Platform\Auto.ERP\obj\Debug\net10.0\refint\Enfinity.ERP.Automation.dll
 D:\Platform\Auto.ERP\obj\Debug\net10.0\Enfinity.ERP.Automation.pdb
 D:\Platform\Auto.ERP\obj\Debug\net10.0\Enfinity.ERP.Automation.genruntimeconfig.cache
 D:\Platform\Auto.ERP\obj\Debug\net10.0\ref\Enfinity.ERP.Automation.dll
-D:\Platform\Auto.ERP\bin\Debug\net10.0\Modules\Sales\Data\SalesInvoice\Approve\SalesInvoice_Approval_MultiLine_ValidateTotal.json
 D:\Data\TestBuilder\bin\Debug\net10.0\testhost.dll
 D:\Data\TestBuilder\bin\Debug\net10.0\testhost.exe
 D:\Data\TestBuilder\bin\Debug\net10.0\NUnit3.TestAdapter.pdb
@@ -645,3 +643,5 @@ D:\Data\TestBuilder\obj\Debug\net10.0\refint\Enfinity.ERP.Automation.dll
 D:\Data\TestBuilder\obj\Debug\net10.0\Enfinity.ERP.Automation.pdb
 D:\Data\TestBuilder\obj\Debug\net10.0\Enfinity.ERP.Automation.genruntimeconfig.cache
 D:\Data\TestBuilder\obj\Debug\net10.0\ref\Enfinity.ERP.Automation.dll
+D:\Platform\Auto.ERP\bin\Debug\net10.0\Modules\Sales\Data\Invoice\Approve\Invoice_Approval_MultiLine_ValidateTotal.json
+D:\Platform\Auto.ERP\bin\Debug\net10.0\Modules\Sales\Data\Invoice\Create\Invoice_Create_MultiLine_ValidateTotal.json

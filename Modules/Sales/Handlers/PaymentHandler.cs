@@ -29,7 +29,7 @@ public class PaymentHandler : BaseHandler
         },
         ["Currency"] = new()
         {
-            Dropdown = By.XPath("//td[contains(@id, '_CurrencyId_B-1')]"),
+            Dropdown = By.XPath("//td[contains(@id, 'Payment_CurrencyId_B-1')]"),
             ColumnIndex = 2
         },
         ["CardNum"] = new()

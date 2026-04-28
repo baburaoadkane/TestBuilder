@@ -93,42 +93,111 @@ public class InvoiceExecutor : BaseExecutor<InvoiceDM>
 
     // ── Scenario implementations ───────────────────────────────────────────
 
+    //private void ExecuteCreate(InvoiceDM data)
+    //{
+    //    Report.Info("Step 1: Navigate to New Sales Invoice");
+    //    NavigateToModule("Sales");
+    //    NavigateToListing("Invoice");
+    //    OpenFormMode("New");
+
+    //    Report.Info("Step 2: Fill Header");
+    //    _headerHandler.Fill(data.Header);
+    //    ClickOnForm("Save");
+
+    //    Report.Info("Step 3: Validate After Save");
+    //    ValidateAfterSave(data);
+
+    //    Report.Info("Step 4: Fill Lines");
+    //    _linesHandler.Fill(data.Lines);
+    //    ClickOnForm("Save");
+
+    //    Report.Info("Step 5: Fill Charges");
+    //    _chargesHandler.Fill(data.Charges);
+    //    ClickOnForm("Save");
+
+    //    Report.Info("Step 6: Fill Payments");
+    //    _paymentsHandler.Fill(data.Payments);
+    //    ClickOnForm("Save");
+
+    //    Report.Info("Step 7: Fill Others");
+    //    _othersHandler.Fill(data.Others);
+    //    ClickOnForm("Save");
+
+    //    Report.Info("Step 8: Start capturing totals API");        
+    //    _networkHelper.Clear();
+    //    _networkHelper.StartCapture("/SalesInvoice/GetTxnSubtotals");
+
+    //    Report.Info("Step 9: Click To View Document");
+    //    ClickOnForm("View");
+
+    //    Report.Info("Step 10: Validate After View");
+    //    ValidateAfterView(data);
+    //}
+
     private void ExecuteCreate(InvoiceDM data)
     {
-        Report.Info("Step 1: Navigate to New Sales Invoice");
-        NavigateToModule("Sales");
-        NavigateToListing("Invoice");
-        OpenFormMode("New");
+        ExecuteStep("Navigate to New Sales Invoice", () =>
+        {
+            NavigateToModule("Sales");
+            NavigateToListing("Invoice");
+            OpenFormMode("New");
+        });
 
-        Report.Info("Step 2: Fill Header");
-        _headerHandler.Fill(data.Header);
-        ClickOnForm("Save");
+        ExecuteStep("Fill Header", () =>
+        {
+            _headerHandler.Fill(data.Header);
+            Save();
+            ValidateAfterSave(data);
+        });
 
-        Report.Info("Step 3: Validate After Save");
-        ValidateAfterSave(data);
+        ExecuteStep("Fill Lines", () =>
+        {
+            if (data.Lines?.Any() == true)
+            {
+                _linesHandler.Fill(data.Lines);
+                Save();
+            }
+        });
 
-        Report.Info("Step 4: Fill Lines");
-        _linesHandler.Fill(data.Lines);
-        ClickOnForm("Save");
+        ExecuteStep("Fill Charges", () =>
+        {
+            if (data.Charges?.Items?.Any() == true)
+            {
+                _chargesHandler.Fill(data.Charges);
+                Save();
+            }
+        });
 
-        Report.Info("Step 5: Fill Charges");
-        _chargesHandler.Fill(data.Charges);
+        ExecuteStep("Fill Payments", () =>
+        {
+            if (data.Payments?.Entries?.Any() == true)
+            {
+                _paymentsHandler.Fill(data.Payments);
+                Save();
+            }
+        });
 
-        Report.Info("Step 6: Fill Payments");
-        _paymentsHandler.Fill(data.Payments);
+        ExecuteStep("Fill Others", () =>
+        {
+            _othersHandler.Fill(data.Others);
+            Save();
+        });
 
-        Report.Info("Step 7: Fill Others");
-        _othersHandler.Fill(data.Others);
+        ExecuteStep("Start totals API capture", () =>
+        {
+            _networkHelper.Clear();
+            _networkHelper.StartCapture("/SalesInvoice/GetTxnSubtotals");
+        });
 
-        Report.Info("Step 8: Start capturing totals API");        
-        _networkHelper.Clear();
-        _networkHelper.StartCapture("/SalesInvoice/GetTxnSubtotals");
+        ExecuteStep("Open View Mode", () =>
+        {
+            ClickOnForm("View");
+        });
 
-        Report.Info("Step 9: Click To View Document");
-        ClickOnForm("View");
-
-        Report.Info("Step 10: Validate After View");
-        ValidateAfterView(data);
+        ExecuteStep("Validate After View", () =>
+        {
+            ValidateAfterView(data);
+        });
     }
 
     private void ExecuteApproval(InvoiceDM data)
@@ -191,6 +260,26 @@ public class InvoiceExecutor : BaseExecutor<InvoiceDM>
         _headerValidator.ValidateDocumentStatus(data.Expected);
         _headerValidator.ValidateDocumentPaymentStatus(data.Expected);
         //_totalsValidator.ValidateTotals(data.Expected);
+    }
+
+    private void ExecuteStep(string stepName, Action action)
+    {
+        try
+        {
+            Report.Info($"Step: {stepName}");
+            action();
+        }
+        catch (Exception ex)
+        {
+            Report.Fail($"Failed at step: {stepName} | Error: {ex.Message}");
+            throw;
+        }
+    }
+
+    private void Save()
+    {
+        ClickOnForm("Save");
+        WaitForLoader();
     }
 
     //private void ExecuteNegative(SalesInvoiceDM data)

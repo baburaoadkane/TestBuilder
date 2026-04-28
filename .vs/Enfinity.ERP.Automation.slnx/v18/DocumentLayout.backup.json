@@ -1,22 +1,22 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\Data\\TestBuilder\\",
+  "WorkspaceRootPath": "D:\\Platform\\Auto.ERP\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{7E2571D3-2B58-7F6A-2F56-BA9F7DDB0F0E}|Enfinity.ERP.Automation.csproj|d:\\data\\testbuilder\\modules\\sales\\executors\\invoiceexecutor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{7E2571D3-2B58-7F6A-2F56-BA9F7DDB0F0E}|Enfinity.ERP.Automation.csproj|d:\\platform\\auto.erp\\modules\\sales\\executors\\invoiceexecutor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7E2571D3-2B58-7F6A-2F56-BA9F7DDB0F0E}|Enfinity.ERP.Automation.csproj|solutionrelative:modules\\sales\\executors\\invoiceexecutor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7E2571D3-2B58-7F6A-2F56-BA9F7DDB0F0E}|Enfinity.ERP.Automation.csproj|d:\\data\\testbuilder\\modules\\sales\\data\\invoice\\create\\invoice_create_multiline_validatetotal.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "AbsoluteMoniker": "D:0:0:{7E2571D3-2B58-7F6A-2F56-BA9F7DDB0F0E}|Enfinity.ERP.Automation.csproj|d:\\platform\\auto.erp\\modules\\sales\\handlers\\otherhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7E2571D3-2B58-7F6A-2F56-BA9F7DDB0F0E}|Enfinity.ERP.Automation.csproj|solutionrelative:modules\\sales\\handlers\\otherhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7E2571D3-2B58-7F6A-2F56-BA9F7DDB0F0E}|Enfinity.ERP.Automation.csproj|d:\\platform\\auto.erp\\modules\\sales\\data\\invoice\\create\\invoice_create_multiline_validatetotal.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{7E2571D3-2B58-7F6A-2F56-BA9F7DDB0F0E}|Enfinity.ERP.Automation.csproj|solutionrelative:modules\\sales\\data\\invoice\\create\\invoice_create_multiline_validatetotal.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7E2571D3-2B58-7F6A-2F56-BA9F7DDB0F0E}|Enfinity.ERP.Automation.csproj|d:\\data\\testbuilder\\modules\\sales\\handlers\\chargeshandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7E2571D3-2B58-7F6A-2F56-BA9F7DDB0F0E}|Enfinity.ERP.Automation.csproj|solutionrelative:modules\\sales\\handlers\\chargeshandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7E2571D3-2B58-7F6A-2F56-BA9F7DDB0F0E}|Enfinity.ERP.Automation.csproj|d:\\data\\testbuilder\\modules\\sales\\datamodels\\invoice\\invoicechargesdm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7E2571D3-2B58-7F6A-2F56-BA9F7DDB0F0E}|Enfinity.ERP.Automation.csproj|solutionrelative:modules\\sales\\datamodels\\invoice\\invoicechargesdm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{7E2571D3-2B58-7F6A-2F56-BA9F7DDB0F0E}|Enfinity.ERP.Automation.csproj|d:\\platform\\auto.erp\\core\\base\\basehandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7E2571D3-2B58-7F6A-2F56-BA9F7DDB0F0E}|Enfinity.ERP.Automation.csproj|solutionrelative:core\\base\\basehandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,51 +30,16 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "InvoiceChargesDM.cs",
-              "DocumentMoniker": "D:\\Data\\TestBuilder\\Modules\\Sales\\DataModels\\Invoice\\InvoiceChargesDM.cs",
-              "RelativeDocumentMoniker": "Modules\\Sales\\DataModels\\Invoice\\InvoiceChargesDM.cs",
-              "ToolTip": "D:\\Data\\TestBuilder\\Modules\\Sales\\DataModels\\Invoice\\InvoiceChargesDM.cs",
-              "RelativeToolTip": "Modules\\Sales\\DataModels\\Invoice\\InvoiceChargesDM.cs",
-              "ViewState": "AgIAAAgAAAAAAAAAAAAAwBYAAAAbAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-28T13:01:37.982Z",
-              "IsPinned": true,
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ChargesHandler.cs",
-              "DocumentMoniker": "D:\\Data\\TestBuilder\\Modules\\Sales\\Handlers\\ChargesHandler.cs",
-              "RelativeDocumentMoniker": "Modules\\Sales\\Handlers\\ChargesHandler.cs",
-              "ToolTip": "D:\\Data\\TestBuilder\\Modules\\Sales\\Handlers\\ChargesHandler.cs",
-              "RelativeToolTip": "Modules\\Sales\\Handlers\\ChargesHandler.cs",
-              "ViewState": "AgIAAHYAAAAAAAAAAAA8wCYAAAAbAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-28T13:04:57.098Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Invoice_Create_MultiLine_ValidateTotal.json",
-              "DocumentMoniker": "D:\\Data\\TestBuilder\\Modules\\Sales\\Data\\Invoice\\Create\\Invoice_Create_MultiLine_ValidateTotal.json",
-              "RelativeDocumentMoniker": "Modules\\Sales\\Data\\Invoice\\Create\\Invoice_Create_MultiLine_ValidateTotal.json",
-              "ToolTip": "D:\\Data\\TestBuilder\\Modules\\Sales\\Data\\Invoice\\Create\\Invoice_Create_MultiLine_ValidateTotal.json",
-              "RelativeToolTip": "Modules\\Sales\\Data\\Invoice\\Create\\Invoice_Create_MultiLine_ValidateTotal.json",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAAABsAAAAaAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-04-28T12:41:20.929Z",
+              "Title": "OtherHandler.cs",
+              "DocumentMoniker": "D:\\Platform\\Auto.ERP\\Modules\\Sales\\Handlers\\OtherHandler.cs",
+              "RelativeDocumentMoniker": "Modules\\Sales\\Handlers\\OtherHandler.cs",
+              "ToolTip": "D:\\Platform\\Auto.ERP\\Modules\\Sales\\Handlers\\OtherHandler.cs",
+              "RelativeToolTip": "Modules\\Sales\\Handlers\\OtherHandler.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAAADIAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-28T17:59:46.694Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{40ea2e6b-2121-4bb8-a43e-c83c04b51041}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{809f6ff3-8092-454a-8003-6d4091f9b5bb}"
             },
             {
               "$type": "Bookmark",
@@ -93,14 +58,48 @@
               "Name": "ST:14:0:{2456bd12-ecf7-4988-a4a6-67d49173f565}"
             },
             {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{40ea2e6b-2121-4bb8-a43e-c83c04b51041}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{809f6ff3-8092-454a-8003-6d4091f9b5bb}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "BaseHandler.cs",
+              "DocumentMoniker": "D:\\Platform\\Auto.ERP\\Core\\Base\\BaseHandler.cs",
+              "RelativeDocumentMoniker": "Core\\Base\\BaseHandler.cs",
+              "ToolTip": "D:\\Platform\\Auto.ERP\\Core\\Base\\BaseHandler.cs",
+              "RelativeToolTip": "Core\\Base\\BaseHandler.cs",
+              "ViewState": "AgIAAFAAAAAAAAAAAAAtwGIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-28T17:58:17.55Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Invoice_Create_MultiLine_ValidateTotal.json",
+              "DocumentMoniker": "D:\\Platform\\Auto.ERP\\Modules\\Sales\\Data\\Invoice\\Create\\Invoice_Create_MultiLine_ValidateTotal.json",
+              "RelativeDocumentMoniker": "Modules\\Sales\\Data\\Invoice\\Create\\Invoice_Create_MultiLine_ValidateTotal.json",
+              "ToolTip": "D:\\Platform\\Auto.ERP\\Modules\\Sales\\Data\\Invoice\\Create\\Invoice_Create_MultiLine_ValidateTotal.json",
+              "RelativeToolTip": "Modules\\Sales\\Data\\Invoice\\Create\\Invoice_Create_MultiLine_ValidateTotal.json",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABgAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-04-28T12:41:20.929Z",
+              "EditorCaption": ""
+            },
+            {
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "InvoiceExecutor.cs",
-              "DocumentMoniker": "D:\\Data\\TestBuilder\\Modules\\Sales\\Executors\\InvoiceExecutor.cs",
+              "DocumentMoniker": "D:\\Platform\\Auto.ERP\\Modules\\Sales\\Executors\\InvoiceExecutor.cs",
               "RelativeDocumentMoniker": "Modules\\Sales\\Executors\\InvoiceExecutor.cs",
-              "ToolTip": "D:\\Data\\TestBuilder\\Modules\\Sales\\Executors\\InvoiceExecutor.cs",
+              "ToolTip": "D:\\Platform\\Auto.ERP\\Modules\\Sales\\Executors\\InvoiceExecutor.cs",
               "RelativeToolTip": "Modules\\Sales\\Executors\\InvoiceExecutor.cs",
-              "ViewState": "AgIAAG4AAAAAAAAAAAAjwJkAAAARAAAAAAAAAA==",
+              "ViewState": "AgIAAI0AAAAAAAAAAAAQwBoBAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-04-28T12:07:52.239Z",
               "EditorCaption": ""
