@@ -1,4 +1,6 @@
-﻿namespace Enfinity.ERP.Automation.Core.DataModels.Shared;
+﻿using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
+
+namespace Enfinity.ERP.Automation.Core.DataModels.Shared;
 
 /// <summary>
 /// Expected results section — present in every test data JSON file.
@@ -9,6 +11,8 @@ public class ExpectedResultDM
     /// <summary>Expected document status after the flow completes.</summary>
     /// <example>Draft, Submitted, Approved, Cancelled</example>
     public string? Status { get; set; }
+
+    public MessageDM Messages { get; set; } = new();
 
     public string? PaymentStatus { get; set; }
 
@@ -22,4 +26,13 @@ public class ExpectedResultDM
 
     /// <summary>Expected totals — validated by TotalsValidator.</summary>
     public ExpectedTotalsDM? Totals { get; set; }
+}
+
+public class MessageDM
+{
+    public string? OnSave { get; set; }
+    public string? OnApprove { get; set; }
+    public string? OnDelete { get; set; }
+    public string? OnSubmit { get; set; }
+    public string? OnUpdate { get; set; }
 }

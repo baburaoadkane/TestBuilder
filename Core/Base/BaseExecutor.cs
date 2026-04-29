@@ -226,12 +226,12 @@ public abstract class BaseExecutor<TDataModel> where TDataModel : class
     protected virtual void WaitForSuccessToast()
     {
         By toast = By.CssSelector(
-            ".toast-success, .alert-success, [class*='success'], [class*='notification']"
+            ".dx-toast-success, .dx-toast-message, .alert-success, [class*='success'], [class*='notification']"
         );
 
         try
         {
-            Wait.UntilVisible(toast, timeoutSeconds: 10);
+            Wait.UntilVisible(toast, timeoutSeconds: 5);
             Report.Info("Success notification received.");
         }
         catch
@@ -250,7 +250,7 @@ public abstract class BaseExecutor<TDataModel> where TDataModel : class
             ".loading, .loader, .spinner, [data-loading='true'], .overlay"
         );
 
-        try { Wait.UntilInvisible(loader, timeoutSeconds: 30); }
+        try { Wait.UntilInvisible(loader, timeoutSeconds: 5); }
         catch { /* Loader may not appear — continue */ }
     }
 

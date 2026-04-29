@@ -28,14 +28,17 @@
     "Entries": []
   },
 
-  "Others": {
-    "Remarks": ""
-  },
+  "Others": { },
 
   "Expected": {
     "Status": "Approved",
     "PaymentStatus": "Unpaid",
-    "SuccessMessage": "",
+
+    "Messages": {
+      "OnSave": "Invoice created successfully!",
+      "OnApprove": "Invoice Approved!"
+    },
+    
     "Totals": {
       "GrossValue": 200.000,
       "DiscountValue": 0.000,

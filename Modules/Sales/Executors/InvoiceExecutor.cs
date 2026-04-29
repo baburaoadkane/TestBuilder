@@ -148,7 +148,7 @@ public class InvoiceExecutor : BaseExecutor<InvoiceDM>
 
     private void ExecuteCreate(InvoiceDM data)
     {
-        ExecuteStep("Navigate to New Sales Invoice", () =>
+        ExecuteStep("Navigate to Sales Invoice", () =>
         {
             NavigateToModule("Sales");
             NavigateToListing("Invoice");
@@ -198,7 +198,7 @@ public class InvoiceExecutor : BaseExecutor<InvoiceDM>
             Report
         );
 
-        ExecuteStep("Execute All Sections", () =>
+        ExecuteStep("Execute Sections", () =>
         {
             engine.Execute(data);
         });
@@ -248,7 +248,7 @@ public class InvoiceExecutor : BaseExecutor<InvoiceDM>
             return;
         }
 
-        _messageValidator.ValidateSuccessMessage(data.Expected);
+        _messageValidator.ValidateSuccessMessage(data.Expected.Messages?.OnSave, "Save Meessage");
         _headerValidator.ValidateDocumentNumberGenerated();
     }
 
@@ -275,8 +275,9 @@ public class InvoiceExecutor : BaseExecutor<InvoiceDM>
             return;
         }
 
+        _messageValidator.ValidateMessage(data.Expected.Messages?.OnApprove, "Approve Message");
         _headerValidator.ValidateDocumentStatus(data.Expected);
-        _headerValidator.ValidateDocumentPaymentStatus(data.Expected);
+        _headerValidator.ValidateDocumentPaymentStatus(data.Expected);        
     }
 
     // ── Helpers ────────────────────────────────────────────────────────────

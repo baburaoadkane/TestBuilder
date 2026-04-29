@@ -71,6 +71,84 @@ public class MessageValidator : BaseValidator
         }
     }
 
+    public void ValidateSuccessMessage(string? expectedMessage, string context = "Message")
+    {
+        Report.Info($"Validating {context} notification...");
+
+        string actual = _expectation.ReadSuccessMessage();
+
+        if (string.IsNullOrWhiteSpace(actual))
+        {
+            Report.Warning($"⚠ No {context.ToLower()} found on page. " +
+                           "The action may have completed silently or the locator needs updating.");
+            return;
+        }
+
+        Report.Pass($"✓ {context} appeared: '{actual}'");
+
+        // If expected message provided → validate
+        if (!string.IsNullOrWhiteSpace(expectedMessage))
+        {
+            bool matches = actual.Contains(
+                expectedMessage,
+                StringComparison.OrdinalIgnoreCase
+            );
+
+            if (matches)
+            {
+                Report.Pass($"✓ {context} Text: Expected='{expectedMessage}' | Actual='{actual}'");
+            }
+            else
+            {
+                Report.Fail($"✗ {context} Text: Expected='{expectedMessage}' | Actual='{actual}'");
+
+                NUnit.Framework.Assert.Fail(
+                    $"[MessageValidator] {context} mismatch. " +
+                    $"Expected to contain: '{expectedMessage}', Actual: '{actual}'"
+                );
+            }
+        }
+    }
+
+    public void ValidateMessage(string? expectedMessage, string context = "Message")
+    {
+        Report.Info($"Validating {context} notification...");
+
+        string actual = _expectation.ReadMessage();
+
+        if (string.IsNullOrWhiteSpace(actual))
+        {
+            Report.Warning($"⚠ No {context.ToLower()} found on page. " +
+                           "The action may have completed silently or the locator needs updating.");
+            return;
+        }
+
+        Report.Pass($"✓ {context} appeared: '{actual}'");
+
+        // If expected message provided → validate
+        if (!string.IsNullOrWhiteSpace(expectedMessage))
+        {
+            bool matches = actual.Contains(
+                expectedMessage,
+                StringComparison.OrdinalIgnoreCase
+            );
+
+            if (matches)
+            {
+                Report.Pass($"✓ {context} Text: Expected='{expectedMessage}' | Actual='{actual}'");
+            }
+            else
+            {
+                Report.Fail($"✗ {context} Text: Expected='{expectedMessage}' | Actual='{actual}'");
+
+                NUnit.Framework.Assert.Fail(
+                    $"[MessageValidator] {context} mismatch. " +
+                    $"Expected to contain: '{expectedMessage}', Actual: '{actual}'"
+                );
+            }
+        }
+    }
+
     /// <summary>
     /// Assert an error/validation message appears with expected text.
     /// Used exclusively in Negative scenario tests.

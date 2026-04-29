@@ -43,6 +43,7 @@ public class ExpectationHandler : BaseHandler
     // ── Validation / Toast / notification ──────────────────────────────────
     private static readonly By ValidationMessage = By.Id("ValidationSummary");
     private static readonly By SuccessToast = By.CssSelector(".dx-toast-success, [class*='toast-success']");
+    private static readonly By MessageToast = By.CssSelector(".dx-toast-message, [class*='toast-success']");
     private static readonly By ErrorToast = By.CssSelector(".toast-error, [class*='error-message']");
 
     // ── Constructor ────────────────────────────────────────────────────────
@@ -69,6 +70,16 @@ public class ExpectationHandler : BaseHandler
         {
             Wait.UntilVisible(SuccessToast, timeoutSeconds: 5);
             return GetText(SuccessToast);
+        }
+        catch { return string.Empty; }
+    }
+
+    public string ReadMessage()
+    {
+        try
+        {
+            Wait.UntilVisible(MessageToast, timeoutSeconds: 5);
+            return GetText(MessageToast);
         }
         catch { return string.Empty; }
     }
