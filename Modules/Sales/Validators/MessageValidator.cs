@@ -243,4 +243,60 @@ public class MessageValidator : BaseValidator
                 $"[MessageValidator] Unexpected error on page: '{errorText}'");
         }
     }
+
+    public void ValidateMessage(string? expectedMessage, string className, string context)
+    {
+        Report.Info($"Validating {context}...");
+
+        string actual = ReadToastByClass(className);
+
+        if (string.IsNullOrWhiteSpace(actual))
+        {
+            Report.Warning($"⚠ No {context} found.");
+            return;
+        }
+
+        Report.Pass($"✓ {context} appeared: '{actual}'");
+
+        if (!string.IsNullOrWhiteSpace(expectedMessage))
+        {
+            if (actual.Contains(expectedMessage, StringComparison.OrdinalIgnoreCase))
+            {
+                Report.Pass($"✓ {context} matched.");
+            }
+            else
+            {
+                Report.Fail($"✗ Expected: '{expectedMessage}', Actual: '{actual}'");
+
+                NUnit.Framework.Assert.Fail(
+                    $"[Toast Validation] {context} mismatch. Expected: '{expectedMessage}', Actual: '{actual}'"
+                );
+            }
+        }
+    }
+
+    public string ReadToastByClass(string className, int timeoutSeconds = 5)
+    {
+        var js = (IJavaScriptExecutor)Driver;
+
+        string script = @"
+        var className = arguments[0];
+        var timeout = arguments[1];
+        var end = Date.now() + (timeout * 1000);
+
+        while (Date.now() < end) 
+        {
+            var element = document.querySelector('.' + className);
+
+            if (element && element.innerText && element.innerText.trim() !== '') 
+            {
+                return element.innerText.trim();
+            }
+        }
+
+        return '';
+    ";
+
+        return (string)js.ExecuteScript(script, className, timeoutSeconds);
+    }
 }

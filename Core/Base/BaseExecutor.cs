@@ -112,7 +112,7 @@ public abstract class BaseExecutor<TDataModel> where TDataModel : class
     /// </summary>
     protected virtual void ClickOnForm(string? buttonText = "Save")
     {
-        Report.Info($"{buttonText} document.");
+        Report.Info($"{buttonText}.");
 
         By button = By.XPath($"//span[contains(@class, 'dx-vam') and text()='{buttonText}']");
 
@@ -120,7 +120,7 @@ public abstract class BaseExecutor<TDataModel> where TDataModel : class
         WaitForLoader();
         WaitForSuccessToast();
 
-        Report.Info($"Document {buttonText} Successfully Done.");
+        Report.Info($"{buttonText} Successful.");
     }
 
     /// <summary>
@@ -226,7 +226,7 @@ public abstract class BaseExecutor<TDataModel> where TDataModel : class
     protected virtual void WaitForSuccessToast()
     {
         By toast = By.CssSelector(
-            ".dx-toast-success, .dx-toast-message, .alert-success, [class*='success'], [class*='notification']"
+            ".dx-toast-success, .dx-toast-message"
         );
 
         try
@@ -247,10 +247,10 @@ public abstract class BaseExecutor<TDataModel> where TDataModel : class
     protected virtual void WaitForLoader()
     {
         By loader = By.CssSelector(
-            ".loading, .loader, .spinner, [data-loading='true'], .overlay"
+            ".dx-loadindicator, .loading, .loader"
         );
 
-        try { Wait.UntilInvisible(loader, timeoutSeconds: 5); }
+        try { Wait.UntilInvisible(loader, timeoutSeconds: 3); }
         catch { /* Loader may not appear — continue */ }
     }
 

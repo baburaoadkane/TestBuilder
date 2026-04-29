@@ -69,83 +69,7 @@ public class InvoiceExecutor : BaseExecutor<InvoiceDM>
         }
     }
 
-    // ── CREATE ─────────────────────────────────────────────────────────────
-
-    //private void ExecuteCreate(InvoiceDM data)
-    //{
-    //    ExecuteStep("Navigate to New Sales Invoice", () =>
-    //    {
-    //        NavigateToModule("Sales");
-    //        NavigateToListing("Invoice");
-    //        OpenFormMode("New");
-    //    });
-
-    //    ExecuteStep("Fill Header", () =>
-    //    {
-    //        _headerHandler.Fill(data.Header);
-    //        Save();
-    //        ValidateAfterSave(data);
-    //    });
-
-    //    // 🔥 Dynamic Sections (Lines, Charges, Payments)
-    //    var sections = new List<(string Name, Func<bool> ShouldRun, Action Action)>
-    //    {
-    //        ("Lines",
-    //            () => data.Lines?.Any() == true,
-    //            () => _linesHandler.Fill(data.Lines)
-    //        ),
-
-    //        ("Charges",
-    //            () => data.Charges?.Items?.Any() == true,
-    //            () => _chargesHandler.Fill(data.Charges)
-    //        ),
-
-    //        ("Payments",
-    //            () => data.Payments?.Entries?.Any() == true,
-    //            () => _paymentsHandler.Fill(data.Payments)
-    //        )
-    //    };
-
-    //    ExecuteStep("Fill Dynamic Sections", () =>
-    //    {
-    //        foreach (var section in sections)
-    //        {
-    //            if (!section.ShouldRun())
-    //                continue;
-
-    //            ExecuteStep($"Fill {section.Name}", () =>
-    //            {
-    //                section.Action();
-    //                Save();
-    //            });
-    //        }
-    //    });
-
-    //    ExecuteStep("Fill Others", () =>
-    //    {
-    //        _othersHandler.Fill(data.Others);
-    //        Save(); // API fires here
-    //    });
-
-    //    // 🔥 Start API capture BEFORE final save
-    //    ExecuteStep("Start totals API capture", () =>
-    //    {
-    //        _networkHelper.Clear();
-    //        _networkHelper.StartCapture("/SalesInvoice/GetTxnSubtotals");
-    //    });
-
-    //    ExecuteStep("Open View Mode", () =>
-    //    {
-    //        ClickOnForm("View");
-    //    });
-
-    //    ExecuteStep("Validate After View", () =>
-    //    {
-    //        ValidateAfterView(data);
-    //    });
-    //}
-
-
+    // ── CREATE ──────────────────────────────────────────────────────────────
     private void ExecuteCreate(InvoiceDM data)
     {
         ExecuteStep("Navigate to Sales Invoice", () =>
@@ -186,9 +110,8 @@ public class InvoiceExecutor : BaseExecutor<InvoiceDM>
             new()
             {
                 Name = "Others",
-                ShouldRun = d => d.Others != null,
-                Action = d => _othersHandler.Fill(d.Others),
-                RequiresSave = true
+                ShouldRun = d => d.Others?.HasData() == true,
+                Action = d => _othersHandler.Fill(d.Others)
             }
         };
 
@@ -229,7 +152,7 @@ public class InvoiceExecutor : BaseExecutor<InvoiceDM>
         ExecuteStep("Approve Document", () =>
         {
             ClickOnForm("Approve");
-            Wait.WaitForSeconds(3);
+            Wait.WaitForSeconds(1);
         });
 
         ExecuteStep("Validate After Approve", () =>
@@ -248,7 +171,10 @@ public class InvoiceExecutor : BaseExecutor<InvoiceDM>
             return;
         }
 
-        _messageValidator.ValidateSuccessMessage(data.Expected.Messages?.OnSave, "Save Meessage");
+        _messageValidator.ValidateMessage(data.Expected?.Messages?.OnSave,
+            "dx-toast-message",
+            "Save Message"
+        );
         _headerValidator.ValidateDocumentNumberGenerated();
     }
 
@@ -275,7 +201,10 @@ public class InvoiceExecutor : BaseExecutor<InvoiceDM>
             return;
         }
 
-        _messageValidator.ValidateMessage(data.Expected.Messages?.OnApprove, "Approve Message");
+        _messageValidator.ValidateMessage(data.Expected?.Messages?.OnApprove,
+            "dx-toast-message",
+            "Approve Message"
+        );
         _headerValidator.ValidateDocumentStatus(data.Expected);
         _headerValidator.ValidateDocumentPaymentStatus(data.Expected);        
     }

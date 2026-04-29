@@ -75,11 +75,11 @@ public class HeaderValidator : BaseValidator
         string docNo = _expectation.ReadDocumentNumber();
 
         if (!string.IsNullOrWhiteSpace(docNo))
-            Report.Pass($"✓ Document Number generated: '{docNo}'");
+            Report.Pass($"✓ Number generated: '{docNo}'");
         else
         {
-            Report.Fail("✗ Document Number is empty after Save.");
-            NUnit.Framework.Assert.Fail("Document Number was not generated after Save.");
+            Report.Fail("✗ Number is empty after Save.");
+            NUnit.Framework.Assert.Fail("Number was not generated after Save.");
         }
     }
 
@@ -113,10 +113,10 @@ public class HeaderValidator : BaseValidator
             return;
         }
 
-        Report.Info($"Validating Document Status: Expected = '{expected.Status}'");
+        Report.Info($"Validating Status: Expected = '{expected.Status}'");
 
         string actualStatus = _expectation.ReadDocumentStatus();
-        LogAndAssert(expected.Status, actualStatus, "Document Status");
+        LogAndAssert(expected.Status, actualStatus, "Status");
     } 
 
     // ── Private helper ─────────────────────────────────────────────────────

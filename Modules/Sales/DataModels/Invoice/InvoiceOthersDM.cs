@@ -22,4 +22,19 @@ public class InvoiceOthersDM
 
     /// <summary>Terms and conditions text for this invoice.</summary>
     public string? TermsAndConditions { get; set; }
+
+    public bool HasData()
+    {
+        return
+
+            !string.IsNullOrWhiteSpace(Remarks) ||
+            !string.IsNullOrWhiteSpace(Description) ||
+            !string.IsNullOrWhiteSpace(ChequeNum) ||
+            !string.IsNullOrWhiteSpace(PaymentTerm) ||
+            !string.IsNullOrWhiteSpace(BillingAddress) ||
+            !string.IsNullOrWhiteSpace(ShippingAddress) ||
+            !string.IsNullOrWhiteSpace(ContactPersonName) ||
+            !string.IsNullOrWhiteSpace(ContactPersonMobile) ||
+            !string.IsNullOrWhiteSpace(ContactPersonEmail);
+    }
 }
