@@ -22,21 +22,21 @@
 
   "Charges": {
     "Items": [
-      //{
-      //  "ChargeType": "Freight Charges",
-      //  "Account": "42300 | Freight Charges Income",
-      //  "AmountFC": 10.000
-      //}
+      {
+        "ChargeType": "Freight Charges",
+        "Account": "42300 | Freight Charges Income",
+        "AmountFC": 10.000
+      }
     ]
   },
 
   "Payments": {
     "Entries": [
-      //{
-      //  "PaymentMode": "Cash",
-      //  "Currency": "KWD",
-      //  "AmountFC": 50.000
-      //}
+      {
+        "PaymentMode": "Cash",
+        "Currency": "KWD",
+        "AmountFC": 50.000
+      }
     ]
   },
 

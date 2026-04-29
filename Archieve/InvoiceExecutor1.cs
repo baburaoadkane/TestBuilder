@@ -1,0 +1,345 @@
+﻿using Enfinity.ERP.Automation.Core.Base;
+using Enfinity.ERP.Automation.Core.Utilities;
+using Enfinity.ERP.Automation.Modules.Sales.DataModels.Invoice;
+using Enfinity.ERP.Automation.Modules.Sales.Handlers;
+using Enfinity.ERP.Automation.Modules.Sales.Validators;
+using OpenQA.Selenium;
+
+namespace Enfinity.ERP.Automation.Archieve;
+
+public class InvoiceExecutor1 : BaseExecutor<InvoiceDM>
+{
+    // ── Handlers ───────────────────────────────────────────────────────────
+    //private readonly HeaderHandler _headerHandler;
+    private readonly HeaderHandlers _headerHandler;
+    private readonly LineHandler _linesHandler;
+    private readonly ChargesHandler _chargesHandler;
+    private readonly PaymentHandler _paymentsHandler;
+    private readonly OtherHandler _othersHandler;
+    private readonly ExpectationHandler _expectationHandler;
+
+    // ── Validators ─────────────────────────────────────────────────────────
+    private readonly HeaderValidator _headerValidator;
+    private readonly LinesValidator _linesValidator;
+    private readonly TotalsValidator _totalsValidator;
+    private readonly MessageValidator _messageValidator;
+
+    // ── Network ────────────────────────────────────────────────────────────
+    private readonly NetworkHelper _networkHelper;
+
+    // ── Navigation route ───────────────────────────────────────────────────
+    // TODO: Update this to match your ERP's actual Sales Invoice URL route
+    private const string EditInvoiceRoute = "sales/invoice/edit/{0}";
+
+    // ── Constructor ────────────────────────────────────────────────────────
+    public InvoiceExecutor1(IWebDriver driver, WaitHelper wait, ReportHelper report)
+        : base(driver, wait, report)
+    {
+        // Initialize all handlers
+        _headerHandler = new HeaderHandlers(driver, wait);
+        _linesHandler = new LineHandler(driver, wait);
+        _chargesHandler = new ChargesHandler(driver, wait);
+        _paymentsHandler = new PaymentHandler(driver, wait);
+        _othersHandler = new OtherHandler(driver, wait);
+        _expectationHandler = new ExpectationHandler(driver, wait);
+
+        // Initialize all validators
+        _headerValidator = new HeaderValidator(driver, wait, report, _expectationHandler);
+        _linesValidator = new LinesValidator(driver, wait, report, _expectationHandler);
+        _totalsValidator = new TotalsValidator(driver, wait, report, _expectationHandler);
+        _messageValidator = new MessageValidator(driver, wait, report, _expectationHandler);
+
+        // Initialize network helper
+        _networkHelper = new NetworkHelper(driver);
+    }
+
+    // ── Entry point ───────────────────────────────────────────────────
+
+    public override void Execute(InvoiceDM data)
+    {
+        Report.Info($"── Sales Invoice Executor: {data.ScenarioType} ──");
+        Report.Info($"Test: {data.TestDescription}");
+
+        string scenarioType = data.ScenarioType?.ToUpperInvariant() ?? "CREATE";
+
+        switch (scenarioType)
+        {
+            case "CREATE":
+                ExecuteCreate(data);
+                break;
+
+            case "APPROVAL":
+                ExecuteApproval(data);
+                break;
+
+            //case "NEGATIVE":
+            //    ExecuteNegative(data);
+            //    break;
+
+            //case "EDIT":
+            //    ExecuteEdit(data);
+            //    break;
+
+            //case "VALIDATION":
+            //    ExecuteValidation(data);
+            //    break;
+
+            default:
+                throw new ArgumentException(
+                    $"[SalesInvoiceExecutor] Unknown ScenarioType: '{data.ScenarioType}'. " +
+                    $"Valid values: Create, Approval, Negative, Edit, Validation.");
+        }
+    }
+
+    // ── Scenario implementations ───────────────────────────────────────────
+
+    //private void ExecuteCreate(InvoiceDM data)
+    //{
+    //    Report.Info("Step 1: Navigate to New Sales Invoice");
+    //    NavigateToModule("Sales");
+    //    NavigateToListing("Invoice");
+    //    OpenFormMode("New");
+
+    //    Report.Info("Step 2: Fill Header");
+    //    _headerHandler.Fill(data.Header);
+    //    ClickOnForm("Save");
+
+    //    Report.Info("Step 3: Validate After Save");
+    //    ValidateAfterSave(data);
+
+    //    Report.Info("Step 4: Fill Lines");
+    //    _linesHandler.Fill(data.Lines);
+    //    ClickOnForm("Save");
+
+    //    Report.Info("Step 5: Fill Charges");
+    //    _chargesHandler.Fill(data.Charges);
+    //    ClickOnForm("Save");
+
+    //    Report.Info("Step 6: Fill Payments");
+    //    _paymentsHandler.Fill(data.Payments);
+    //    ClickOnForm("Save");
+
+    //    Report.Info("Step 7: Fill Others");
+    //    _othersHandler.Fill(data.Others);
+    //    ClickOnForm("Save");
+
+    //    Report.Info("Step 8: Start capturing totals API");        
+    //    _networkHelper.Clear();
+    //    _networkHelper.StartCapture("/SalesInvoice/GetTxnSubtotals");
+
+    //    Report.Info("Step 9: Click To View Document");
+    //    ClickOnForm("View");
+
+    //    Report.Info("Step 10: Validate After View");
+    //    ValidateAfterView(data);
+    //}
+
+    private void ExecuteCreate(InvoiceDM data)
+    {
+        ExecuteStep("Navigate to New Sales Invoice", () =>
+        {
+            NavigateToModule("Sales");
+            NavigateToListing("Invoice");
+            OpenFormMode("New");
+        });
+
+        ExecuteStep("Fill Header", () =>
+        {
+            _headerHandler.Fill(data.Header);
+            Save();
+            ValidateAfterSave(data);
+        });
+
+        ExecuteStep("Fill Lines", () =>
+        {
+            if (data.Lines?.Any() == true)
+            {
+                _linesHandler.Fill(data.Lines);
+                Save();
+            }
+        });
+
+        ExecuteStep("Fill Charges", () =>
+        {
+            if (data.Charges?.Items?.Any() == true)
+            {
+                _chargesHandler.Fill(data.Charges);
+                Save();
+            }
+        });
+
+        ExecuteStep("Fill Payments", () =>
+        {
+            if (data.Payments?.Entries?.Any() == true)
+            {
+                _paymentsHandler.Fill(data.Payments);
+                Save();
+            }
+        });
+
+        ExecuteStep("Fill Others", () =>
+        {
+            _othersHandler.Fill(data.Others);
+            Save();
+        });
+
+        ExecuteStep("Start totals API capture", () =>
+        {
+            _networkHelper.Clear();
+            _networkHelper.StartCapture("/SalesInvoice/GetTxnSubtotals");
+        });
+
+        ExecuteStep("Open View Mode", () =>
+        {
+            ClickOnForm("View");
+        });
+
+        ExecuteStep("Validate After View", () =>
+        {
+            ValidateAfterView(data);
+        });
+    }
+
+    private void ExecuteApproval(InvoiceDM data)
+    {
+        // Step 1–7: Same as Create
+        ExecuteCreate(data);
+
+        // Step 11: Submit for approval if workflow enabled
+        //Report.Info("Step 8: Submit document for approval");
+        //lickOnForm("Submit");
+        //_messageValidator.ValidateSuccessMessage(data.Expected);
+
+        // Step 12: Approve
+        Report.Info("Step 12: Click To Approve Document");
+        ClickOnForm("Approve");
+        Wait.WaitForSeconds(3);
+
+        // Step 13: Validate final approved state
+        Report.Info("Step 13: Validate After Approve");
+        ValidateAfterApprove(data);
+    }
+
+    private void ValidateAfterSave(InvoiceDM data)
+    {
+        if (data.Expected == null)
+        {
+            Report.Warning("No Expected values defined in JSON — skipping validation.");
+            return;
+        }
+
+        _messageValidator.ValidateSuccessMessage(data.Expected);
+        _headerValidator.ValidateDocumentNumberGenerated();
+    }
+
+    private void ValidateAfterView(InvoiceDM data)
+    {
+        if (data.Expected == null)
+        {
+            Report.Warning("No Expected values defined in JSON — skipping validation.");
+            return;
+        }
+
+        _linesValidator.ValidateLineTotals(data.Lines);
+
+        // ✅ Get API response
+        var totals = _networkHelper.GetResponse<TotalsResponseDM>();
+
+        // ✅ Pass to validator and validate against expected values from JSON
+        _totalsValidator.ValidateTotalsFromApi(data.Expected, totals);
+    }
+
+    private void ValidateAfterApprove(InvoiceDM data)
+    {
+        if (data.Expected == null)
+        {
+            Report.Warning("No Expected values defined in JSON — skipping validation.");
+            return;
+        }
+        
+        _headerValidator.ValidateDocumentStatus(data.Expected);
+        _headerValidator.ValidateDocumentPaymentStatus(data.Expected);
+        //_totalsValidator.ValidateTotals(data.Expected);
+    }
+
+    private void ExecuteStep(string stepName, Action action)
+    {
+        try
+        {
+            Report.Info($"Step: {stepName}");
+            action();
+        }
+        catch (Exception ex)
+        {
+            Report.Fail($"Failed at step: {stepName} | Error: {ex.Message}");
+            throw;
+        }
+    }
+
+    private void Save()
+    {
+        ClickOnForm("Save");
+        WaitForLoader();
+    }
+
+    //private void ExecuteNegative(SalesInvoiceDM data)
+    //{
+    //    Report.Info("Step 1: Navigate to New Sales Invoice");
+    //    NavigateToModule("Sales");
+    //    NavigateToListing("Invoice");
+    //    OpenFormMode("New");
+
+    //    Report.Info("Step 2: Fill form with invalid/incomplete data");
+    //    _headerHandler.Fill(data.Header);
+
+    //    Report.Info("Step 3: Attempt to Save (expecting validation error)");
+    //    ClickOnForm("Save");
+
+    //    Report.Info("Step 4: Validate validation message");
+    //    _messageValidator.ValidateValidationMessage(data.Expected);
+    //}
+
+    //private void ExecuteEdit(SalesInvoiceDM data)
+    //{
+    //    if (string.IsNullOrWhiteSpace(data.DocumentNo))
+    //        throw new InvalidOperationException(
+    //            "[SalesInvoiceExecutor] Edit scenario requires DocumentNo in the JSON file.");
+
+    //    Report.Info($"Step 1: Navigate to existing invoice: {data.DocumentNo}");
+    //    Navigate(string.Format(EditInvoiceRoute, data.DocumentNo));
+
+    //    Report.Info("Step 2: Update Header fields");
+    //    _headerHandler.Fill(data.Header);
+
+    //    Report.Info("Step 3: Update Lines");
+    //    _linesHandler.Fill(data.Lines);
+
+    //    Report.Info("Step 4: Update Charges");
+    //    _chargesHandler.Fill(data.Charges);
+
+    //    Report.Info("Step 5: Update Payments");
+    //    _paymentsHandler.Fill(data.Payments);
+
+    //    Report.Info("Step 6: Update Others");
+    //    _othersHandler.Fill(data.Others);
+
+    //    Report.Info("Step 7: Save updated document");
+    //    ClickOnForm("Save");
+
+    //    Report.Info("Step 8: Validate updated values");
+    //    ValidateAfterSave(data);
+    //}
+
+    //private void ExecuteValidation(SalesInvoiceDM data)
+    //{
+    //    if (string.IsNullOrWhiteSpace(data.DocumentNo))
+    //        throw new InvalidOperationException(
+    //            "[SalesInvoiceExecutor] Validation scenario requires DocumentNo in the JSON file.");
+
+    //    Report.Info($"Step 1: Navigate to existing invoice: {data.DocumentNo}");
+    //    Navigate(string.Format(EditInvoiceRoute, data.DocumentNo));
+
+    //    Report.Info("Step 2: Validate all sections");
+    //    ValidateAfterSave(data);
+    //}       
+}
