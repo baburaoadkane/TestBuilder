@@ -5,6 +5,14 @@
     {
       "AbsoluteMoniker": "D:0:0:{7E2571D3-2B58-7F6A-2F56-BA9F7DDB0F0E}|Enfinity.ERP.Automation.csproj|d:\\platform\\auto.erp\\modules\\sales\\executors\\invoiceexecutor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7E2571D3-2B58-7F6A-2F56-BA9F7DDB0F0E}|Enfinity.ERP.Automation.csproj|solutionrelative:modules\\sales\\executors\\invoiceexecutor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7E2571D3-2B58-7F6A-2F56-BA9F7DDB0F0E}|Enfinity.ERP.Automation.csproj|d:\\platform\\auto.erp\\core\\engine\\sectiondefinition.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7E2571D3-2B58-7F6A-2F56-BA9F7DDB0F0E}|Enfinity.ERP.Automation.csproj|solutionrelative:core\\engine\\sectiondefinition.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7E2571D3-2B58-7F6A-2F56-BA9F7DDB0F0E}|Enfinity.ERP.Automation.csproj|d:\\platform\\auto.erp\\core\\engine\\sectionengine.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7E2571D3-2B58-7F6A-2F56-BA9F7DDB0F0E}|Enfinity.ERP.Automation.csproj|solutionrelative:core\\engine\\sectionengine.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -48,9 +56,35 @@
               "RelativeDocumentMoniker": "Modules\\Sales\\Executors\\InvoiceExecutor.cs",
               "ToolTip": "D:\\Platform\\Auto.ERP\\Modules\\Sales\\Executors\\InvoiceExecutor.cs",
               "RelativeToolTip": "Modules\\Sales\\Executors\\InvoiceExecutor.cs",
-              "ViewState": "AgIAAM0AAAAAAAAAAAAwwBQAAAA2AAAAAAAAAA==",
+              "ViewState": "AgIAAMsAAAAAAAAAAAAgwKQAAABNAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-29T01:45:26.358Z",
+              "WhenOpened": "2026-04-29T02:11:37.045Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "SectionEngine.cs",
+              "DocumentMoniker": "D:\\Platform\\Auto.ERP\\Core\\Engine\\SectionEngine.cs",
+              "RelativeDocumentMoniker": "Core\\Engine\\SectionEngine.cs",
+              "ToolTip": "D:\\Platform\\Auto.ERP\\Core\\Engine\\SectionEngine.cs",
+              "RelativeToolTip": "Core\\Engine\\SectionEngine.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-29T02:09:45.735Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "SectionDefinition.cs",
+              "DocumentMoniker": "D:\\Platform\\Auto.ERP\\Core\\Engine\\SectionDefinition.cs",
+              "RelativeDocumentMoniker": "Core\\Engine\\SectionDefinition.cs",
+              "ToolTip": "D:\\Platform\\Auto.ERP\\Core\\Engine\\SectionDefinition.cs",
+              "RelativeToolTip": "Core\\Engine\\SectionDefinition.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAA9AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-29T02:08:16.861Z",
               "EditorCaption": ""
             }
           ]

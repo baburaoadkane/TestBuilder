@@ -1,4 +1,5 @@
 ﻿using Enfinity.ERP.Automation.Core.Base;
+using Enfinity.ERP.Automation.Core.Engine;
 using Enfinity.ERP.Automation.Core.Utilities;
 using Enfinity.ERP.Automation.Modules.Sales.DataModels.Invoice;
 using Enfinity.ERP.Automation.Modules.Sales.Handlers;
@@ -70,6 +71,81 @@ public class InvoiceExecutor : BaseExecutor<InvoiceDM>
 
     // ── CREATE ─────────────────────────────────────────────────────────────
 
+    //private void ExecuteCreate(InvoiceDM data)
+    //{
+    //    ExecuteStep("Navigate to New Sales Invoice", () =>
+    //    {
+    //        NavigateToModule("Sales");
+    //        NavigateToListing("Invoice");
+    //        OpenFormMode("New");
+    //    });
+
+    //    ExecuteStep("Fill Header", () =>
+    //    {
+    //        _headerHandler.Fill(data.Header);
+    //        Save();
+    //        ValidateAfterSave(data);
+    //    });
+
+    //    // 🔥 Dynamic Sections (Lines, Charges, Payments)
+    //    var sections = new List<(string Name, Func<bool> ShouldRun, Action Action)>
+    //    {
+    //        ("Lines",
+    //            () => data.Lines?.Any() == true,
+    //            () => _linesHandler.Fill(data.Lines)
+    //        ),
+
+    //        ("Charges",
+    //            () => data.Charges?.Items?.Any() == true,
+    //            () => _chargesHandler.Fill(data.Charges)
+    //        ),
+
+    //        ("Payments",
+    //            () => data.Payments?.Entries?.Any() == true,
+    //            () => _paymentsHandler.Fill(data.Payments)
+    //        )
+    //    };
+
+    //    ExecuteStep("Fill Dynamic Sections", () =>
+    //    {
+    //        foreach (var section in sections)
+    //        {
+    //            if (!section.ShouldRun())
+    //                continue;
+
+    //            ExecuteStep($"Fill {section.Name}", () =>
+    //            {
+    //                section.Action();
+    //                Save();
+    //            });
+    //        }
+    //    });
+
+    //    ExecuteStep("Fill Others", () =>
+    //    {
+    //        _othersHandler.Fill(data.Others);
+    //        Save(); // API fires here
+    //    });
+
+    //    // 🔥 Start API capture BEFORE final save
+    //    ExecuteStep("Start totals API capture", () =>
+    //    {
+    //        _networkHelper.Clear();
+    //        _networkHelper.StartCapture("/SalesInvoice/GetTxnSubtotals");
+    //    });
+
+    //    ExecuteStep("Open View Mode", () =>
+    //    {
+    //        ClickOnForm("View");
+    //    });
+
+    //    ExecuteStep("Validate After View", () =>
+    //    {
+    //        ValidateAfterView(data);
+    //    });
+    //}
+
+
     private void ExecuteCreate(InvoiceDM data)
     {
         ExecuteStep("Navigate to New Sales Invoice", () =>
@@ -86,47 +162,47 @@ public class InvoiceExecutor : BaseExecutor<InvoiceDM>
             ValidateAfterSave(data);
         });
 
-        // 🔥 Dynamic Sections (Lines, Charges, Payments)
-        var sections = new List<(string Name, Func<bool> ShouldRun, Action Action)>
+        // ── Execute Sections ──────────────────────────────────────────────
+        var sections = new List<SectionDefinition<InvoiceDM>>
         {
-            ("Lines",
-                () => data.Lines?.Any() == true,
-                () => _linesHandler.Fill(data.Lines)
-            ),
-
-            ("Charges",
-                () => data.Charges?.Items?.Any() == true,
-                () => _chargesHandler.Fill(data.Charges)
-            ),
-
-            ("Payments",
-                () => data.Payments?.Entries?.Any() == true,
-                () => _paymentsHandler.Fill(data.Payments)
-            )
+            new()
+            {
+                Name = "Lines",
+                ShouldRun = d => d.Lines?.Any() == true,
+                Action = d => _linesHandler.Fill(d.Lines)
+            },
+            new()
+            {
+                Name = "Charges",
+                ShouldRun = d => d.Charges?.Items?.Any() == true,
+                Action = d => _chargesHandler.Fill(d.Charges)
+            },
+            new()
+            {
+                Name = "Payments",
+                ShouldRun = d => d.Payments?.Entries?.Any() == true,
+                Action = d => _paymentsHandler.Fill(d.Payments)
+            },
+            new()
+            {
+                Name = "Others",
+                ShouldRun = d => d.Others != null,
+                Action = d => _othersHandler.Fill(d.Others),
+                RequiresSave = true
+            }
         };
 
-        ExecuteStep("Fill Dynamic Sections", () =>
-        {
-            foreach (var section in sections)
-            {
-                if (!section.ShouldRun())
-                    continue;
+        var engine = new SectionEngine<InvoiceDM>(
+            sections,
+            Save,
+            Report
+        );
 
-                ExecuteStep($"Fill {section.Name}", () =>
-                {
-                    section.Action();
-                    Save();
-                });
-            }
-        });
-        
-        ExecuteStep("Fill Others", () =>
+        ExecuteStep("Execute All Sections", () =>
         {
-            _othersHandler.Fill(data.Others);
-            Save(); // API fires here
+            engine.Execute(data);
         });
 
-        // 🔥 Start API capture BEFORE final save
         ExecuteStep("Start totals API capture", () =>
         {
             _networkHelper.Clear();

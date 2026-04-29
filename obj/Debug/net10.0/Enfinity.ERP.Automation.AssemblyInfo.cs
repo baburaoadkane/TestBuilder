@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Enfinity.ERP.Automation")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0afd116037406618bce0d57d016b4e954ab4d5b9")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3b82216373125e2a49e684481b7a0a94efb705d0")]
 [assembly: System.Reflection.AssemblyProductAttribute("Enfinity.ERP.Automation")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Enfinity.ERP.Automation")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
