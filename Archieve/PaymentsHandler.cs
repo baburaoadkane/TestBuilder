@@ -32,8 +32,8 @@ public class PaymentsHandler : BaseHandler
     );
 
     // ── Constructor ────────────────────────────────────────────────────────
-    public PaymentsHandler(IWebDriver driver, WaitHelper wait)
-        : base(driver, wait) { }
+    public PaymentsHandler(IWebDriver driver, WaitHelper wait, ReportHelper report)
+        : base(driver, wait, report) { }
 
     // ── Public entry point ─────────────────────────────────────────────────
 

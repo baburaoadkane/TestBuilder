@@ -12,7 +12,7 @@ public class ChargesHandler : BaseHandler
     private static readonly By AddChargeButton = By.Id("SalesInvoiceChargeNewButton");
     private static readonly By NextButton = By.XPath("//a[contains(@class,'dxp-button')]//img[@alt='Next']");
     // ── Constructor ────────────────────────────────────────────────────────
-    public ChargesHandler(IWebDriver driver, WaitHelper wait) : base(driver, wait) { }
+    public ChargesHandler(IWebDriver driver, WaitHelper wait, ReportHelper report) : base(driver, wait, report) { }
 
     // ── Field Mapping (🔥 Dictionary Driven) ──────────────────────────────
     private class FieldConfig

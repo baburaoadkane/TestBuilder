@@ -53,8 +53,8 @@ namespace Enfinity.ERP.Automation.Archieve
         private static readonly By MobileNumInput = By.XPath("//input[contains(@id, '.MobileNum_I')]");
 
         // ── Constructor ─────────────────────────────────────────────────────
-        public HeaderHandler(IWebDriver driver, WaitHelper wait)
-            : base(driver, wait) { }
+        public HeaderHandler(IWebDriver driver, WaitHelper wait, ReportHelper report)
+            : base(driver, wait, report) { }
 
         // ── Public Entry Point ──────────────────────────────────────────────
         public void Fill(InvoiceHeaderDM header)

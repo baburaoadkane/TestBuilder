@@ -19,7 +19,7 @@ namespace Enfinity.ERP.Automation.Modules.Sales.Handlers
         private static readonly By DisplayNameInput = By.XPath("//input[contains(@id, '.DisplayCustomerName_I')]");
         private static readonly By MobileNumInput = By.XPath("//input[contains(@id, '.MobileNum_I')]");
 
-        public HeaderHandlers(IWebDriver driver, WaitHelper wait) : base(driver, wait) { }
+        public HeaderHandlers(IWebDriver driver, WaitHelper wait, ReportHelper report) : base(driver, wait, report) { }
 
         // ── PUBLIC ENTRY ──────────────────────────────────────────────────
         public void Fill(InvoiceHeaderDM header)

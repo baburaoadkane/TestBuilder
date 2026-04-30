@@ -30,7 +30,7 @@ public class OthersHandler : BaseHandler
     private static readonly By TermsAndConditionsTextarea = By.Id("Others_TermsAndConditions");
 
     // ── Constructor ────────────────────────────────────────────────────────
-    public OthersHandler(IWebDriver driver, WaitHelper wait) : base(driver, wait) { }
+    public OthersHandler(IWebDriver driver, WaitHelper wait, ReportHelper report) : base(driver, wait, report) { }
 
     // ── Public entry point ─────────────────────────────────────────────────
 

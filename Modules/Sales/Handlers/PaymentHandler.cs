@@ -12,7 +12,7 @@ public class PaymentHandler : BaseHandler
     private static readonly By AddPaymentButton = By.Id("SalesInvoicePaymentNewButton");
     private static readonly By NextButton = By.XPath("//a[contains(@class,'dxp-button')]//img[@alt='Next']");
     // ── Constructor ────────────────────────────────────────────────────────
-    public PaymentHandler(IWebDriver driver, WaitHelper wait) : base(driver, wait) { }
+    public PaymentHandler(IWebDriver driver, WaitHelper wait, ReportHelper report) : base(driver, wait, report) { }
 
     private class FieldConfig
     {

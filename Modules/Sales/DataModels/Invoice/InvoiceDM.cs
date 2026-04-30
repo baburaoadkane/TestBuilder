@@ -16,6 +16,8 @@ namespace Enfinity.ERP.Automation.Modules.Sales.DataModels.Invoice;
 /// </summary>
 public class InvoiceDM : BaseDocumentDM
 {
+    public PreferenceDM? AppPreference { get; set; }
+    public TxnParameterDM? TxnParameter { get; set; }
     public InvoiceHeaderDM Header { get; set; } = new();
     public List<InvoiceLineDM> Lines { get; set; } = new();
     public InvoiceChargesDM Charges { get; set; } = new();

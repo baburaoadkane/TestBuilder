@@ -17,8 +17,8 @@ public class LinesHandlers : BaseHandler
     private static readonly By ExtraFieldButton = By.XPath("//img[contains(@id, '_DXCBtn-1Img')]");
 
     // ── Constructor ───────────────────────────────────────────────────────
-    public LinesHandlers(IWebDriver driver, WaitHelper wait)
-        : base(driver, wait) { }
+    public LinesHandlers(IWebDriver driver, WaitHelper wait, ReportHelper report)
+        : base(driver, wait, report) { }
 
     // ── Public Entry ──────────────────────────────────────────────────────
     public void Fill(List<InvoiceLineDM> lines)

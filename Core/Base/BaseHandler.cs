@@ -1,4 +1,5 @@
-﻿using Enfinity.ERP.Automation.Core.Utilities;
+﻿using AventStack.ExtentReports.Model;
+using Enfinity.ERP.Automation.Core.Utilities;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
@@ -29,14 +30,16 @@ public abstract class BaseHandler
     protected readonly IWebDriver Driver;
     protected readonly WaitHelper Wait;
     protected readonly ConfigReader Config = ConfigReader.Instance;
+    protected readonly ReportHelper Report;
 
     private readonly Actions _actions;
 
     // ── Constructor ────────────────────────────────────────────────────────
-    protected BaseHandler(IWebDriver driver, WaitHelper wait)
+    protected BaseHandler(IWebDriver driver, WaitHelper wait, ReportHelper report)
     {
         Driver = driver;
         Wait = wait;
+        Report = report;
         _actions = new Actions(driver);
     }
 
@@ -402,5 +405,49 @@ public abstract class BaseHandler
     {
         return element.GetAttribute("class")
             .Contains("dx-state-disabled", StringComparison.OrdinalIgnoreCase);
+    }
+
+    public void SwitchToInterface(string target)
+    {
+        try
+        {
+            var switchLocator = By.XPath("//div[contains(@id,'MainMenu_DXI25_T')]//span[contains(@class,'dx-vam')]");
+
+            if (!IsVisible(switchLocator))
+            {
+                Report.Warning("Switch interface option not visible.");
+                return;
+            }
+
+            var currentText = Wait.UntilVisible(switchLocator).Text.Trim();
+
+            bool shouldSwitch =
+                target.Equals("OLD", StringComparison.OrdinalIgnoreCase)
+                && currentText.Contains("old interface", StringComparison.OrdinalIgnoreCase)
+
+                ||
+
+                target.Equals("NEW", StringComparison.OrdinalIgnoreCase)
+                && currentText.Contains("new interface", StringComparison.OrdinalIgnoreCase);
+
+            if (shouldSwitch)
+            {
+                Report.Info($"Switching to {target} interface...");
+
+                Click(switchLocator);
+                WaitForLoader();
+
+                Report.Info($"Switched to {target} interface successfully.");
+            }
+            else
+            {
+                Report.Info($"Already in {target} interface.");
+            }
+        }
+        catch (Exception ex)
+        {
+            Report.Fail($"Failed to switch interface: {ex.Message}");
+            throw;
+        }
     }
 }

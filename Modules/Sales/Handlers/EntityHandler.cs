@@ -9,8 +9,8 @@ namespace Enfinity.ERP.Automation.Modules.Sales.Handlers
 {
     public class EntityHandler : BaseHandler
     {
-        public EntityHandler(IWebDriver driver, WaitHelper wait)
-        : base(driver, wait) { }
+        public EntityHandler(IWebDriver driver, WaitHelper wait, ReportHelper report)
+        : base(driver, wait, report) { }
 
 
         private void NavigateToEntity(string moduleName, string entityName)

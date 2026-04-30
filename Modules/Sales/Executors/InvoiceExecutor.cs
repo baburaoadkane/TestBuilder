@@ -1,5 +1,6 @@
 ﻿using Enfinity.ERP.Automation.Core.Base;
 using Enfinity.ERP.Automation.Core.Engine;
+using Enfinity.ERP.Automation.Core.Enums;
 using Enfinity.ERP.Automation.Core.Utilities;
 using Enfinity.ERP.Automation.Modules.Sales.DataModels.Invoice;
 using Enfinity.ERP.Automation.Modules.Sales.Handlers;
@@ -11,6 +12,7 @@ namespace Enfinity.ERP.Automation.Modules.Sales.Executors;
 public class InvoiceExecutor : BaseExecutor<InvoiceDM>
 {
     // ── Handlers ───────────────────────────────────────────────────────────
+    private readonly BaseHandler _baseHandler;
     private readonly HeaderHandlers _headerHandler;
     private readonly LineHandler _linesHandler;
     private readonly ChargesHandler _chargesHandler;
@@ -32,12 +34,12 @@ public class InvoiceExecutor : BaseExecutor<InvoiceDM>
     public InvoiceExecutor(IWebDriver driver, WaitHelper wait, ReportHelper report)
         : base(driver, wait, report)
     {
-        _headerHandler = new HeaderHandlers(driver, wait);
-        _linesHandler = new LineHandler(driver, wait);
-        _chargesHandler = new ChargesHandler(driver, wait);
-        _paymentsHandler = new PaymentHandler(driver, wait);
-        _othersHandler = new OtherHandler(driver, wait);
-        _expectationHandler = new ExpectationHandler(driver, wait);
+        _headerHandler = new HeaderHandlers(driver, wait, report);
+        _linesHandler = new LineHandler(driver, wait, report);
+        _chargesHandler = new ChargesHandler(driver, wait, report);
+        _paymentsHandler = new PaymentHandler(driver, wait, report);
+        _othersHandler = new OtherHandler(driver, wait, report);
+        _expectationHandler = new ExpectationHandler(driver, wait, report);
 
         _headerValidator = new HeaderValidator(driver, wait, report, _expectationHandler);
         _linesValidator = new LinesValidator(driver, wait, report, _expectationHandler);
@@ -77,6 +79,12 @@ public class InvoiceExecutor : BaseExecutor<InvoiceDM>
             NavigateToModule("Sales");
             NavigateToListing("Invoice");
             OpenFormMode("New");
+            
+        });
+
+        ExecuteStep("Switch to Old Interface", () =>
+        {
+            _baseHandler.SwitchToInterface(InterfaceType.Old.ToString());
         });
 
         ExecuteStep("Fill Header", () =>
@@ -98,13 +106,15 @@ public class InvoiceExecutor : BaseExecutor<InvoiceDM>
             new()
             {
                 Name = "Charges",
-                ShouldRun = d => d.Charges?.Items?.Any() == true,
+                ShouldRun = d => d.AppPreference?.IsChargesEnabled == false &&
+                d.Charges?.Items?.Any() == true,
                 Action = d => _chargesHandler.Fill(d.Charges)
             },
             new()
             {
                 Name = "Payments",
-                ShouldRun = d => d.Payments?.Entries?.Any() == true,
+                ShouldRun = d => d.TxnParameter?.UseMultiplePaymentMethod == true &&
+                d.Payments?.Entries?.Any() == true,
                 Action = d => _paymentsHandler.Fill(d.Payments)
             },
             new()
@@ -228,6 +238,5 @@ public class InvoiceExecutor : BaseExecutor<InvoiceDM>
     private void Save()
     {
         ClickOnForm("Save");
-        WaitForLoader();
     }
 }

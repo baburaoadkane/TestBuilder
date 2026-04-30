@@ -19,7 +19,7 @@ public class OtherHandler : BaseHandler
     private static readonly By ShippingAddressTextArea = By.XPath("//textarea[contains(@id, '.ShippingAddress_I')]");
     private static readonly By RemarksTextArea = By.XPath("//textarea[contains(@id, '.Description_I')]");
 
-    public OtherHandler(IWebDriver driver, WaitHelper wait) : base(driver, wait) { }
+    public OtherHandler(IWebDriver driver, WaitHelper wait, ReportHelper report) : base(driver, wait, report) { }
 
     // ── Public Entry ─────────────────────────────────────────────────────
     public void Fill(InvoiceOthersDM other)

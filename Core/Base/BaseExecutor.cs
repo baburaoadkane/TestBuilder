@@ -1,6 +1,5 @@
 ﻿using Enfinity.ERP.Automation.Core.Utilities;
 using OpenQA.Selenium;
-using OpenQA.Selenium.BiDi.BrowsingContext;
 
 namespace Enfinity.ERP.Automation.Core.Base;
 
@@ -112,7 +111,7 @@ public abstract class BaseExecutor<TDataModel> where TDataModel : class
     /// </summary>
     protected virtual void ClickOnForm(string? buttonText = "Save")
     {
-        Report.Info($"{buttonText}.");
+        Report.Info($"{buttonText} Details...");
 
         By button = By.XPath($"//span[contains(@class, 'dx-vam') and text()='{buttonText}']");
 

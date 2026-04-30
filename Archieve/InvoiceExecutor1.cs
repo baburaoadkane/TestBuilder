@@ -36,12 +36,12 @@ public class InvoiceExecutor1 : BaseExecutor<InvoiceDM>
         : base(driver, wait, report)
     {
         // Initialize all handlers
-        _headerHandler = new HeaderHandlers(driver, wait);
-        _linesHandler = new LineHandler(driver, wait);
-        _chargesHandler = new ChargesHandler(driver, wait);
-        _paymentsHandler = new PaymentHandler(driver, wait);
-        _othersHandler = new OtherHandler(driver, wait);
-        _expectationHandler = new ExpectationHandler(driver, wait);
+        _headerHandler = new HeaderHandlers(driver, wait, report);
+        _linesHandler = new LineHandler(driver, wait, report);
+        _chargesHandler = new ChargesHandler(driver, wait, report);
+        _paymentsHandler = new PaymentHandler(driver, wait, report);
+        _othersHandler = new OtherHandler(driver, wait, report);
+        _expectationHandler = new ExpectationHandler(driver, wait, report);
 
         // Initialize all validators
         _headerValidator = new HeaderValidator(driver, wait, report, _expectationHandler);

@@ -47,8 +47,8 @@ public class ExpectationHandler : BaseHandler
     private static readonly By ErrorToast = By.CssSelector(".toast-error, [class*='error-message']");
 
     // ── Constructor ────────────────────────────────────────────────────────
-    public ExpectationHandler(IWebDriver driver, WaitHelper wait)
-        : base(driver, wait) { }
+    public ExpectationHandler(IWebDriver driver, WaitHelper wait, ReportHelper report)
+        : base(driver, wait, report) { }
 
     // ── Read methods ───────────────────────────────────────────────────────
 

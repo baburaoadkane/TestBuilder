@@ -15,7 +15,7 @@ public class LineHandler : BaseHandler
     private static readonly By ExtraFieldButton = By.XPath("//img[contains(@id, '_DXCBtn-1Img')]");
 
     // ── Constructor ───────────────────────────────────────────────────────
-    public LineHandler(IWebDriver driver, WaitHelper wait) : base(driver, wait) { }
+    public LineHandler(IWebDriver driver, WaitHelper wait, ReportHelper report) : base(driver, wait, report) { }
 
     // ── 🔥 Field Configuration Model ──────────────────────────────────────
     private class FieldConfig

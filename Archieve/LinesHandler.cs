@@ -45,8 +45,8 @@ public class LinesHandler : BaseHandler
     private static readonly By RemarksInput = By.XPath("(//div[@class='dxgBCTC dx-ellipsis'])[32]");
 
     // ── Constructor ────────────────────────────────────────────────────────
-    public LinesHandler(IWebDriver driver, WaitHelper wait)
-        : base(driver, wait) { }
+    public LinesHandler(IWebDriver driver, WaitHelper wait, ReportHelper report)
+        : base(driver, wait, report) { }
 
     // ── Public entry point ─────────────────────────────────────────────────
 
