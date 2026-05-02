@@ -6,7 +6,12 @@
   "Header": {
     "Customer": "C0002 | Minnah Elamin",
     "ReferenceNum": "REF-001",
-    "Warehouse": "Grand Prime House"
+    "Warehouse": "Grand Prime House"    
+  },
+
+  "Discount": {
+    "DiscountInPercent": 25,
+    "DiscountValue": 10
   },
 
   "Lines": [    

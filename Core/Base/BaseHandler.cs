@@ -106,6 +106,21 @@ public abstract class BaseHandler
         element.SendKeys(value);
         Wait.UntilValuePresent(locator, value);
     }
+
+    protected void Type(By locator, decimal? value)
+    {
+        if (value <= 0 ) return;
+
+        var element = Wait.UntilVisible(locator);
+        ScrollIntoView(element);
+
+        element.Clear();
+        element.SendKeys(value.ToString());
+        PressEnter();
+        Wait.WaitForSeconds(1);
+        
+        //Wait.UntilValuePresent(locator, value.ToString());
+    }
     protected void ClearAndType(By locator, string? value)
     {
         if (string.IsNullOrWhiteSpace(value)) return;
@@ -322,8 +337,9 @@ public abstract class BaseHandler
     /// </summary>
     protected virtual void WaitForLoader(By? loaderLocator = null)
     {
-        loaderLocator ??= By.CssSelector(".loading-overlay, .spinner, [data-loading='true']");
-        Wait.UntilInvisible(loaderLocator, 10);
+        loaderLocator ??= By.Id("LoadingPanel");
+        //By.CssSelector(".loading-overlay, .spinner, [data-loading='true']");
+        Wait.UntilInvisible(loaderLocator, 3);
     }
 
     // ── Dropdown/Lookup Actions ───────────────────────────────────────────────────

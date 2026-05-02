@@ -1,4 +1,5 @@
-﻿using Enfinity.ERP.Automation.Core.Utilities;
+﻿using Enfinity.ERP.Automation.Core.Enums;
+using Enfinity.ERP.Automation.Core.Utilities;
 using OpenQA.Selenium;
 
 namespace Enfinity.ERP.Automation.Core.Base;
@@ -230,7 +231,7 @@ public abstract class BaseExecutor<TDataModel> where TDataModel : class
 
         try
         {
-            Wait.UntilVisible(toast, timeoutSeconds: 5);
+            Wait.UntilVisible(toast, timeoutSeconds: 3);
             Report.Info("Success notification received.");
         }
         catch
@@ -245,10 +246,7 @@ public abstract class BaseExecutor<TDataModel> where TDataModel : class
     /// </summary>
     protected virtual void WaitForLoader()
     {
-        By loader = By.CssSelector(
-            ".dx-loadindicator, .loading, .loader"
-        );
-
+        By loader = By.Id("LoadingPanel");
         try { Wait.UntilInvisible(loader, timeoutSeconds: 3); }
         catch { /* Loader may not appear — continue */ }
     }
@@ -278,6 +276,72 @@ public abstract class BaseExecutor<TDataModel> where TDataModel : class
         catch
         {
             return string.Empty;
+        }
+    }
+
+    public void SwitchToOldInterface()
+    {
+        try
+        {
+            var switchLocator = Driver.FindElement(By.XPath("//div[contains(@id,'MainMenu_DXI25_T')]//span[contains(@class,'dx-vam')]"));            
+
+            var switchText = switchLocator.Text.Trim();
+
+            bool canSwitchToOld = switchText.Contains("old interface", StringComparison.OrdinalIgnoreCase);
+
+            if (canSwitchToOld)
+            {
+                Report.Info("Switching to OLD interface...");
+
+                var switchButton = By.XPath("//span[contains(@class, 'dx-vam') and text()='Switch to old interface']");
+
+                Wait.UntilClickable(switchButton).Click();
+                WaitForLoader();
+
+                Report.Info("Switched to OLD interface.");
+            }
+            else
+            {
+                Report.Info("Already in OLD interface.");
+            }
+        }
+        catch (Exception ex)
+        {
+            Report.Fail($"Failed to switch to OLD interface: {ex.Message}");
+            throw;
+        }
+    }
+
+    public void SwitchToNewInterface()
+    {
+        try
+        {
+            var switchLocator = Driver.FindElement(By.XPath("//div[contains(@id,'MainMenu_DXI25_T')]//span[contains(@class,'dx-vam')]"));
+            
+            var switchText = switchLocator.Text.Trim();
+
+            bool canSwitchToOld = switchText.Contains("old interface", StringComparison.OrdinalIgnoreCase);
+
+            if (!canSwitchToOld)
+            {
+                Report.Info("Switching to NEW interface...");
+
+                var switchButton = By.XPath("//span[contains(@class, 'dx-vam') and text()='Switch to new interface']");
+
+                Wait.UntilClickable(switchButton).Click();
+                WaitForLoader();
+
+                Report.Info("Switched to NEW interface.");
+            }
+            else
+            {
+                Report.Info("Already in NEW interface.");
+            }
+        }
+        catch (Exception ex)
+        {
+            Report.Fail($"Failed to switch to NEW interface: {ex.Message}");
+            throw;
         }
     }
 }

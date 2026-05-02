@@ -1,6 +1,5 @@
 ﻿using Enfinity.ERP.Automation.Core.Base;
 using Enfinity.ERP.Automation.Core.Engine;
-using Enfinity.ERP.Automation.Core.Enums;
 using Enfinity.ERP.Automation.Core.Utilities;
 using Enfinity.ERP.Automation.Modules.Sales.DataModels.Invoice;
 using Enfinity.ERP.Automation.Modules.Sales.Handlers;
@@ -15,6 +14,7 @@ public class InvoiceExecutor : BaseExecutor<InvoiceDM>
     private readonly BaseHandler _baseHandler;
     private readonly HeaderHandlers _headerHandler;
     private readonly LineHandler _linesHandler;
+    private readonly DiscountHandler _discountHandler;
     private readonly ChargesHandler _chargesHandler;
     private readonly PaymentHandler _paymentsHandler;
     private readonly OtherHandler _othersHandler;
@@ -36,6 +36,7 @@ public class InvoiceExecutor : BaseExecutor<InvoiceDM>
     {
         _headerHandler = new HeaderHandlers(driver, wait, report);
         _linesHandler = new LineHandler(driver, wait, report);
+        _discountHandler = new DiscountHandler(driver, wait, report);
         _chargesHandler = new ChargesHandler(driver, wait, report);
         _paymentsHandler = new PaymentHandler(driver, wait, report);
         _othersHandler = new OtherHandler(driver, wait, report);
@@ -79,13 +80,8 @@ public class InvoiceExecutor : BaseExecutor<InvoiceDM>
             NavigateToModule("Sales");
             NavigateToListing("Invoice");
             OpenFormMode("New");
-            
-        });
-
-        ExecuteStep("Switch to Old Interface", () =>
-        {
-            _baseHandler.SwitchToInterface(InterfaceType.Old.ToString());
-        });
+            SwitchToOldInterface();
+        });        
 
         ExecuteStep("Fill Header", () =>
         {
@@ -103,6 +99,12 @@ public class InvoiceExecutor : BaseExecutor<InvoiceDM>
                 ShouldRun = d => d.Lines?.Any() == true,
                 Action = d => _linesHandler.Fill(d.Lines)
             },
+            new()
+             {
+                 Name = "Discount",
+                 ShouldRun = d => d.Discount?.HasData() == true,
+                 Action = d => _discountHandler.Fill(d.Discount)
+             },
             new()
             {
                 Name = "Charges",

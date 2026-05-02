@@ -3,28 +3,6 @@ using Enfinity.ERP.Automation.Modules.Sales.DataModels.Invoice;
 
 namespace Enfinity.ERP.Automation.Modules.Sales.Builders;
 
-/// <summary>
-/// Fluent builder for constructing SalesInvoiceDM test scenarios.
-///
-/// Provides two usage patterns:
-///
-/// Pattern A — Load from JSON (most common):
-///   var data = SalesInvoiceBuilder
-///       .FromJson("Modules/Sales/Json/SalesInvoice/Create/SI_Create_Basic.json")
-///       .WithApproval()
-///       .Build();
-///
-/// Pattern B — Build programmatically (for dynamic scenarios):
-///   var data = SalesInvoiceBuilder
-///       .New()
-///       .WithCustomer("Test Customer 01")
-///       .WithInvoiceDate("01-06-2025")
-///       .AddLine("ITEM-001", qty: 2, price: 1000, tax: "GST 18%")
-///       .WithApproval()
-///       .Build();
-///
-/// Both patterns return a fully populated SalesInvoiceDM ready for Execute().
-/// </summary>
 public class InvoiceBuilder
 {
     private InvoiceDM _model;
@@ -35,6 +13,7 @@ public class InvoiceBuilder
         _model = new InvoiceDM
         {
             Header = new InvoiceHeaderDM(),
+            Discount = new InvoiceDiscountDM(),
             Lines = new List<InvoiceLineDM>(),
             Charges = new InvoiceChargesDM(),
             Payments = new InvoicePaymentsDM(),
