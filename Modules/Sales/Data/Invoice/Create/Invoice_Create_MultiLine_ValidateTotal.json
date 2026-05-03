@@ -23,7 +23,7 @@
     "AllowNonInventoryItems": false,
     "AllowPartialPayment": false,
     "RequirePaymentMethod": false,
-    "UseMultiplePaymentMethod": true,
+    "UseMultiplePaymentMethod": false,
     "PromptOnStockBelowMinimumLevel": false,
     "ShowAdditionalItemInfo": false,
     "ShowLastPurchasePrice": false,
@@ -81,14 +81,14 @@
   },
 
   "Others": {
-    //"PaymentTerm": "Net 30",
-    //"ChequeNum": "584584",
-    //"ContactPersonName": "Minnah Elamin",
-    //"ContactPersonMobile": "9021546225",
-    //"ContactPersonEmail": "minnah.elamin@example.com",
-    //"BillingAddress": "Office 123, Grand Prime House, Kuwait City",
-    //"ShippingAddress": "Office 123, Grand Prime House, Kuwait City",
-    //"Remarks": "OK"
+    "PaymentTerm": "Net 30",
+    "ChequeNum": "584584",
+    "ContactPersonName": "Minnah Elamin",
+    "ContactPersonMobile": "9021546225",
+    "ContactPersonEmail": "minnah.elamin@example.com",
+    "BillingAddress": "Office 123, Grand Prime House, Kuwait City",
+    "ShippingAddress": "Office 123, Grand Prime House, Kuwait City",
+    "Remarks": "OK"
   },
 
   "Expected": {
