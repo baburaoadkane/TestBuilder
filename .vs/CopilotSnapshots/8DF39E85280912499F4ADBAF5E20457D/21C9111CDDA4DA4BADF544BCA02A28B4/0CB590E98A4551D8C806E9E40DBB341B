@@ -1,4 +1,4 @@
-{
+﻿{
   "TestDescription": "Invoice_Create_MultiLine_ValidateTotal",
   "ScenarioType": "Create",
   "RequiresApproval": false,
@@ -10,7 +10,7 @@
     "IsChequeBookEnabled": false,
     "IsPDCChequeEnabled": false,
     "IsPricelistEnabled": false,
-    "IsChargesEnabled": false
+    "IsChargesEnabled": true
   },
 
   "TxnParameter": {

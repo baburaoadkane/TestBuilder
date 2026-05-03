@@ -1,41 +1,14 @@
-{
+﻿{
   "TestDescription": "Invoice_Create_MultiLine_ValidateTotal",
   "ScenarioType": "Create",
   "RequiresApproval": false,
 
   "AppPreference": {
-    "IsAllowMultiCurrencyInTxn": false,
-    "IsFinancialSegmentsEnabled": false,
-    "IsBankChargesEnabled": false,
-    "IsChequeBookEnabled": false,
-    "IsPDCChequeEnabled": false,
-    "IsPricelistEnabled": false,
-    "IsChargesEnabled": false
+    "IsChargesEnabled": true
   },
 
   "TxnParameter": {
-    "ShowBarcodeOnLines": false,
-    "AllowModifyItemDescription": false,
-    "ShowWarehouseOnLines": false,
-    "AllowItemUOMModifyInTxn": false,
-    "ShowDiscountOnLines": false,
-    "AllowBonusQty": false,
-    "AllowNonInventoryItems": false,
-    "AllowPartialPayment": false,
-    "RequirePaymentMethod": false,
-    "UseMultiplePaymentMethod": true,
-    "PromptOnStockBelowMinimumLevel": false,
-    "ShowAdditionalItemInfo": false,
-    "ShowLastPurchasePrice": false,
-    "NegativeStockCheck": false,
-    "ReserveQty": false,
-    "EnableDentedStock": false,
-    "AvoidCostingOnApproval": false,
-    "InvoiceAsPerPickingOrder": false,
-    "StoreTransferAsPerPickingOrder": false,
-    "EnableApprovalWorkflow": false,
-    "SendEmailOnApproval": false,
-    "SendPaymentLinkViaEmail": false
+    "UseMultiplePaymentMethod": true
   },
 
   "Header": {

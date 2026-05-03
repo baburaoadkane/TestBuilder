@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Enfinity.ERP.Automation.Core.DataModels.Shared
 {
-    public abstract class PreferenceDM
+    public class PreferenceDM
     {
         // ── Accounting Related ────────────────────────────────────
         public bool IsAllowMultiCurrencyInTxn { get; set; }

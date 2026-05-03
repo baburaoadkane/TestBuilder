@@ -75,6 +75,10 @@ public class InvoiceExecutor : BaseExecutor<InvoiceDM>
     // ── CREATE ──────────────────────────────────────────────────────────────
     private void ExecuteCreate(InvoiceDM data)
     {
+        // ── Initialize null properties with defaults ───────────────────────
+        data.AppPreference ??= new PreferenceDM();
+        data.TxnParameter ??= new TxnParameterDM();
+
         ExecuteStep("Navigate to Sales Invoice", () =>
         {
             NavigateToModule("Sales");
@@ -108,15 +112,15 @@ public class InvoiceExecutor : BaseExecutor<InvoiceDM>
             new()
             {
                 Name = "Charges",
-                ShouldRun = d => d.AppPreference.IsChargesEnabled && 
-                d.Charges?.Items?.Any() == true,
+                ShouldRun = d => (d.AppPreference?.IsChargesEnabled == true) &&
+                (d.Charges?.Items?.Any() == true),
                 Action = d => _chargesHandler.Fill(d.Charges)
             },
             new()
             {
                 Name = "Payments",
-                ShouldRun = d => d.TxnParameter.UseMultiplePaymentMethod && 
-                d.Payments?.Entries?.Any() == true,
+                ShouldRun = d => (d.TxnParameter?.UseMultiplePaymentMethod == true) &&
+                (d.Payments?.Entries?.Any() == true),
                 Action = d => _paymentsHandler.Fill(d.Payments)
             },
             new()

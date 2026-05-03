@@ -1,7 +1,7 @@
-{
-  "TestDescription": "Invoice_Create_MultiLine_ValidateTotal",
-  "ScenarioType": "Create",
-  "RequiresApproval": false,
+﻿{
+  "TestDescription": "Invoice_Approval_MultiLine_ValidateTotal",
+  "ScenarioType": "Approval",
+  "RequiresApproval": true,
 
   "AppPreference": {
     "IsAllowMultiCurrencyInTxn": false,
@@ -10,7 +10,7 @@
     "IsChequeBookEnabled": false,
     "IsPDCChequeEnabled": false,
     "IsPricelistEnabled": false,
-    "IsChargesEnabled": false
+    "IsChargesEnabled": true
   },
 
   "TxnParameter": {
@@ -23,7 +23,7 @@
     "AllowNonInventoryItems": false,
     "AllowPartialPayment": false,
     "RequirePaymentMethod": false,
-    "UseMultiplePaymentMethod": true,
+    "UseMultiplePaymentMethod": false,
     "PromptOnStockBelowMinimumLevel": false,
     "ShowAdditionalItemInfo": false,
     "ShowLastPurchasePrice": false,
@@ -40,23 +40,18 @@
 
   "Header": {
     "Customer": "C0002 | Minnah Elamin",
-    "ReferenceNum": "REF-001",
+    "ReferenceNum": "REF-002",
     "Warehouse": "Grand Prime House"
-  },
-
-  "Discount": {
-    "DiscountInPercent": 0,
-    "DiscountValue": 0
   },
 
   "Lines": [
     {
       "Barcode": "",
-      "Item": "I0002",
-      "Quantity": 1,
+      "Item": "I0001",
+      "Quantity": 2,
       "UOM": "",
       "UnitPrice": 100.000,
-      "ExpectedLineTotal": 100.000
+      "ExpectedLineTotal": 200.000
     }
   ],
 
@@ -72,36 +67,38 @@
 
   "Payments": {
     "Entries": [
-      {
-        "PaymentMode": "Cash",
-        "Currency": "KWD",
-        "AmountFC": 50.000
-      }
+      //{
+      //  "PaymentMode": "Cash",
+      //  "Currency": "KWD",
+      //  "AmountFC": 50.000
+      //}
     ]
   },
 
   "Others": {
-    //"PaymentTerm": "Net 30",
-    //"ChequeNum": "584584",
-    //"ContactPersonName": "Minnah Elamin",
-    //"ContactPersonMobile": "9021546225",
-    //"ContactPersonEmail": "minnah.elamin@example.com",
-    //"BillingAddress": "Office 123, Grand Prime House, Kuwait City",
-    //"ShippingAddress": "Office 123, Grand Prime House, Kuwait City",
-    //"Remarks": "OK"
+    "PaymentTerm": "Net 30",
+    "ChequeNum": "584584",
+    "ContactPersonName": "Minnah Elamin",
+    "ContactPersonMobile": "9021546225",
+    "ContactPersonEmail": "minnah.elamin@example.com",
+    "BillingAddress": "Office 123, Grand Prime House, Kuwait City",
+    "ShippingAddress": "Office 123, Grand Prime House, Kuwait City",
+    "Remarks": "OK"
   },
 
   "Expected": {
-    "Status": "Active",
+    "Status": "Approved",
+    "PaymentStatus": "Unpaid",
 
     "Messages": {
-      "OnSave": "Invoice created successfully!"
+      "OnSave": "Invoice created successfully!",
+      "OnApprove": "Invoice Approved!"
     },
 
     "Totals": {
-      "GrossValue": 100.000,
+      "GrossValue": 200.000,
       "DiscountValue": 0.000,
-      "NetValue": 100.000
+      "NetValue": 200.000
     }
   }
 }

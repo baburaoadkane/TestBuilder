@@ -108,15 +108,15 @@ public class InvoiceExecutor : BaseExecutor<InvoiceDM>
             new()
             {
                 Name = "Charges",
-                ShouldRun = d => d.AppPreference.IsChargesEnabled && 
-                d.Charges?.Items?.Any() == true,
+                ShouldRun = d => (d.AppPreference?.IsChargesEnabled ?? false) &&
+                (d.Charges?.Items?.Any() == true),
                 Action = d => _chargesHandler.Fill(d.Charges)
             },
             new()
             {
                 Name = "Payments",
-                ShouldRun = d => d.TxnParameter.UseMultiplePaymentMethod && 
-                d.Payments?.Entries?.Any() == true,
+                ShouldRun = d => (d.TxnParameter?.UseMultiplePaymentMethod ?? false) &&
+                (d.Payments?.Entries?.Any() == true),
                 Action = d => _paymentsHandler.Fill(d.Payments)
             },
             new()

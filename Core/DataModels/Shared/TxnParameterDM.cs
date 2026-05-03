@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Enfinity.ERP.Automation.Core.DataModels.Shared
 {
-    public abstract class TxnParameterDM
+    public class TxnParameterDM
     {
         public bool ShowBarcodeOnLines { get; set; }
         public bool AllowModifyItemDescription { get; set; }
