@@ -11,7 +11,6 @@ namespace Enfinity.ERP.Automation.Modules.Sales.Executors;
 public class InvoiceExecutor : BaseExecutor<InvoiceDM>
 {
     // ── Handlers ───────────────────────────────────────────────────────────
-    private readonly BaseHandler _baseHandler;
     private readonly HeaderHandlers _headerHandler;
     private readonly LineHandler _linesHandler;
     private readonly DiscountHandler _discountHandler;
@@ -81,7 +80,7 @@ public class InvoiceExecutor : BaseExecutor<InvoiceDM>
             NavigateToListing("Invoice");
             OpenFormMode("New");
             SwitchToOldInterface();
-        });        
+        });
 
         ExecuteStep("Fill Header", () =>
         {
@@ -100,22 +99,22 @@ public class InvoiceExecutor : BaseExecutor<InvoiceDM>
                 Action = d => _linesHandler.Fill(d.Lines)
             },
             new()
-             {
+            {
                  Name = "Discount",
                  ShouldRun = d => d.Discount?.HasData() == true,
                  Action = d => _discountHandler.Fill(d.Discount)
-             },
+            },
             new()
             {
                 Name = "Charges",
-                ShouldRun = d => d.AppPreference.IsChargesEnabled && 
+                ShouldRun = d => d.AppPreference.IsChargesEnabled &&
                 d.Charges?.Items?.Any() == true,
                 Action = d => _chargesHandler.Fill(d.Charges)
             },
             new()
             {
                 Name = "Payments",
-                ShouldRun = d => d.TxnParameter.UseMultiplePaymentMethod && 
+                ShouldRun = d => d.TxnParameter.UseMultiplePaymentMethod &&
                 d.Payments?.Entries?.Any() == true,
                 Action = d => _paymentsHandler.Fill(d.Payments)
             },
@@ -218,7 +217,7 @@ public class InvoiceExecutor : BaseExecutor<InvoiceDM>
             "Approve Message"
         );
         _headerValidator.ValidateDocumentStatus(data.Expected);
-        _headerValidator.ValidateDocumentPaymentStatus(data.Expected);        
+        _headerValidator.ValidateDocumentPaymentStatus(data.Expected);
     }
 
     // ── Helpers ────────────────────────────────────────────────────────────

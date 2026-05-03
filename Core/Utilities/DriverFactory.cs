@@ -6,16 +6,6 @@ using Enfinity.ERP.Automation.Core.Enums;
 
 namespace Enfinity.ERP.Automation.Core.Utilities;
 
-/// <summary>
-/// Creates and manages WebDriver instances.
-/// 
-/// Features:
-///   - Reads browser type from ConfigReader automatically
-///   - Supports Chrome, Firefox, Edge
-///   - Configures headless mode, window size, implicit wait
-///   - Thread-safe: each thread gets its own driver (for parallel runs)
-///   - Call DriverFactory.GetDriver() anywhere; call QuitDriver() in teardown
-/// </summary>
 public static class DriverFactory
 {
     // ── Thread-local driver (supports parallel test execution) ─────────────
@@ -26,10 +16,6 @@ public static class DriverFactory
 
     // ── Public API ─────────────────────────────────────────────────────────
 
-    /// <summary>
-    /// Returns the current thread's WebDriver.
-    /// Creates a new instance if one doesn't exist yet.
-    /// </summary>
     public static IWebDriver GetDriver()
     {
         if (_driver == null || IsDriverClosed(_driver))
@@ -38,10 +24,6 @@ public static class DriverFactory
         return _driver;
     }
 
-    /// <summary>
-    /// Create a driver for a specific browser, overriding the config default.
-    /// Useful for cross-browser test methods.
-    /// </summary>
     public static IWebDriver GetDriver(BrowserType browserType)
     {
         _driver = CreateDriver(browserType);

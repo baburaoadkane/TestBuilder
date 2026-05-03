@@ -1,23 +1,9 @@
 ﻿using Enfinity.ERP.Automation.Core.Utilities;
-using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 using OpenQA.Selenium;
 
 namespace Enfinity.ERP.Automation.Core.Base;
 
-/// <summary>
-/// Base class for ALL test classes across every ERP module.
-/// 
-/// Responsibilities:
-///   - Initialize and quit WebDriver via DriverFactory
-///   - Login to ERP application before each test
-///   - Capture screenshot on failure
-///   - Initialize ExtentReports test node
-///   - Provide Driver property to all child test classes
-/// 
-/// Usage:
-///   public class SalesInvoiceTests : BaseTest { ... }
-/// </summary>
 [TestFixture]
 public abstract class BaseTest
 {
@@ -64,7 +50,6 @@ public abstract class BaseTest
 
         // 5. Login to ERP
         LoginHelper.Login(Config.AdminUsername, Config.AdminPassword);
-
         Report.Info($"Logged in as: {Config.AdminUsername}");
     }
 
@@ -78,6 +63,7 @@ public abstract class BaseTest
         if (outcome == TestStatus.Failed)
         {
             string screenshotPath = CaptureScreenshot();
+
             Report.Fail(
                 $"Test Failed: {TestContext.CurrentContext.Result.Message}",
                 screenshotPath
@@ -137,16 +123,5 @@ public abstract class BaseTest
             testName: TestContext.CurrentContext.Test.Name,
             outputPath: Config.ScreenshotsOutput
         );
-    }
-
-    /// <summary>
-    /// Navigate to a specific module route.
-    /// Example: NavigateTo("sales") → baseUrl/sales
-    /// </summary>
-    protected void NavigateTo(string route)
-    {
-        string url = $"{Config.BaseUrl.TrimEnd('/')}/{route.TrimStart('/')}";
-        Driver.Navigate().GoToUrl(url);
-        Report.Info($"Navigated to: {url}");
     }
 }

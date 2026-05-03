@@ -1,14 +1,14 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\Data\\TestBuilder\\",
+  "WorkspaceRootPath": "D:\\Platform\\Auto.ERP\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{7E2571D3-2B58-7F6A-2F56-BA9F7DDB0F0E}|Enfinity.ERP.Automation.csproj|d:\\data\\testbuilder\\modules\\sales\\data\\invoice\\create\\invoice_create_multiline_validatetotal.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{7E2571D3-2B58-7F6A-2F56-BA9F7DDB0F0E}|Enfinity.ERP.Automation.csproj|solutionrelative:modules\\sales\\data\\invoice\\create\\invoice_create_multiline_validatetotal.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{7E2571D3-2B58-7F6A-2F56-BA9F7DDB0F0E}|Enfinity.ERP.Automation.csproj|d:\\platform\\auto.erp\\core\\utilities\\driverfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7E2571D3-2B58-7F6A-2F56-BA9F7DDB0F0E}|Enfinity.ERP.Automation.csproj|solutionrelative:core\\utilities\\driverfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7E2571D3-2B58-7F6A-2F56-BA9F7DDB0F0E}|Enfinity.ERP.Automation.csproj|d:\\data\\testbuilder\\modules\\sales\\executors\\invoiceexecutor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7E2571D3-2B58-7F6A-2F56-BA9F7DDB0F0E}|Enfinity.ERP.Automation.csproj|solutionrelative:modules\\sales\\executors\\invoiceexecutor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{7E2571D3-2B58-7F6A-2F56-BA9F7DDB0F0E}|Enfinity.ERP.Automation.csproj|d:\\platform\\auto.erp\\core\\base\\basetest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7E2571D3-2B58-7F6A-2F56-BA9F7DDB0F0E}|Enfinity.ERP.Automation.csproj|solutionrelative:core\\base\\basetest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,15 +18,20 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 0,
           "Children": [
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{40ea2e6b-2121-4bb8-a43e-c83c04b51041}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{809f6ff3-8092-454a-8003-6d4091f9b5bb}"
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "DriverFactory.cs",
+              "DocumentMoniker": "D:\\Platform\\Auto.ERP\\Core\\Utilities\\DriverFactory.cs",
+              "RelativeDocumentMoniker": "Core\\Utilities\\DriverFactory.cs",
+              "ToolTip": "D:\\Platform\\Auto.ERP\\Core\\Utilities\\DriverFactory.cs",
+              "RelativeToolTip": "Core\\Utilities\\DriverFactory.cs",
+              "ViewState": "AgIAAEwAAAAAAAAAAAAUwHgAAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-03T16:36:30.817Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Bookmark",
@@ -46,32 +51,24 @@
             },
             {
               "$type": "Bookmark",
-              "Name": "ST:0:0:{99b8fa2f-ab90-4f57-9c32-949f146f1914}"
+              "Name": "ST:0:0:{40ea2e6b-2121-4bb8-a43e-c83c04b51041}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Invoice_Create_MultiLine_ValidateTotal.json",
-              "DocumentMoniker": "D:\\Data\\TestBuilder\\Modules\\Sales\\Data\\Invoice\\Create\\Invoice_Create_MultiLine_ValidateTotal.json",
-              "RelativeDocumentMoniker": "Modules\\Sales\\Data\\Invoice\\Create\\Invoice_Create_MultiLine_ValidateTotal.json",
-              "ToolTip": "D:\\Data\\TestBuilder\\Modules\\Sales\\Data\\Invoice\\Create\\Invoice_Create_MultiLine_ValidateTotal.json",
-              "RelativeToolTip": "Modules\\Sales\\Data\\Invoice\\Create\\Invoice_Create_MultiLine_ValidateTotal.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFoAAAATAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-05-03T04:13:55.984Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{809f6ff3-8092-454a-8003-6d4091f9b5bb}"
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "InvoiceExecutor.cs",
-              "DocumentMoniker": "D:\\Data\\TestBuilder\\Modules\\Sales\\Executors\\InvoiceExecutor.cs",
-              "RelativeDocumentMoniker": "Modules\\Sales\\Executors\\InvoiceExecutor.cs",
-              "ToolTip": "D:\\Data\\TestBuilder\\Modules\\Sales\\Executors\\InvoiceExecutor.cs",
-              "RelativeToolTip": "Modules\\Sales\\Executors\\InvoiceExecutor.cs",
-              "ViewState": "AgIAAFsAAAAAAAAAAAAtwG4AAABFAAAAAAAAAA==",
+              "Title": "BaseTest.cs",
+              "DocumentMoniker": "D:\\Platform\\Auto.ERP\\Core\\Base\\BaseTest.cs",
+              "RelativeDocumentMoniker": "Core\\Base\\BaseTest.cs",
+              "ToolTip": "D:\\Platform\\Auto.ERP\\Core\\Base\\BaseTest.cs",
+              "RelativeToolTip": "Core\\Base\\BaseTest.cs",
+              "ViewState": "AgIAAFIAAAAAAAAAAADwv2IAAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-02T11:09:59.892Z"
+              "WhenOpened": "2026-05-03T16:24:49.491Z",
+              "EditorCaption": ""
             }
           ]
         },

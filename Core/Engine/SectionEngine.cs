@@ -1,7 +1,4 @@
 ﻿using Enfinity.ERP.Automation.Core.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Enfinity.ERP.Automation.Core.Engine
 {
@@ -29,11 +26,11 @@ namespace Enfinity.ERP.Automation.Core.Engine
                 {
                     if (!section.ShouldRun(data))
                     {
-                        _report.Info($"Skipping Section: {section.Name}");
+                        _report.Info($"Skipping Section: {section.Name} | Condition not met");
                         continue;
                     }
 
-                    _report.Info($"Executing Section: {section.Name}");
+                    _report.Info($"Executing Section: {section.Name} | Data Present: TRUE");
 
                     section.Action(data);
 
