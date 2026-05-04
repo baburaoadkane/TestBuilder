@@ -1,16 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "D:\\Platform\\Auto.ERP\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{7E2571D3-2B58-7F6A-2F56-BA9F7DDB0F0E}|Enfinity.ERP.Automation.csproj|d:\\platform\\auto.erp\\core\\utilities\\driverfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7E2571D3-2B58-7F6A-2F56-BA9F7DDB0F0E}|Enfinity.ERP.Automation.csproj|solutionrelative:core\\utilities\\driverfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7E2571D3-2B58-7F6A-2F56-BA9F7DDB0F0E}|Enfinity.ERP.Automation.csproj|d:\\platform\\auto.erp\\core\\base\\basetest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7E2571D3-2B58-7F6A-2F56-BA9F7DDB0F0E}|Enfinity.ERP.Automation.csproj|solutionrelative:core\\base\\basetest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -18,21 +9,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": -1,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "DriverFactory.cs",
-              "DocumentMoniker": "D:\\Platform\\Auto.ERP\\Core\\Utilities\\DriverFactory.cs",
-              "RelativeDocumentMoniker": "Core\\Utilities\\DriverFactory.cs",
-              "ToolTip": "D:\\Platform\\Auto.ERP\\Core\\Utilities\\DriverFactory.cs",
-              "RelativeToolTip": "Core\\Utilities\\DriverFactory.cs",
-              "ViewState": "AgIAAEwAAAAAAAAAAAAUwHgAAAA6AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-03T16:36:30.817Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e1b7d1f8-9b3c-49b1-8f4f-bfc63a88835d}"
@@ -56,19 +34,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{809f6ff3-8092-454a-8003-6d4091f9b5bb}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "BaseTest.cs",
-              "DocumentMoniker": "D:\\Platform\\Auto.ERP\\Core\\Base\\BaseTest.cs",
-              "RelativeDocumentMoniker": "Core\\Base\\BaseTest.cs",
-              "ToolTip": "D:\\Platform\\Auto.ERP\\Core\\Base\\BaseTest.cs",
-              "RelativeToolTip": "Core\\Base\\BaseTest.cs",
-              "ViewState": "AgIAAFIAAAAAAAAAAADwv2IAAAAZAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-03T16:24:49.491Z",
-              "EditorCaption": ""
             }
           ]
         },
