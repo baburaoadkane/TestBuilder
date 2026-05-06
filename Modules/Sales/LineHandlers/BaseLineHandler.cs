@@ -8,16 +8,16 @@ namespace Enfinity.ERP.Automation.Modules.Sales.LineHandlers;
 
 public abstract class BaseLineHandler<TLine> : BaseHandler
 {
+    protected BaseLineHandler(IWebDriver driver, WaitHelper wait, ReportHelper report)
+        : base(driver, wait, report) { }
+
+
     // ── Common ────────────────────────────────────────────────────────────
     private static readonly By LookupText = By.XPath("//div[contains(@class,'lookup-text')]");
     private static readonly By DeleteLineButton = By.XPath("//div[@class='dx-button-content' and .//span[text()='Delete Line']]");
     private static readonly By AddLineButton = By.Id("SalesInvoiceLineNewButton");
     private static readonly By NextButton = By.XPath("//a[contains(@class,'dxp-button')]//img[@alt='Next']");
     private static readonly By ExtraFieldButton = By.XPath("//img[contains(@id, '_DXCBtn-1Img')]");
-
-
-    protected BaseLineHandler(IWebDriver driver, WaitHelper wait, ReportHelper report) 
-        : base(driver, wait, report) { }
 
     protected class FieldConfig
     {
@@ -105,5 +105,26 @@ public abstract class BaseLineHandler<TLine> : BaseHandler
         WaitForLoader();
 
         SelectOption(LookupText, NextButton, value);
+    }
+
+    protected void DeleteExistingLine()
+    {
+        if (IsVisible(DeleteLineButton))
+        {
+            Click(DeleteLineButton);
+            WaitForLoader();
+        }
+    }
+
+    protected void AddNewLine()
+    {
+        Click(AddLineButton);
+        WaitForLoader();
+    }
+
+    protected void ClickToShowExtraFields()
+    {
+        Click(ExtraFieldButton);
+        WaitForLoader();
     }
 }
