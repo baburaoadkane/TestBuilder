@@ -10,7 +10,7 @@
     "IsChequeBookEnabled": false,
     "IsPDCChequeEnabled": false,
     "IsPricelistEnabled": false,
-    "IsChargesEnabled": false
+    "IsChargesEnabled": true
   },
 
   "TxnParameter": {
@@ -23,7 +23,7 @@
     "AllowNonInventoryItems": false,
     "AllowPartialPayment": false,
     "RequirePaymentMethod": false,
-    "UseMultiplePaymentMethod": false,
+    "UseMultiplePaymentMethod": true,
     "PromptOnStockBelowMinimumLevel": false,
     "ShowAdditionalItemInfo": false,
     "ShowLastPurchasePrice": false,

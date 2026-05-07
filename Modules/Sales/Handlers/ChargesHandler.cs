@@ -64,7 +64,7 @@ public class ChargesHandler : BaseHandler
         {
             AddNewCharge();
             FillCharge(charge);
-            WaitForLoader();
+            //WaitForLoader();
         }
     }
 

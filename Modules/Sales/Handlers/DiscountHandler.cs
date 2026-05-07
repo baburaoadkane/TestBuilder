@@ -20,7 +20,7 @@ namespace Enfinity.ERP.Automation.Modules.Sales.Handlers
             Type(DiscountInPercent, header.DiscountInPercent);
             Type(DiscountValue, header.DiscountValue);
 
-            WaitForLoader();
+            //WaitForLoader();
         }        
     }
 }

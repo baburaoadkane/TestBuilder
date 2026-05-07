@@ -26,9 +26,7 @@ public class OtherHandler : BaseHandler
     {
         if(other == null) return;
 
-        NavigateToOtherSection();
-
-        Lookup("PaymentTermId", other.PaymentTerm);
+        NavigateToOtherSection();        
 
         Type(ChequeNumInput, other.ChequeNum);
         Type(ContactPersonNameInput, other.ContactPersonName);
@@ -38,7 +36,9 @@ public class OtherHandler : BaseHandler
         Type(ShippingAddressTextArea, other.ShippingAddress);
         Type(RemarksTextArea, other.Remarks);
 
-        WaitForLoader();
+        Lookup("PaymentTermId", other.PaymentTerm);
+
+        //WaitForLoader();
     }
 
     // ── 🔥 FULLY DYNAMIC LOOKUP (No FieldMap Needed) ─────────────────────

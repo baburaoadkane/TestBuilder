@@ -6,8 +6,9 @@ namespace Enfinity.ERP.Automation.Modules.Sales.LineHandlers;
 
 public class InvoiceLineHandler : BaseLineHandler<InvoiceLineDM>
 {
-    public InvoiceLineHandler(IWebDriver driver, WaitHelper wait, ReportHelper report) 
+    public InvoiceLineHandler(IWebDriver driver, WaitHelper wait, ReportHelper report)
         : base(driver, wait, report) { }
+
 
     protected override Dictionary<string, FieldConfig> FieldMap => new()
     {
@@ -42,24 +43,39 @@ public class InvoiceLineHandler : BaseLineHandler<InvoiceLineDM>
         },
         ["Quantity"] = new()
         {
-            ColumnIndex = 7
-        },
-        ["Unit"] = new()
-        {
-            Dropdown = By.XPath("//td[contains(@id, '_SalesUnitId_B-1')]"),
             ColumnIndex = 8
         },
-        ["Price"] = new()
+        ["UnitPrice"] = new()
         {
             ColumnIndex = 9
         },
-        ["LineAmount"] = new()
+        ["GrossAmount"] = new()
         {
-            ColumnIndex = 10
+            ColumnIndex = 12
+        },
+        ["BonusQty"] = new()
+        {
+            ColumnIndex = 13
+        },
+        ["UOM"] = new()
+        {
+            Dropdown = By.XPath("//td[contains(@id, '_UnitOfMeasureId_B-1')]"),
+            ColumnIndex = 29
+        },
+        ["DiscountPercent"] = new()
+        {
+            ColumnIndex = 30
+        },
+        ["DiscountValue"] = new()
+        {
+            ColumnIndex = 31
+        },
+        ["Remarks"] = new()
+        {
+            ColumnIndex = 32
         }
     };
 
-    // ── Public Entry ──────────────────────────────────────────────────────
     public void Fill(List<InvoiceLineDM> lines)
     {
         if (lines == null || lines.Count == 0) return;
@@ -70,7 +86,7 @@ public class InvoiceLineHandler : BaseLineHandler<InvoiceLineDM>
         {
             AddNewLine();
             FillLine(line);
-            WaitForLoader();
+            //WaitForLoader();
         }
     }
 
@@ -78,9 +94,13 @@ public class InvoiceLineHandler : BaseLineHandler<InvoiceLineDM>
     private void FillLine(InvoiceLineDM line)
     {
         if (!string.IsNullOrWhiteSpace(line.Barcode))
+        {
             Lookup("Barcode", line.Barcode);
+        }
         else
+        {
             LookupCell("Item", line.Item);
+        }
 
         SetCell("Description", line.Description);
         LookupCell("Color", line.Color);
@@ -104,6 +124,5 @@ public class InvoiceLineHandler : BaseLineHandler<InvoiceLineDM>
         SetCell("DiscountPercent", line.DiscountInPercent);
         SetCell("DiscountValue", line.DiscountValue);
         SetCell("Remarks", line.Remarks);
-    }    
+    }
 }
-

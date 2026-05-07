@@ -1,6 +1,5 @@
 ﻿using Enfinity.ERP.Automation.Core.Base;
 using Enfinity.ERP.Automation.Core.Utilities;
-using Enfinity.ERP.Automation.Modules.Sales.DataModels.Invoice;
 using OpenQA.Selenium;
 
 namespace Enfinity.ERP.Automation.Modules.Sales.LineHandlers;

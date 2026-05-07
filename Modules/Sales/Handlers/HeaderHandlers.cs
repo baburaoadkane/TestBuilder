@@ -40,7 +40,7 @@ namespace Enfinity.ERP.Automation.Modules.Sales.Handlers
             Type(DisplayNameInput, header.DisplayName);
             Type(MobileNumInput, header.MobileNum);
 
-            WaitForLoader();
+            //WaitForLoader();
         }
 
         // ── 🔥 FULLY DYNAMIC LOOKUP ───────────────────────────────────────

@@ -57,7 +57,7 @@ public class PaymentHandler : BaseHandler
         {
             AddNewPayment();
             FillPayment(payment);
-            WaitForLoader();
+            //WaitForLoader();
         }
     }
 

@@ -54,9 +54,9 @@
 
 	<ItemGroup>
 		<Folder Include="Modules\Accounting\" />
+		<Folder Include="Modules\Global\Datamodels\" />
 		<Folder Include="Modules\Inventory\" />
 		<Folder Include="Modules\Purchase\" />
-		<Folder Include="Modules\Sales\DataModels\Global\" />
 		<Folder Include="Modules\Sales\DataModels\DeliveryNote\" />
 		<Folder Include="Modules\Sales\DataModels\Quotation\" />
 		<Folder Include="Modules\Sales\Data\DeliveryNote\" />

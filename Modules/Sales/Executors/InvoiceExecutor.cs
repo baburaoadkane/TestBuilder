@@ -3,6 +3,7 @@ using Enfinity.ERP.Automation.Core.Engine;
 using Enfinity.ERP.Automation.Core.Utilities;
 using Enfinity.ERP.Automation.Modules.Sales.DataModels.Invoice;
 using Enfinity.ERP.Automation.Modules.Sales.Handlers;
+using Enfinity.ERP.Automation.Modules.Sales.LineHandlers;
 using Enfinity.ERP.Automation.Modules.Sales.Validators;
 using OpenQA.Selenium;
 
@@ -12,7 +13,7 @@ public class InvoiceExecutor : BaseExecutor<InvoiceDM>
 {
     // ── Handlers ───────────────────────────────────────────────────────────
     private readonly HeaderHandlers _headerHandler;
-    private readonly LineHandler _linesHandler;
+    private readonly InvoiceLineHandler _linesHandler;
     private readonly DiscountHandler _discountHandler;
     private readonly ChargesHandler _chargesHandler;
     private readonly PaymentHandler _paymentsHandler;
@@ -34,7 +35,7 @@ public class InvoiceExecutor : BaseExecutor<InvoiceDM>
         : base(driver, wait, report)
     {
         _headerHandler = new HeaderHandlers(driver, wait, report);
-        _linesHandler = new LineHandler(driver, wait, report);
+        _linesHandler = new InvoiceLineHandler(driver, wait, report);
         _discountHandler = new DiscountHandler(driver, wait, report);
         _chargesHandler = new ChargesHandler(driver, wait, report);
         _paymentsHandler = new PaymentHandler(driver, wait, report);
