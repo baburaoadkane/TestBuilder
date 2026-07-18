@@ -105,17 +105,17 @@ public class InvoiceExecutor : BaseExecutor<InvoiceDM>
                  ShouldRun = d => d.Discount?.HasData() == true,
                  Action = d => _discountHandler.Fill(d.Discount)
             },
-            new()
-            {
-                Name = "Charges",
-                ShouldRun = d => d.AppPreference.IsChargesEnabled &&
-                d.Charges?.Items?.Any() == true,
-                Action = d => _chargesHandler.Fill(d.Charges)
-            },
+            //new()
+            //{
+            //    Name = "Charges",
+            //    ShouldRun = d => d.AppPreference?.IsChargesEnabled == true &&
+            //    d.Charges?.Items?.Any() == true,
+            //    Action = d => _chargesHandler.Fill(d.Charges)
+            //},
             new()
             {
                 Name = "Payments",
-                ShouldRun = d => d.TxnParameter.UseMultiplePaymentMethod &&
+                ShouldRun = d => d.TxnParameter?.UseMultiplePaymentMethod == true &&
                 d.Payments?.Entries?.Any() == true,
                 Action = d => _paymentsHandler.Fill(d.Payments)
             },

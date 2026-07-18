@@ -128,25 +128,25 @@ public class InvoiceTests : BaseTest
     // SMOKE TESTS — programmatic, no JSON file needed
     // ══════════════════════════════════════════════════════════════════════
 
-    //[Test]
-    //[Category("Create")]
-    //[Category("Smoke")]
-    //public void Invoice_Create_SingleLine_SmokeTest()
-    //{
-    //    var data = SalesInvoiceBuilder
-    //        .New()
-    //        .WithCustomer("C0002 | Minnah Elamin")
-    //        .WithWarehouse("Grand Prime House")
-    //        .WithReferenceNum("Smoke Test")
-    //        .AddLine(
-    //            barcode: "",
-    //            item: "I0001 | Screen Protectors"
-    //        )
-    //        .AsScenario("Create")
-    //        .Build();
+    [Test]
+    [Category("Create")]
+    [Category("Smoke")]
+    public void Invoice_Create_SingleLine_SmokeTest()
+    {
+        var data = InvoiceBuilder
+            .New()
+            .WithCustomer("C0002 | Minnah Elamin")
+            .WithWarehouse("Grand Prime House")
+            .WithReferenceNum("Smoke Test")
+            .AddLine(
+                barcode: "",
+                item: "I0001 | Screen Protectors"
+            )
+            .AsScenario("Create")
+            .Build();
 
-    //    _executor.Execute(data);
-    //}
+        _executor.Execute(data);
+    }
 
     //[Test]
     //[Category("Approval")]
