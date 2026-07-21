@@ -65,6 +65,87 @@ public class InvoiceTests : BaseTest
     }
 
     // ══════════════════════════════════════════════════════════════════════
+    // NEGATIVE SMOKE TESTS — programmatic, no JSON file needed
+    // ══════════════════════════════════════════════════════════════════════
+
+    [Test]
+    [Category("Create")]
+    [Category("Smoke")]
+    public void Invoice_Create_SingleLine_SmokeTest()
+    {
+        var data = InvoiceBuilder
+            .New()
+            .WithCustomer("C0002 | Minnah Elamin")
+            .WithWarehouse("Grand Prime House")
+            .WithReferenceNum("Smoke Test")
+            .AddLine(
+                barcode: "",
+                item: "I0001 | Screen Protectors"
+            )
+            .AsScenario("Create")
+            .Build();
+
+        _executor.Execute(data);
+    }
+
+    [Test]
+    [Category("Approval")]
+    [Category("Smoke")]
+    public void Invoice_Approval_SingleLine_SmokeTest()
+    {
+        var data = InvoiceBuilder
+            .New()
+            .WithCustomer("C0002 | Minnah Elamin")
+            .WithWarehouse("Grand Prime House")
+            .WithReferenceNum("Smoke Test With Approval")
+            .AddLine(
+                barcode: "",
+                item: "I0001 | Screen Protectors"
+            )
+            .WithApproval()
+            .Build();
+
+        _executor.Execute(data);
+    }
+
+    [Test]
+    [Category("Negative")]
+    [Category("Smoke")]
+    public void Invoice_Negative_MissingCustomer_SmokeTest()
+    {
+        var data = InvoiceBuilder
+            .New()
+            .AsScenario("Negative")
+            .Build();
+
+        data.Expected = new Core.DataModels.Shared.ExpectedResultDM
+        {
+            ValidationMessage = "Currency is required."
+        };
+
+        _executor.Execute(data);
+    }
+
+    [Test]
+    [Category("Negative")]
+    [Category("Smoke")]
+    public void Invoice_Negative_MissingWarehouse_SmokeTest()
+    {
+        var data = InvoiceBuilder
+            .New()
+            .WithCustomer("C0002 | Minnah Elamin")
+            .AsScenario("Negative")
+            .Build();
+
+        data.Expected = new Core.DataModels.Shared.ExpectedResultDM
+        {
+            ValidationMessage = "Warehouse is required."
+        };
+
+        _executor.Execute(data);
+    }
+
+    // ══════════════════════════════════════════════════════════════════════
     // NEGATIVE SCENARIOS
     // ══════════════════════════════════════════════════════════════════════
 
@@ -120,87 +201,6 @@ public class InvoiceTests : BaseTest
 
     //    Report.Info($"Scenario: {data.TestDescription}");
     //    Report.Info($"Document: {data.DocumentNo}");
-
-    //    _executor.Execute(data);
-    //}
-
-    // ══════════════════════════════════════════════════════════════════════
-    // SMOKE TESTS — programmatic, no JSON file needed
-    // ══════════════════════════════════════════════════════════════════════
-
-    [Test]
-    [Category("Create")]
-    [Category("Smoke")]
-    public void Invoice_Create_SingleLine_SmokeTest()
-    {
-        var data = InvoiceBuilder
-            .New()
-            .WithCustomer("C0002 | Minnah Elamin")
-            .WithWarehouse("Grand Prime House")
-            .WithReferenceNum("Smoke Test")
-            .AddLine(
-                barcode: "",
-                item: "I0001 | Screen Protectors"
-            )
-            .AsScenario("Create")
-            .Build();
-
-        _executor.Execute(data);
-    }
-
-    //[Test]
-    //[Category("Approval")]
-    //[Category("Smoke")]
-    //public void Invoice_Approval_FullFlow_SmokeTest()
-    //{
-    //    var data = SalesInvoiceBuilder
-    //        .New()
-    //        .WithCustomer("C0002 | Minnah Elamin")
-    //        .WithWarehouse("Grand Prime House")
-    //        .WithReferenceNum("Smoke Test With Approval")
-    //        .AddLine(
-    //            barcode: "",
-    //            item: "I0001 | Screen Protectors"
-    //        )
-    //        .WithApproval()
-    //        .Build();
-
-    //    _executor.Execute(data);
-    //}
-
-    //[Test]
-    //[Category("Negative")]
-    //[Category("Smoke")]
-    //public void Invoice_Negative_MissingCustomer_SmokeTest()
-    //{
-    //    var data = SalesInvoiceBuilder
-    //        .New()
-    //        .AsScenario("Negative")
-    //        .Build();
-
-    //    data.Expected = new Core.DataModels.Shared.ExpectedResultDM
-    //    {
-    //        ValidationMessage = "Currency is required."
-    //    };
-
-    //    _executor.Execute(data);
-    //}
-
-    //[Test]
-    //[Category("Negative")]
-    //[Category("Smoke")]
-    //public void Invoice_Negative_MissingWarehouse_SmokeTest()
-    //{
-    //    var data = SalesInvoiceBuilder
-    //        .New()
-    //        .WithCustomer("C0002 | Minnah Elamin")
-    //        .AsScenario("Negative")
-    //        .Build();
-
-    //    data.Expected = new Core.DataModels.Shared.ExpectedResultDM
-    //    {
-    //        ValidationMessage = "Warehouse is required."
-    //    };
 
     //    _executor.Execute(data);
     //}

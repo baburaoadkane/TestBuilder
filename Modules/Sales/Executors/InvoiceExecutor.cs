@@ -67,6 +67,10 @@ public class InvoiceExecutor : BaseExecutor<InvoiceDM>
                 ExecuteApproval(data);
                 break;
 
+            case "NEGATIVE":
+                ExecuteNegative(data);
+                break;
+
             default:
                 throw new ArgumentException($"Unknown ScenarioType: {data.ScenarioType}");
         }
@@ -171,6 +175,26 @@ public class InvoiceExecutor : BaseExecutor<InvoiceDM>
         {
             ValidateAfterApprove(data);
         });
+    }
+
+    // ── NEGATIVE ───────────────────────────────────────────────────────────
+
+    private void ExecuteNegative(InvoiceDM data)
+    {
+        Report.Info("Step 1: Navigate to Sales Invoice");       
+        NavigateToModule("Sales");
+        NavigateToListing("Invoice");
+        OpenFormMode("New");
+        SwitchToOldInterface();
+
+        Report.Info("Step 2: Fill form with invalid/incomplete data");
+        _headerHandler.Fill(data.Header);
+
+        Report.Info("Step 3: Attempt to Save (expecting validation error)");
+        ClickOnForm("Save");
+
+        Report.Info("Step 4: Validate validation message");
+        _messageValidator.ValidateValidationMessage(data.Expected);
     }
 
     // ── VALIDATIONS ────────────────────────────────────────────────────────
