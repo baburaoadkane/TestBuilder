@@ -33,10 +33,10 @@ public class InvoiceTests : BaseTest
     // CREATE SCENARIOS
     // ══════════════════════════════════════════════════════════════════════
 
-    [Test, Order(1)]
+    [Test, Order(5)]
     [TestCaseSource(nameof(CreateScenarios))]
     [Category("Create")]
-    public void Invoice_Create_Multiline_ValidateTotal_Base(string jsonPath)
+    public void Base_Invoice_Create_Multiline_ValidateTotal(string jsonPath)
     {
         var data = InvoiceBuilder.FromJson(jsonPath).Build();
 
@@ -49,10 +49,10 @@ public class InvoiceTests : BaseTest
     // APPROVAL SCENARIOS
     // ══════════════════════════════════════════════════════════════════════
 
-    [Test, Order(2)]
+    [Test, Order(6)]
     [TestCaseSource(nameof(ApprovalScenarios))]
     [Category("Approval")]
-    public void Invoice_Approval_MultiLine_ValidateTotal_Base(string jsonPath)
+    public void Base_Invoice_Approval_MultiLine_ValidateTotal(string jsonPath)
     {
         var data = InvoiceBuilder
             .FromJson(jsonPath)
@@ -68,7 +68,7 @@ public class InvoiceTests : BaseTest
     // NEGATIVE SMOKE TESTS — programmatic, no JSON file needed
     // ══════════════════════════════════════════════════════════════════════
 
-    [Test]
+    [Test, Order(3)]
     [Category("Create")]
     [Category("Smoke")]
     public void Invoice_Create_SingleLine_SmokeTest()
@@ -88,7 +88,7 @@ public class InvoiceTests : BaseTest
         _executor.Execute(data);
     }
 
-    [Test]
+    [Test, Order(4)]
     [Category("Approval")]
     [Category("Smoke")]
     public void Invoice_Approval_SingleLine_SmokeTest()
@@ -108,7 +108,7 @@ public class InvoiceTests : BaseTest
         _executor.Execute(data);
     }
 
-    [Test]
+    [Test, Order(1)]
     [Category("Negative")]
     [Category("Smoke")]
     public void Invoice_Negative_MissingCustomer_SmokeTest()
@@ -126,7 +126,7 @@ public class InvoiceTests : BaseTest
         _executor.Execute(data);
     }
 
-    [Test]
+    [Test, Order(2)]
     [Category("Negative")]
     [Category("Smoke")]
     public void Invoice_Negative_MissingWarehouse_SmokeTest()
