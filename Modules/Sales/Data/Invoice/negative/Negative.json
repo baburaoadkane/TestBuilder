@@ -1,0 +1,5 @@
+{
+  "TestDescription": "Invoice_Negative_Validate",
+  "ScenarioType": "Negative",
+  "RequiresApproval": false
+}

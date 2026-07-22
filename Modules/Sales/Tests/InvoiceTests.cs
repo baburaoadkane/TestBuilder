@@ -149,21 +149,21 @@ public class InvoiceTests : BaseTest
     // NEGATIVE SCENARIOS
     // ══════════════════════════════════════════════════════════════════════
 
-    //[Test]
-    //[TestCaseSource(nameof(NegativeScenarios))]
-    //[Category("Negative")]
-    //public void Invoice_Negative_ValidationError_Json(string jsonPath)
-    //{
-    //    var data = SalesInvoiceBuilder
-    //        .FromJson(jsonPath)
-    //        .AsScenario("Negative")
-    //        .Build();
+    [Test]
+    [TestCaseSource(nameof(NegativeScenarios))]
+    [Category("Negative")]
+    public void Invoice_Negative_ValidationError_Json(string jsonPath)
+    {
+        var data = InvoiceBuilder
+            .FromJson(jsonPath)
+            .AsScenario("Negative")
+            .Build();
 
-    //    Report.Info($"Scenario: {data.TestDescription}");
-    //    Report.Info($"Expected Error: {data.Expected?.ErrorMessage}");
+        Report.Info($"Scenario: {data.TestDescription}");
+        Report.Info($"Expected Error: {data.Expected?.ErrorMessage}");
 
-    //    _executor.Execute(data);
-    //}
+        _executor.Execute(data);
+    }
 
     // ══════════════════════════════════════════════════════════════════════
     // EDIT SCENARIOS

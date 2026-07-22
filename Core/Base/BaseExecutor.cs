@@ -231,7 +231,7 @@ public abstract class BaseExecutor<TDataModel> where TDataModel : class
 
         try
         {
-            Wait.UntilVisible(toast, timeoutSeconds: 3);
+            Wait.UntilVisible(toast, timeoutSeconds: 2);
             Report.Info("Success notification received.");
         }
         catch
@@ -247,7 +247,7 @@ public abstract class BaseExecutor<TDataModel> where TDataModel : class
     protected virtual void WaitForLoader()
     {
         By loader = By.Id("LoadingPanel");
-        try { Wait.UntilInvisible(loader, timeoutSeconds: 3); }
+        try { Wait.UntilInvisible(loader, timeoutSeconds: 1); }
         catch { /* Loader may not appear — continue */ }
     }
 

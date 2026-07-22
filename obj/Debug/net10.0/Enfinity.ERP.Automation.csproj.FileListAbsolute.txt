@@ -645,3 +645,4 @@ D:\Platform\Auto.ERP\obj\Debug\net10.0\refint\Enfinity.ERP.Automation.dll
 D:\Platform\Auto.ERP\obj\Debug\net10.0\Enfinity.ERP.Automation.pdb
 D:\Platform\Auto.ERP\obj\Debug\net10.0\Enfinity.ERP.Automation.genruntimeconfig.cache
 D:\Platform\Auto.ERP\obj\Debug\net10.0\ref\Enfinity.ERP.Automation.dll
+D:\Platform\Auto.ERP\bin\Debug\net10.0\Modules\Sales\Data\Invoice\negative\Negative.json
