@@ -152,7 +152,7 @@ public class InvoiceTests : BaseTest
     [Test]
     [TestCaseSource(nameof(NegativeScenarios))]
     [Category("Negative")]
-    public void Invoice_Negative_ValidationError_Json(string jsonPath)
+    public void Base_Invoice_Negative_ValidationError_Json(string jsonPath)
     {
         var data = InvoiceBuilder
             .FromJson(jsonPath)
@@ -160,7 +160,7 @@ public class InvoiceTests : BaseTest
             .Build();
 
         Report.Info($"Scenario: {data.TestDescription}");
-        Report.Info($"Expected Error: {data.Expected?.ErrorMessage}");
+        Report.Info($"Expected Error: {data.Expected?.ValidationMessage}");
 
         _executor.Execute(data);
     }

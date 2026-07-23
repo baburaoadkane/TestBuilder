@@ -1,0 +1,12 @@
+{
+  "TestDescription": "Invoice_Validate_MissingWarehouse",
+  "ScenarioType": "Negative",
+
+  "Header": {
+    "Customer": "C0002 | Minnah Elamin"
+  },
+
+  "Expected": {
+    "ValidationMessage": "Warehouse is required."
+  }
+}

@@ -64,7 +64,6 @@
 		<Folder Include="Modules\Sales\Data\Quotation\" />
 		<Folder Include="Modules\Sales\Data\Order\" />
 		<Folder Include="Modules\Sales\Data\Invoice\Edit\" />
-		<Folder Include="Modules\Sales\Data\Invoice\Negative\" />
 		<Folder Include="Modules\Sales\Data\Invoice\Validation\" />
 		<Folder Include="Modules\Sales\Data\SalesReturn\" />
 		<Folder Include="Modules\Sales\Data\SalesOrder\" />
