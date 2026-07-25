@@ -67,8 +67,12 @@ public class InvoiceExecutor : BaseExecutor<InvoiceDM>
                 ExecuteApproval(data);
                 break;
 
-            case "NEGATIVE":
-                ExecuteNegative(data);
+            //case "NEGATIVE":
+            //    ExecuteNegative(data);
+            //    break;
+
+            case "VALIDATION":
+                ExecuteValidation(data);
                 break;
 
             default:
@@ -109,13 +113,13 @@ public class InvoiceExecutor : BaseExecutor<InvoiceDM>
                  ShouldRun = d => d.Discount?.HasData() == true,
                  Action = d => _discountHandler.Fill(d.Discount)
             },
-            //new()
-            //{
-            //    Name = "Charges",
-            //    ShouldRun = d => d.AppPreference?.IsChargesEnabled == true &&
-            //    d.Charges?.Items?.Any() == true,
-            //    Action = d => _chargesHandler.Fill(d.Charges)
-            //},
+            new()
+            {
+                Name = "Charges",
+                ShouldRun = d => d.AppPreference?.IsChargesEnabled == true &&
+                d.Charges?.Items?.Any() == true,
+                Action = d => _chargesHandler.Fill(d.Charges)
+            },
             new()
             {
                 Name = "Payments",
@@ -177,9 +181,9 @@ public class InvoiceExecutor : BaseExecutor<InvoiceDM>
         });
     }
 
-    // ── NEGATIVE ───────────────────────────────────────────────────────────
+    // ── VALIDATION ─────────────────────────────────────────────────────────
 
-    private void ExecuteNegative(InvoiceDM data)
+    private void ExecuteValidation(InvoiceDM data)
     {
         Report.Info("Step 1: Navigate to Sales Invoice");       
         NavigateToModule("Sales");

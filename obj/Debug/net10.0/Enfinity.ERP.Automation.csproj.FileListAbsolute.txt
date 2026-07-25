@@ -645,6 +645,7 @@ D:\Platform\Auto.ERP\obj\Debug\net10.0\refint\Enfinity.ERP.Automation.dll
 D:\Platform\Auto.ERP\obj\Debug\net10.0\Enfinity.ERP.Automation.pdb
 D:\Platform\Auto.ERP\obj\Debug\net10.0\Enfinity.ERP.Automation.genruntimeconfig.cache
 D:\Platform\Auto.ERP\obj\Debug\net10.0\ref\Enfinity.ERP.Automation.dll
-D:\Platform\Auto.ERP\bin\Debug\net10.0\Modules\Sales\Data\Invoice\negative\Negative.json
 D:\Data\TestBuilder\bin\Debug\net10.0\Modules\Sales\Data\Invoice\negative\Invoice_Validate_MissingCustomer.json
 D:\Data\TestBuilder\bin\Debug\net10.0\Modules\Sales\Data\Invoice\negative\Invoice_Validate_MissingWarehouse.json
+D:\Platform\Auto.ERP\bin\Debug\net10.0\Modules\Sales\Data\Invoice\Validation\Invoice_Validation_MissingCustomer.json
+D:\Platform\Auto.ERP\bin\Debug\net10.0\Modules\Sales\Data\Invoice\Validation\Invoice_Validation_MissingWarehouse.json

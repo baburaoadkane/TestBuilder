@@ -27,51 +27,77 @@ public class InvoiceTests : BaseTest
     {
         base.SetUp();
         _executor = new InvoiceExecutor(Driver, Wait, Report);
-    }
+    }    
 
     // ══════════════════════════════════════════════════════════════════════
-    // CREATE SCENARIOS
+    // VALIDATION — programmatic, no JSON file needed
     // ══════════════════════════════════════════════════════════════════════
 
-    [Test, Order(5)]
-    [TestCaseSource(nameof(CreateScenarios))]
-    [Category("Create")]
-    public void Base_Invoice_Create_Multiline_ValidateTotal(string jsonPath)
-    {
-        var data = InvoiceBuilder.FromJson(jsonPath).Build();
-
-        Report.Info($"Scenario: {data.TestDescription}");
-
-        _executor.Execute(data);
-    }
-
-    // ══════════════════════════════════════════════════════════════════════
-    // APPROVAL SCENARIOS
-    // ══════════════════════════════════════════════════════════════════════
-
-    [Test, Order(6)]
-    [TestCaseSource(nameof(ApprovalScenarios))]
-    [Category("Approval")]
-    public void Base_Invoice_Approval_MultiLine_ValidateTotal(string jsonPath)
+    [Test, Order(1)]
+    [Category("Validation")]
+    [Category("Smoke")]
+    public void Invoice_Validation_MissingCustomer_Smoke()
     {
         var data = InvoiceBuilder
-            .FromJson(jsonPath)
-            .WithApproval()
+            .New()
+            .AsScenario("Validation")
             .Build();
 
-        Report.Info($"Scenario: {data.TestDescription}");
+        data.Expected = new Core.DataModels.Shared.ExpectedResultDM
+        {
+            ValidationMessage = "Currency is required."
+        };
+
+        _executor.Execute(data);
+    }
+
+    [Test, Order(2)]
+    [Category("Validation")]
+    [Category("Smoke")]
+    public void Invoice_Validation_MissingWarehouse_Smoke()
+    {
+        var data = InvoiceBuilder
+            .New()
+            .WithCustomer("C0002 | Minnah Elamin")
+            .AsScenario("Validation")
+            .Build();
+
+        data.Expected = new Core.DataModels.Shared.ExpectedResultDM
+        {
+            ValidationMessage = "Warehouse is required."
+        };
 
         _executor.Execute(data);
     }
 
     // ══════════════════════════════════════════════════════════════════════
-    // NEGATIVE SMOKE TESTS — programmatic, no JSON file needed
+    // VALIDATION - JSON-DRIVEN SCENARIOS
     // ══════════════════════════════════════════════════════════════════════
 
     [Test, Order(3)]
+    [TestCaseSource(nameof(ValidationScenarios))]
+    [Category("Validation")]
+    public void Base_Invoice_Validation_ValidationMessage(string jsonPath)
+    {
+        var data = InvoiceBuilder
+            .FromJson(jsonPath)
+            .AsScenario("Validation")
+            .Build();
+
+        Report.Info($"Scenario: {data.TestDescription}");
+        Report.Info($"Expected Error: {data.Expected?.ValidationMessage}");
+
+        _executor.Execute(data);
+    }
+
+    // ══════════════════════════════════════════════════════════════════════
+    // CREATE - programmatic, no JSON file needed
+    // ══════════════════════════════════════════════════════════════════════
+
+    [Test, Order(4)]
     [Category("Create")]
     [Category("Smoke")]
-    public void Invoice_Create_SingleLine_SmokeTest()
+    public void Invoice_Create_SingleLine()
     {
         var data = InvoiceBuilder
             .New()
@@ -88,10 +114,14 @@ public class InvoiceTests : BaseTest
         _executor.Execute(data);
     }
 
-    [Test, Order(4)]
+    // ══════════════════════════════════════════════════════════════════════
+    // CREATE AND APPROVE - programmatic, no JSON file needed
+    // ══════════════════════════════════════════════════════════════════════
+
+    [Test, Order(5)]
     [Category("Approval")]
     [Category("Smoke")]
-    public void Invoice_Approval_SingleLine_SmokeTest()
+    public void Invoice_Approval_SingleLine()
     {
         var data = InvoiceBuilder
             .New()
@@ -108,62 +138,41 @@ public class InvoiceTests : BaseTest
         _executor.Execute(data);
     }
 
-    [Test, Order(1)]
-    [Category("Negative")]
-    [Category("Smoke")]
-    public void Invoice_Negative_MissingCustomer_SmokeTest()
+    // ══════════════════════════════════════════════════════════════════════
+    // CREATE - JSON-DRIVEN SCENARIOS
+    // ══════════════════════════════════════════════════════════════════════
+
+    [Test, Order(6)]
+    [TestCaseSource(nameof(CreateScenarios))]
+    [Category("Create")]
+    public void Base_Invoice_Create_Multiline_ValidateTotal(string jsonPath)
     {
-        var data = InvoiceBuilder
-            .New()
-            .AsScenario("Negative")
-            .Build();
+        var data = InvoiceBuilder.FromJson(jsonPath).Build();
 
-        data.Expected = new Core.DataModels.Shared.ExpectedResultDM
-        {
-            ValidationMessage = "Currency is required."
-        };
-
-        _executor.Execute(data);
-    }
-
-    [Test, Order(2)]
-    [Category("Negative")]
-    [Category("Smoke")]
-    public void Invoice_Negative_MissingWarehouse_SmokeTest()
-    {
-        var data = InvoiceBuilder
-            .New()
-            .WithCustomer("C0002 | Minnah Elamin")
-            .AsScenario("Negative")
-            .Build();
-
-        data.Expected = new Core.DataModels.Shared.ExpectedResultDM
-        {
-            ValidationMessage = "Warehouse is required."
-        };
+        Report.Info($"Scenario: {data.TestDescription}");
 
         _executor.Execute(data);
     }
 
     // ══════════════════════════════════════════════════════════════════════
-    // NEGATIVE SCENARIOS
+    // APPROVAL - JSON-DRIVEN SCENARIOS
     // ══════════════════════════════════════════════════════════════════════
 
-    [Test]
-    [TestCaseSource(nameof(NegativeScenarios))]
-    [Category("Negative")]
-    public void Base_Invoice_Negative_ValidationError_Json(string jsonPath)
+    [Test, Order(7)]
+    [TestCaseSource(nameof(ApprovalScenarios))]
+    [Category("Approval")]
+    public void Base_Invoice_Approval_MultiLine_ValidateTotal(string jsonPath)
     {
         var data = InvoiceBuilder
             .FromJson(jsonPath)
-            .AsScenario("Negative")
+            .WithApproval()
             .Build();
 
         Report.Info($"Scenario: {data.TestDescription}");
-        Report.Info($"Expected Error: {data.Expected?.ValidationMessage}");
 
         _executor.Execute(data);
     }
+
 
     // ══════════════════════════════════════════════════════════════════════
     // EDIT SCENARIOS

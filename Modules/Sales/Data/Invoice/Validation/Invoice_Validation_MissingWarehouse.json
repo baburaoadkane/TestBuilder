@@ -1,6 +1,6 @@
 {
-  "TestDescription": "Invoice_Validate_MissingWarehouse",
-  "ScenarioType": "Negative",
+  "TestDescription": "Invoice_Validation_MissingWarehouse",
+  "ScenarioType": "Validation",
 
   "Header": {
     "Customer": "C0002 | Minnah Elamin"

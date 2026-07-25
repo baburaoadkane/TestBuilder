@@ -257,21 +257,21 @@ public class InvoiceBuilder
         string scenario = _model.ScenarioType?.ToUpperInvariant() ?? "CREATE";
 
         // Edit and Validation scenarios require a DocumentNo
-        if ((scenario == "EDIT" || scenario == "VALIDATION")
+        if ((scenario == "EDIT")
             && string.IsNullOrWhiteSpace(_model.DocumentNo))
         {
             throw new InvalidOperationException(
-                $"[SalesInvoiceBuilder] ScenarioType '{scenario}' requires DocumentNo. " +
+                $"[InvoiceBuilder] ScenarioType '{scenario}' requires DocumentNo. " +
                 $"Call .ForDocument(\"SI-2025-0001\") before .Build().");
         }
 
         // Non-negative scenarios require at least a customer
-        if (scenario != "NEGATIVE"
-            && string.IsNullOrWhiteSpace(_model.Header?.Customer))
-        {
-            throw new InvalidOperationException(
-                "[SalesInvoiceBuilder] Header.Customer is required for non-negative scenarios. " +
-                "Set it in the JSON file or call .WithCustomer(\"...\").");
-        }
+        //if (scenario != "NEGATIVE"
+        //    && string.IsNullOrWhiteSpace(_model.Header?.Customer))
+        //{
+        //    throw new InvalidOperationException(
+        //        "[InvoiceBuilder] Header.Customer is required for non-negative scenarios. " +
+        //        "Set it in the JSON file or call .WithCustomer(\"...\").");
+        //}
     }
 }
