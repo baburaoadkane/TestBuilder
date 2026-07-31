@@ -2,6 +2,7 @@
 using Enfinity.ERP.Automation.Core.Utilities;
 using Enfinity.ERP.Automation.Modules.Sales.Builders;
 using Enfinity.ERP.Automation.Modules.Sales.Executors;
+using Enfinity.ERP.Automation.Tests.Common;
 
 namespace Enfinity.ERP.Automation.Modules.Sales.Tests;
 
@@ -14,11 +15,7 @@ public class InvoiceTests : BaseTest
     private InvoiceExecutor _executor = null!;
 
     // ── JSON folder paths ──────────────────────────────────────────────────
-    private const string CreateFolder = "Modules/Sales/Data/Invoice/Create";
-    private const string ApprovalFolder = "Modules/Sales/Data/Invoice/Approve";
-    private const string NegativeFolder = "Modules/Sales/Data/Invoice/Negative";
-    private const string EditFolder = "Modules/Sales/Data/Invoice/Edit";
-    private const string ValidationFolder = "Modules/Sales/Data/Invoice/Validation";
+    private const string Module = TestDataFolders.Sales.Invoice;
 
     // ── SetUp ─────────────────────────────────────────────────────
 
@@ -220,23 +217,23 @@ public class InvoiceTests : BaseTest
 
     /// <summary>Returns all JSON file paths from the Create folder.</summary>
     private static IEnumerable<TestCaseData> CreateScenarios()
-        => BuildTestCases(CreateFolder);
+    => BuildTestCases(TestDataFolders.Create(Module));
 
     /// <summary>Returns all JSON file paths from the Approval folder.</summary>
     private static IEnumerable<TestCaseData> ApprovalScenarios()
-        => BuildTestCases(ApprovalFolder);
+        => BuildTestCases(TestDataFolders.Approval(Module));
 
     /// <summary>Returns all JSON file paths from the Negative folder.</summary>
     private static IEnumerable<TestCaseData> NegativeScenarios()
-        => BuildTestCases(NegativeFolder);
+        => BuildTestCases(TestDataFolders.Negative(Module));
 
     /// <summary>Returns all JSON file paths from the Edit folder.</summary>
     private static IEnumerable<TestCaseData> EditScenarios()
-        => BuildTestCases(EditFolder);
+        => BuildTestCases(TestDataFolders.Edit(Module));
 
     /// <summary>Returns all JSON file paths from the Validation folder.</summary>
     private static IEnumerable<TestCaseData> ValidationScenarios()
-        => BuildTestCases(ValidationFolder);
+        => BuildTestCases(TestDataFolders.Validation(Module));
 
     /// <summary>
     /// Discovers all JSON files in the given folder relative to the
